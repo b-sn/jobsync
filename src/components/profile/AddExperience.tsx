@@ -8,6 +8,7 @@ import { z } from "zod";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -70,6 +71,7 @@ function AddExperience({
     defaultValues: {
       resumeId,
       sectionId,
+      currentJob: false,
     },
   });
 
@@ -78,6 +80,7 @@ function AddExperience({
   const currentJobValue = watch("currentJob");
 
   useEffect(() => {
+    if (!dialogOpen) return;
     getTitleCompanyAndLocationData();
     if (experienceToEdit) {
       const experience: WorkExperience =
@@ -102,11 +105,13 @@ function AddExperience({
         {
           resumeId,
           sectionId,
+          currentJob: false,
         },
         { keepDefaultValues: true }
       );
     }
   }, [
+    dialogOpen,
     getTitleCompanyAndLocationData,
     experienceToEdit,
     reset,
@@ -151,6 +156,7 @@ function AddExperience({
       <DialogContent className="h-full md:h-[85%] lg:max-h-screen md:max-w-[40rem] overflow-y-scroll">
         <DialogHeader>
           <DialogTitle>{pageTitle}</DialogTitle>
+          <DialogDescription>Fill out the form below to add experience details.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -257,7 +263,7 @@ function AddExperience({
                 render={({ field }) => (
                   <FormItem className="flex flex-row">
                     <Switch
-                      checked={field.value}
+                      checked={!!field.value}
                       onCheckedChange={(c) => {
                         field.onChange(c);
                         onCurrentJob(c);

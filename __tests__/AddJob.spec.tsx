@@ -16,6 +16,13 @@ jest.mock("@/actions/job.actions", () => ({
   addJob: jest.fn().mockResolvedValue({ success: true }),
 }));
 
+jest.mock("@/actions/profile.actions", () => ({
+  __esModule: true,
+  getResumeList: jest.fn().mockResolvedValue({
+    data: [],
+  }),
+}));
+
 jest.mock("next/navigation", () => ({
   redirect: jest.fn(),
 }));

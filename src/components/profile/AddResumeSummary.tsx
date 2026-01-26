@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -49,7 +50,9 @@ function AddResumeSummary({
   const form = useForm<z.infer<typeof AddSummarySectionFormSchema>>({
     resolver: zodResolver(AddSummarySectionFormSchema),
     defaultValues: {
-      resumeId,
+      resumeId: resumeId ?? "",
+      sectionTitle: "",
+      content: "",
     },
   });
 
@@ -59,17 +62,25 @@ function AddResumeSummary({
     if (summaryToEdit) {
       reset(
         {
+          resumeId: resumeId ?? "",
           id: summaryToEdit.id,
-          sectionTitle: summaryToEdit.sectionTitle,
+          sectionTitle: summaryToEdit.sectionTitle ?? "",
           sectionType: summaryToEdit.sectionType,
-          content: summaryToEdit.summary?.content!,
+          content: summaryToEdit.summary?.content ?? "",
         },
+        { keepDefaultValues: true }
+      );
+    } else {
+      reset(
         {
-          keepDefaultValues: true,
-        }
+          resumeId: resumeId ?? "",
+          sectionTitle: "",
+          content: "",
+        },
+        { keepDefaultValues: true }
       );
     }
-  }, [summaryToEdit, reset]);
+  }, [summaryToEdit, reset, resumeId]);
 
   const onSubmit = (data: z.infer<typeof AddSummarySectionFormSchema>) => {
     startTransition(async () => {
@@ -102,6 +113,7 @@ function AddResumeSummary({
       <DialogContent className="lg:max-h-screen overflow-y-scroll">
         <DialogHeader>
           <DialogTitle>{pageTitle}</DialogTitle>
+          <DialogDescription>Fill out the form below to add summary details.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form

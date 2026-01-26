@@ -48,6 +48,12 @@ function AddCompany({
 
   const form = useForm<z.infer<typeof AddCompanyFormSchema>>({
     resolver: zodResolver(AddCompanyFormSchema),
+    defaultValues: {
+      id: "",
+      company: "",
+      createdBy: "",
+      logoUrl: "",
+    },
   });
 
   const { reset, formState } = form;
@@ -56,10 +62,20 @@ function AddCompany({
     if (editCompany) {
       reset(
         {
-          id: editCompany?.id,
-          company: editCompany?.label ?? "",
-          createdBy: editCompany?.createdBy,
-          logoUrl: editCompany?.logoUrl ?? "",
+          id: editCompany.id ?? "",
+          company: editCompany.label ?? "",
+          createdBy: editCompany.createdBy ?? "",
+          logoUrl: editCompany.logoUrl ?? "",
+        },
+        { keepDefaultValues: true }
+      );
+    } else {
+      reset(
+        {
+          id: "",
+          company: "",
+          createdBy: "",
+          logoUrl: "",
         },
         { keepDefaultValues: true }
       );
@@ -67,8 +83,16 @@ function AddCompany({
   }, [editCompany, reset]);
 
   const addCompanyForm = () => {
-    reset();
     resetEditCompany();
+    reset(
+      {
+        id: "",
+        company: "",
+        createdBy: "",
+        logoUrl: "",
+      },
+      { keepDefaultValues: true }
+    );
     setDialogOpen(true);
   };
 
@@ -136,7 +160,7 @@ function AddCompany({
                     <FormItem>
                       <FormLabel>Company Name</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input {...field} value={field.value ?? ""} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -153,7 +177,7 @@ function AddCompany({
                     <FormItem>
                       <FormLabel>Company Logo URL</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input {...field} value={field.value ?? ""} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

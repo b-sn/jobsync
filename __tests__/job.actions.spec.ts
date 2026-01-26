@@ -85,15 +85,20 @@ describe("jobActions", () => {
     });
 
     it("should throw error on failure", async () => {
-      const mockErrorResponse = {
-        success: false,
-        message: "Failed to fetch status list.",
-      };
-      (prisma.jobStatus.findMany as jest.Mock).mockRejectedValue(
-        new Error("Failed to fetch status list.")
-      );
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        const mockErrorResponse = {
+          success: false,
+          message: "Failed to fetch status list.",
+        };
+        (prisma.jobStatus.findMany as jest.Mock).mockRejectedValue(
+          new Error("Failed to fetch status list.")
+        );
 
-      await expect(getStatusList()).resolves.toStrictEqual(mockErrorResponse);
+        await expect(getStatusList()).resolves.toStrictEqual(mockErrorResponse);
+      } finally {
+        spy.mockRestore();
+      }
     });
   });
   describe("getJobSourceList", () => {
@@ -111,18 +116,23 @@ describe("jobActions", () => {
     });
 
     it("should returns failure response on error", async () => {
-      (prisma.jobSource.findMany as jest.Mock).mockRejectedValue(
-        new Error("Failed to fetch job source list.")
-      );
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (prisma.jobSource.findMany as jest.Mock).mockRejectedValue(
+          new Error("Failed to fetch job source list.")
+        );
 
-      const result = await getJobSourceList();
+        const result = await getJobSourceList();
 
-      expect(result).toEqual({
-        success: false,
-        message: "Failed to fetch job source list.",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Failed to fetch job source list.",
+        });
 
-      expect(prisma.jobSource.findMany).toHaveBeenCalledTimes(1);
+        expect(prisma.jobSource.findMany).toHaveBeenCalledTimes(1);
+      } finally {
+        spy.mockRestore();
+      }
     });
   });
 
@@ -144,108 +154,134 @@ describe("jobActions", () => {
       expect(prisma.job.count).toHaveBeenCalledTimes(1);
     });
     it("should return error when fetching data fails", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
 
-      (prisma.job.findMany as jest.Mock).mockRejectedValue(
-        new Error("Database error")
-      );
+        (prisma.job.findMany as jest.Mock).mockRejectedValue(
+          new Error("Database error")
+        );
 
-      const result = await getJobsList();
+        const result = await getJobsList();
 
-      expect(result).toEqual({
-        success: false,
-        message: "Database error",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Database error",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
     it("should return error when user is not authenticated", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(null);
 
-      const result = await getJobsList();
+        const result = await getJobsList();
 
-      expect(result).toEqual({
-        success: false,
-        message: "Not authenticated",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Not authenticated",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
   });
   describe("getJobDetails", () => {
     it("should throw error when jobId is not provided", async () => {
-      await expect(getJobDetails("")).resolves.toStrictEqual({
-        success: false,
-        message: "Please provide job id",
-      });
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        await expect(getJobDetails("")).resolves.toStrictEqual({
+          success: false,
+          message: "Please provide job id",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
     it("should throw error when user is not authenticated", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(null);
 
-      await expect(getJobDetails("job123")).resolves.toStrictEqual({
-        success: false,
-        message: "Not authenticated",
-      });
+        await expect(getJobDetails("job123")).resolves.toStrictEqual({
+          success: false,
+          message: "Not authenticated",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
-  });
-  it("should return job details on successful query", async () => {
-    (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-    const mockJob = await getMockJobDetails("2");
-    (prisma.job.findUnique as jest.Mock).mockResolvedValue(mockJob);
+    it("should return job details on successful query", async () => {
+      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+      const mockJob = await getMockJobDetails("2");
+      (prisma.job.findUnique as jest.Mock).mockResolvedValue(mockJob);
 
-    const result = await getJobDetails("2");
+      const result = await getJobDetails("2");
 
-    expect(result).toStrictEqual({ job: mockJob, success: true });
-    expect(prisma.job.findUnique).toHaveBeenCalledWith({
-      where: {
-        id: "2",
-      },
-      include: {
-        JobSource: true,
-        JobTitle: true,
-        Company: true,
-        Status: true,
-        Location: true,
-        Resume: {
-          include: {
-            File: true,
+      expect(result).toStrictEqual({ job: mockJob, success: true });
+      expect(prisma.job.findUnique).toHaveBeenCalledWith({
+        where: {
+          id: "2",
+        },
+        include: {
+          JobSource: true,
+          JobTitle: true,
+          Company: true,
+          Status: true,
+          Location: true,
+          Resume: {
+            include: {
+              File: true,
+            },
           },
         },
-      },
+      });
     });
-  });
+    it("should handle unexpected errors", async () => {
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue({ id: "user123" });
 
-  it("should handle unexpected errors", async () => {
-    (getCurrentUser as jest.Mock).mockResolvedValue({ id: "user123" });
+        (prisma.job.findUnique as jest.Mock).mockRejectedValue(
+          new Error("Unexpected error")
+        );
 
-    (prisma.job.findUnique as jest.Mock).mockRejectedValue(
-      new Error("Unexpected error")
-    );
-
-    await expect(getJobDetails("job123")).resolves.toStrictEqual({
-      success: false,
-      message: "Unexpected error",
-    });
-  });
-  it("should throw error when user is not authenticated", async () => {
-    (getCurrentUser as jest.Mock).mockResolvedValue(null);
-
-    await expect(getJobDetails("job123")).resolves.toStrictEqual({
-      success: false,
-      message: "Not authenticated",
+        await expect(getJobDetails("job123")).resolves.toStrictEqual({
+          success: false,
+          message: "Unexpected error",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
   });
   describe("createLocation", () => {
     it("should throw error when user is not authenticated", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(null);
 
-      await expect(createLocation("location-name")).resolves.toStrictEqual({
-        success: false,
-        message: "Not authenticated",
-      });
+        await expect(createLocation("location-name")).resolves.toStrictEqual({
+          success: false,
+          message: "Not authenticated",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
     it("should throw error when location name is not provided or empty", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      await expect(createLocation(" ")).resolves.toStrictEqual({
-        success: false,
-        message: "Please provide location name",
-      });
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        await expect(createLocation(" ")).resolves.toStrictEqual({
+          success: false,
+          message: "Please provide location name",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
     it("should create with valid input", async () => {
       const label = "New Location";
@@ -272,16 +308,21 @@ describe("jobActions", () => {
       });
     });
     it("should handle unexpected errors", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
 
-      (prisma.location.create as jest.Mock).mockRejectedValue(
-        new Error("Unexpected error")
-      );
+        (prisma.location.create as jest.Mock).mockRejectedValue(
+          new Error("Unexpected error")
+        );
 
-      await expect(createLocation("location-name")).resolves.toStrictEqual({
-        success: false,
-        message: "Unexpected error",
-      });
+        await expect(createLocation("location-name")).resolves.toStrictEqual({
+          success: false,
+          message: "Unexpected error",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
   });
   describe("addJob", () => {
@@ -344,24 +385,34 @@ describe("jobActions", () => {
       expect(result).toEqual({ job: jobData, success: true });
     });
     it("should handle unexpected errors", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
 
-      (prisma.job.create as jest.Mock).mockRejectedValue(
-        new Error("Unexpected error")
-      );
+        (prisma.job.create as jest.Mock).mockRejectedValue(
+          new Error("Unexpected error")
+        );
 
-      await expect(addJob(jobData)).resolves.toStrictEqual({
-        success: false,
-        message: "Unexpected error",
-      });
+        await expect(addJob(jobData)).resolves.toStrictEqual({
+          success: false,
+          message: "Unexpected error",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
     it("should throw error when user is not authenticated", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(null);
 
-      await expect(addJob(jobData)).resolves.toStrictEqual({
-        success: false,
-        message: "Not authenticated",
-      });
+        await expect(addJob(jobData)).resolves.toStrictEqual({
+          success: false,
+          message: "Not authenticated",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
   });
   describe("updateJob", () => {
@@ -375,35 +426,50 @@ describe("jobActions", () => {
       expect(prisma.job.update).toHaveBeenCalledTimes(1);
     });
     it("should handle unexpected errors", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
 
-      (prisma.job.update as jest.Mock).mockRejectedValue(
-        new Error("Unexpected error")
-      );
+        (prisma.job.update as jest.Mock).mockRejectedValue(
+          new Error("Unexpected error")
+        );
 
-      await expect(updateJob(jobData)).resolves.toStrictEqual({
-        success: false,
-        message: "Unexpected error",
-      });
+        await expect(updateJob(jobData)).resolves.toStrictEqual({
+          success: false,
+          message: "Unexpected error",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
     it("should throw error when user is not authenticated", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(null);
 
-      await expect(updateJob(jobData)).resolves.toStrictEqual({
-        success: false,
-        message: "Not authenticated",
-      });
+        await expect(updateJob(jobData)).resolves.toStrictEqual({
+          success: false,
+          message: "Not authenticated",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should return an error if the id is not provided or no user privileges", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
 
-      await expect(
-        updateJob({ ...jobData, id: undefined })
-      ).resolves.toStrictEqual({
-        success: false,
-        message: "Id is not provide or no user privilages",
-      });
+        await expect(
+          updateJob({ ...jobData, id: undefined })
+        ).resolves.toStrictEqual({
+          success: false,
+          message: "Id is not provide or no user privilages",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
   });
   describe("updateJobStatus", () => {
@@ -449,38 +515,53 @@ describe("jobActions", () => {
       });
     });
     it("should handle unexpected errors", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
 
-      (prisma.job.update as jest.Mock).mockRejectedValue(
-        new Error("Unexpected error")
-      );
+        (prisma.job.update as jest.Mock).mockRejectedValue(
+          new Error("Unexpected error")
+        );
 
-      await expect(
-        updateJobStatus(jobData.id, jobData.status)
-      ).resolves.toStrictEqual({
-        success: false,
-        message: "Unexpected error",
-      });
+        await expect(
+          updateJobStatus(jobData.id, jobData.status)
+        ).resolves.toStrictEqual({
+          success: false,
+          message: "Unexpected error",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
     it("should throw error when user is not authenticated", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(null);
 
-      await expect(
-        updateJobStatus(jobData.id, jobData.status)
-      ).resolves.toStrictEqual({
-        success: false,
-        message: "Not authenticated",
-      });
+        await expect(
+          updateJobStatus(jobData.id, jobData.status)
+        ).resolves.toStrictEqual({
+          success: false,
+          message: "Not authenticated",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
   });
   describe("deleteJobById", () => {
     it("should return error when user is not authenticated", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(null);
 
-      await expect(deleteJobById("job-id")).resolves.toStrictEqual({
-        success: false,
-        message: "Not authenticated",
-      });
+        await expect(deleteJobById("job-id")).resolves.toStrictEqual({
+          success: false,
+          message: "Not authenticated",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
     it("should delete a job successfully", async () => {
       (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
@@ -498,16 +579,21 @@ describe("jobActions", () => {
       });
     });
     it("should handle unexpected errors", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
 
-      (prisma.job.delete as jest.Mock).mockRejectedValue(
-        new Error("Unexpected error")
-      );
+        (prisma.job.delete as jest.Mock).mockRejectedValue(
+          new Error("Unexpected error")
+        );
 
-      await expect(deleteJobById("job-id")).resolves.toStrictEqual({
-        success: false,
-        message: "Unexpected error",
-      });
+        await expect(deleteJobById("job-id")).resolves.toStrictEqual({
+          success: false,
+          message: "Unexpected error",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
   });
 });

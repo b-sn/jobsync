@@ -6,6 +6,7 @@ import {
   DialogOverlay,
   DialogTitle,
   DialogFooter,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { createTask, updateTask } from "@/actions/task.actions";
 import { Loader, PlusCircle } from "lucide-react";
@@ -142,6 +143,7 @@ export function TaskForm({
             <DialogTitle data-testid="task-form-dialog-title">
               {pageTitle}
             </DialogTitle>
+            <DialogDescription>Fill out the form below to add a new task.</DialogDescription>
           </DialogHeader>
           <Form {...form}>
             <form

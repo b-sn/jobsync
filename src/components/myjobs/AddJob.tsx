@@ -6,6 +6,7 @@ import {
   DialogOverlay,
   DialogTitle,
   DialogFooter,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { addJob, updateJob } from "@/actions/job.actions";
 import { Loader, PlusCircle } from "lucide-react";
@@ -77,6 +78,7 @@ export function AddJob({
       dueDate: addDays(new Date(), 3),
       status: jobStatuses[0].id,
       salaryRange: "1",
+      applied: false,
     },
   });
 
@@ -199,6 +201,7 @@ export function AddJob({
               <DialogTitle data-testid="add-job-dialog-title">
                 {pageTitle}
               </DialogTitle>
+              <DialogDescription>Fill out the form below to add a new job.</DialogDescription>
             </DialogHeader>
             <Form {...form}>
               <form

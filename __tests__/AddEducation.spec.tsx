@@ -58,7 +58,7 @@ jest.mock("@/components/TiptapEditor", () => ({
   default: ({ field }: any) => (
     <textarea
       data-testid="tiptap-editor"
-      value={field.value || ""}
+      value={field.value ?? ""}
       onChange={(e) => field.onChange(e.target.value)}
     />
   ),
@@ -84,19 +84,24 @@ describe("AddEducation Component", () => {
     (getAllJobLocations as jest.Mock).mockResolvedValue(mockLocations);
   });
 
-  it("should render Add Education dialog with correct title", async () => {
-    render(
-      <AddEducation
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-      />
-    );
+  const renderAddEducation = async (props: any) => {
+    render(<AddEducation {...props} />);
+    if (props.dialogOpen) {
+      await waitFor(() => {
+        expect(getAllJobLocations).toHaveBeenCalled();
+      });
+    }
+  };
 
-    await waitFor(() => {
-      expect(screen.getByText("Add Education")).toBeInTheDocument();
+  it("should render Add Education dialog with correct title", async () => {
+    await renderAddEducation({
+      resumeId: mockResumeId,
+      sectionId: mockSectionId,
+      dialogOpen: true,
+      setDialogOpen: mockSetDialogOpen,
     });
+
+    expect(screen.getByText("Add Education")).toBeInTheDocument();
   });
 
   it("should render Edit Education dialog when educationToEdit is provided", async () => {
@@ -120,62 +125,47 @@ describe("AddEducation Component", () => {
       ],
     };
 
-    render(
-      <AddEducation
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-        educationToEdit={mockEducationToEdit as any}
-      />
-    );
-
-    await waitFor(() => {
-      expect(screen.getByText("Edit Education")).toBeInTheDocument();
+    await renderAddEducation({
+      resumeId: mockResumeId,
+      sectionId: mockSectionId,
+      dialogOpen: true,
+      setDialogOpen: mockSetDialogOpen,
+      educationToEdit: mockEducationToEdit as any,
     });
+
+    expect(screen.getByText("Edit Education")).toBeInTheDocument();
   });
 
   it("should render section title field when sectionId is not provided", async () => {
-    render(
-      <AddEducation
-        resumeId={mockResumeId}
-        sectionId={undefined}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-      />
-    );
-
-    await waitFor(() => {
-      expect(screen.getByLabelText(/section title/i)).toBeInTheDocument();
+    await renderAddEducation({
+      resumeId: mockResumeId,
+      sectionId: undefined,
+      dialogOpen: true,
+      setDialogOpen: mockSetDialogOpen,
     });
+
+    expect(screen.getByLabelText(/section title/i)).toBeInTheDocument();
   });
 
   it("should not render section title field when sectionId is provided", async () => {
-    render(
-      <AddEducation
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-      />
-    );
-
-    await waitFor(() => {
-      expect(screen.getByText("Add Education")).toBeInTheDocument();
+    await renderAddEducation({
+      resumeId: mockResumeId,
+      sectionId: mockSectionId,
+      dialogOpen: true,
+      setDialogOpen: mockSetDialogOpen,
     });
 
+    expect(screen.getByText("Add Education")).toBeInTheDocument();
     expect(screen.queryByLabelText(/section title/i)).not.toBeInTheDocument();
   });
 
   it("should render all form fields correctly", async () => {
-    render(
-      <AddEducation
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-      />
-    );
+    await renderAddEducation({
+      resumeId: mockResumeId,
+      sectionId: mockSectionId,
+      dialogOpen: true,
+      setDialogOpen: mockSetDialogOpen,
+    });
 
     await waitFor(() => {
       expect(screen.getByText("School")).toBeInTheDocument();
@@ -210,15 +200,13 @@ describe("AddEducation Component", () => {
       ],
     };
 
-    render(
-      <AddEducation
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-        educationToEdit={mockEducationToEdit as any}
-      />
-    );
+    await renderAddEducation({
+      resumeId: mockResumeId,
+      sectionId: mockSectionId,
+      dialogOpen: true,
+      setDialogOpen: mockSetDialogOpen,
+      educationToEdit: mockEducationToEdit as any,
+    });
 
     await waitFor(() => {
       const institutionInput = screen.getByPlaceholderText(
@@ -239,14 +227,12 @@ describe("AddEducation Component", () => {
   });
 
   it("should close dialog when Cancel button is clicked", async () => {
-    render(
-      <AddEducation
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-      />
-    );
+    await renderAddEducation({
+      resumeId: mockResumeId,
+      sectionId: mockSectionId,
+      dialogOpen: true,
+      setDialogOpen: mockSetDialogOpen,
+    });
 
     await waitFor(() => {
       expect(screen.getByText("Add Education")).toBeInTheDocument();
@@ -259,14 +245,12 @@ describe("AddEducation Component", () => {
   });
 
   it("should toggle degree completed label text", async () => {
-    render(
-      <AddEducation
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-      />
-    );
+    await renderAddEducation({
+      resumeId: mockResumeId,
+      sectionId: mockSectionId,
+      dialogOpen: true,
+      setDialogOpen: mockSetDialogOpen,
+    });
 
     await waitFor(() => {
       expect(screen.getByText(/degree completed/i)).toBeInTheDocument();
@@ -286,14 +270,12 @@ describe("AddEducation Component", () => {
       message: "Education added successfully",
     });
 
-    render(
-      <AddEducation
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-      />
-    );
+    await renderAddEducation({
+      resumeId: mockResumeId,
+      sectionId: mockSectionId,
+      dialogOpen: true,
+      setDialogOpen: mockSetDialogOpen,
+    });
 
     // Wait for options to be loaded and rendered in the select element
     await waitFor(() => {
@@ -378,15 +360,13 @@ describe("AddEducation Component", () => {
       message: "Education updated successfully",
     });
 
-    render(
-      <AddEducation
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-        educationToEdit={mockEducationToEdit as any}
-      />
-    );
+    await renderAddEducation({
+      resumeId: mockResumeId,
+      sectionId: mockSectionId,
+      dialogOpen: true,
+      setDialogOpen: mockSetDialogOpen,
+      educationToEdit: mockEducationToEdit as any,
+    });
 
     await waitFor(() => {
       const institutionInput = screen.getByPlaceholderText(
@@ -429,14 +409,12 @@ describe("AddEducation Component", () => {
       message: "Education added successfully",
     });
 
-    render(
-      <AddEducation
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-      />
-    );
+    await renderAddEducation({
+      resumeId: mockResumeId,
+      sectionId: mockSectionId,
+      dialogOpen: true,
+      setDialogOpen: mockSetDialogOpen,
+    });
 
     // Wait for options to be loaded
     await waitFor(() => {
@@ -496,14 +474,12 @@ describe("AddEducation Component", () => {
       message: "Failed to add education",
     });
 
-    render(
-      <AddEducation
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-      />
-    );
+    await renderAddEducation({
+      resumeId: mockResumeId,
+      sectionId: mockSectionId,
+      dialogOpen: true,
+      setDialogOpen: mockSetDialogOpen,
+    });
 
     // Wait for options to be loaded
     await waitFor(() => {
@@ -584,15 +560,13 @@ describe("AddEducation Component", () => {
       message: "Education updated successfully",
     });
 
-    render(
-      <AddEducation
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-        educationToEdit={mockEducationToEdit as any}
-      />
-    );
+    await renderAddEducation({
+      resumeId: mockResumeId,
+      sectionId: mockSectionId,
+      dialogOpen: true,
+      setDialogOpen: mockSetDialogOpen,
+      educationToEdit: mockEducationToEdit as any,
+    });
 
     await waitFor(() => {
       const institutionInput = screen.getByPlaceholderText(
@@ -626,7 +600,7 @@ describe("AddEducation Component", () => {
     });
   });
 
-  it("should not render dialog when dialogOpen is false", () => {
+  it("should not render dialog when dialogOpen is false", async () => {
     const { container } = render(
       <AddEducation
         resumeId={mockResumeId}
@@ -636,19 +610,18 @@ describe("AddEducation Component", () => {
       />
     );
 
+    expect(getAllJobLocations).not.toHaveBeenCalled();
     expect(screen.queryByText("Add Education")).not.toBeInTheDocument();
     expect(container.querySelector("form")).not.toBeInTheDocument();
   });
 
   it("should load locations on mount", async () => {
-    render(
-      <AddEducation
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-      />
-    );
+    await renderAddEducation({
+      resumeId: mockResumeId,
+      sectionId: mockSectionId,
+      dialogOpen: true,
+      setDialogOpen: mockSetDialogOpen,
+    });
 
     await waitFor(() => {
       expect(getAllJobLocations).toHaveBeenCalledTimes(1);
@@ -670,14 +643,12 @@ describe("AddEducation Component", () => {
         )
     );
 
-    render(
-      <AddEducation
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-      />
-    );
+    await renderAddEducation({
+        resumeId: mockResumeId,
+        sectionId: mockSectionId,
+        dialogOpen: true,
+        setDialogOpen: mockSetDialogOpen,
+    });
 
     // Wait for options to be loaded
     await waitFor(() => {

@@ -11,3 +11,7 @@ global.ResizeObserver = class ResizeObserver {
   unobserve() {}
   disconnect() {}
 };
+
+if (!process.env.DATABASE_URL) {
+  process.env.DATABASE_URL = "file:/tmp/jobsync-test.db";
+}

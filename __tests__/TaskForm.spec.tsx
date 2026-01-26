@@ -117,14 +117,19 @@ describe("TaskForm Component", () => {
     });
 
     it("should show validation errors when submitting empty form", async () => {
-      const saveBtn = screen.getByTestId("save-task-btn");
-      await user.click(saveBtn);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        const saveBtn = screen.getByTestId("save-task-btn");
+        await user.click(saveBtn);
 
-      await waitFor(() => {
-        expect(
-          screen.getByText("Title must be at least 2 characters.")
-        ).toBeInTheDocument();
-      });
+        await waitFor(() => {
+          expect(
+            screen.getByText("Title must be at least 2 characters.")
+          ).toBeInTheDocument();
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should successfully submit a new task", async () => {

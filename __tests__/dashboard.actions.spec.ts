@@ -49,11 +49,16 @@ describe("Dashboard Actions", () => {
     });
 
     it("should throw error when user is not authenticated", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(null);
 
-      await expect(getJobsAppliedForPeriod(7)).rejects.toThrow(
-        "Not authenticated"
-      );
+        await expect(getJobsAppliedForPeriod(7)).rejects.toThrow(
+          "Not authenticated"
+        );
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should calculate zero trend when both counts are zero", async () => {
@@ -66,14 +71,21 @@ describe("Dashboard Actions", () => {
     });
 
     it("should handle database errors", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.$transaction as jest.Mock).mockRejectedValue(
-        new Error("Database error")
-      );
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
 
-      await expect(getJobsAppliedForPeriod(7)).rejects.toThrow(
-        "Failed to calculate job count"
-      );
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        (prisma.$transaction as jest.Mock).mockRejectedValue(
+          new Error("Database error")
+        );
+
+        await expect(getJobsAppliedForPeriod(7)).rejects.toThrow(
+          "Failed to calculate job count"
+        );
+      } finally {
+        spy.mockRestore();
+      }
+
     });
   });
 
@@ -119,22 +131,32 @@ describe("Dashboard Actions", () => {
     });
 
     it("should throw error when user is not authenticated", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(null);
 
-      await expect(getRecentJobs()).rejects.toThrow(
-        "Failed to fetch jobs list. "
-      );
+        await expect(getRecentJobs()).rejects.toThrow(
+          "Failed to fetch jobs list. "
+        );
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should handle database errors", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.job.findMany as jest.Mock).mockRejectedValue(
-        new Error("Database error")
-      );
-
-      await expect(getRecentJobs()).rejects.toThrow(
-        "Failed to fetch jobs list. "
-      );
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {     
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        (prisma.job.findMany as jest.Mock).mockRejectedValue(
+          new Error("Database error")
+        );
+        
+        await expect(getRecentJobs()).rejects.toThrow(
+          "Failed to fetch jobs list. "
+        );
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should return empty array when no jobs found", async () => {
@@ -173,22 +195,32 @@ describe("Dashboard Actions", () => {
     });
 
     it("should throw error when user is not authenticated", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(null);
 
-      await expect(getActivityDataForPeriod()).rejects.toThrow(
-        "Failed to fetch activities data."
-      );
+        await expect(getActivityDataForPeriod()).rejects.toThrow(
+          "Failed to fetch activities data."
+        );
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should handle database errors", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.activity.findMany as jest.Mock).mockRejectedValue(
-        new Error("Database error")
-      );
-
-      await expect(getActivityDataForPeriod()).rejects.toThrow(
-        "Failed to fetch activities data."
-      );
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {      
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        (prisma.activity.findMany as jest.Mock).mockRejectedValue(
+          new Error("Database error")
+        );
+        
+        await expect(getActivityDataForPeriod()).rejects.toThrow(
+          "Failed to fetch activities data."
+        );
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should return data for all 7 days even with no activities", async () => {
@@ -248,22 +280,32 @@ describe("Dashboard Actions", () => {
     });
 
     it("should throw error when user is not authenticated", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(null);
 
-      await expect(getJobsActivityForPeriod()).rejects.toThrow(
-        "Failed to fetch jobs list. "
-      );
+        await expect(getJobsActivityForPeriod()).rejects.toThrow(
+          "Failed to fetch jobs list. "
+        );
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should handle database errors", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.job.groupBy as jest.Mock).mockRejectedValue(
-        new Error("Database error")
-      );
-
-      await expect(getJobsActivityForPeriod()).rejects.toThrow(
-        "Failed to fetch jobs list. "
-      );
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        (prisma.job.groupBy as jest.Mock).mockRejectedValue(
+          new Error("Database error")
+        );
+        
+        await expect(getJobsActivityForPeriod()).rejects.toThrow(
+          "Failed to fetch jobs list. "
+        );
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should return zero values for days with no jobs", async () => {
@@ -305,22 +347,32 @@ describe("Dashboard Actions", () => {
     });
 
     it("should throw error when user is not authenticated", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(null);
 
-      await expect(getActivityCalendarData()).rejects.toThrow(
-        "Failed to fetch jobs list. "
-      );
+        await expect(getActivityCalendarData()).rejects.toThrow(
+          "Failed to fetch jobs list. "
+        );
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should handle database errors", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.job.groupBy as jest.Mock).mockRejectedValue(
-        new Error("Database error")
-      );
-
-      await expect(getActivityCalendarData()).rejects.toThrow(
-        "Failed to fetch jobs list. "
-      );
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        (prisma.job.groupBy as jest.Mock).mockRejectedValue(
+          new Error("Database error")
+        );
+        
+        await expect(getActivityCalendarData()).rejects.toThrow(
+          "Failed to fetch jobs list. "
+        );
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should return empty object when no job data", async () => {

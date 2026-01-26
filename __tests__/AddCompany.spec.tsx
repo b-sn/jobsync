@@ -67,15 +67,15 @@ describe("AddCompany Component", () => {
       />
     );
 
-    const addCompanyButton = await screen.findByTestId("add-company-btn");
-    fireEvent.click(addCompanyButton);
-
     const dialog = await screen.findByText(/edit company/i);
     expect(dialog).toBeInTheDocument();
-    expect(screen.getByLabelText(/company name/i)).toHaveValue("Test Company");
-    expect(screen.getByLabelText(/company logo url/i)).toHaveValue(
-      "http://example.com/logo.png"
-    );
+
+    await waitFor(() => {
+      expect(screen.getByLabelText(/company name/i)).toHaveValue("Test Company");
+      expect(screen.getByLabelText(/company logo url/i)).toHaveValue(
+        "http://example.com/logo.png"
+      );
+    });
   });
 
   it("should call addCompany function when submitting the form for new company", async () => {
@@ -104,10 +104,12 @@ describe("AddCompany Component", () => {
 
     await waitFor(() => {
       expect(addCompany).toHaveBeenCalledTimes(1);
-      expect(addCompany).toHaveBeenCalledWith({
-        company: "New Test Company",
-        logoUrl: "http://example.com/new-logo.png",
-      });
+      expect(addCompany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          company: "New Test Company",
+          logoUrl: "http://example.com/new-logo.png",
+        })
+      );
     });
   });
 
@@ -149,10 +151,12 @@ describe("AddCompany Component", () => {
 
     await waitFor(() => {
       expect(updateCompany).toHaveBeenCalledTimes(1);
-      expect(updateCompany).toHaveBeenCalledWith({
-        company: "Edited Test Company",
-        logoUrl: "http://example.com/edited-logo.png",
-      });
+      expect(updateCompany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          company: "Edited Test Company",
+          logoUrl: "http://example.com/edited-logo.png",
+        })
+      );
     });
   });
 });

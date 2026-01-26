@@ -79,6 +79,7 @@ document.createRange = () => {
 };
 
 describe("TasksPageClient Component", () => {
+
   const mockActivityTypes = [
     {
       id: "type-1",
@@ -128,15 +129,45 @@ describe("TasksPageClient Component", () => {
     });
   });
 
+  // const renderAndWait = async (overrides?: Partial<React.ComponentProps<typeof TasksPageClient>>) => {
+  //   render(
+  //     <TasksPageClient
+  //       activityTypes={mockActivityTypes}
+  //       activityTypesWithCounts={mockActivityTypesWithCounts}
+  //       totalTasks={8}
+  //       {...overrides}
+  //     />
+  //   );
+
+  //   await waitFor(() => expect(getTasksList).toHaveBeenCalled());
+  // };
+
+  const renderAndWait = async (
+    overrides?: Partial<React.ComponentProps<typeof TasksPageClient>>
+  ) => {
+    render(
+      <TasksPageClient
+        activityTypes={mockActivityTypes}
+        activityTypesWithCounts={mockActivityTypesWithCounts}
+        totalTasks={8}
+        {...overrides}
+      />
+    );
+
+    expect(
+      await screen.findByText(
+        "No tasks found. Create your first task to get started."
+      )
+    ).toBeInTheDocument();
+  };
+
   describe("Rendering", () => {
-    it("should render TasksSidebar and TasksContainer components", () => {
-      render(
-        <TasksPageClient
-          activityTypes={mockActivityTypes}
-          activityTypesWithCounts={mockActivityTypesWithCounts}
-          totalTasks={8}
-        />
-      );
+    it("should render TasksSidebar and TasksContainer components", async () => {
+      await renderAndWait({
+          activityTypes: mockActivityTypes,
+          activityTypesWithCounts: mockActivityTypesWithCounts,
+          totalTasks: 8
+      });
 
       // Check if sidebar is rendered
       expect(screen.getByText("Activity Types")).toBeInTheDocument();
@@ -147,26 +178,22 @@ describe("TasksPageClient Component", () => {
       expect(screen.getByText("My Tasks")).toBeInTheDocument();
     });
 
-    it("should display total task count in sidebar", () => {
-      render(
-        <TasksPageClient
-          activityTypes={mockActivityTypes}
-          activityTypesWithCounts={mockActivityTypesWithCounts}
-          totalTasks={8}
-        />
-      );
+    it("should display total task count in sidebar", async () => {
+      await renderAndWait({
+        activityTypes: mockActivityTypes,
+        activityTypesWithCounts: mockActivityTypesWithCounts,
+        totalTasks: 8,
+      });
 
       expect(screen.getByText("8")).toBeInTheDocument();
     });
 
-    it("should display task counts for each activity type", () => {
-      render(
-        <TasksPageClient
-          activityTypes={mockActivityTypes}
-          activityTypesWithCounts={mockActivityTypesWithCounts}
-          totalTasks={8}
-        />
-      );
+    it("should display task counts for each activity type", async () => {
+      await renderAndWait({
+        activityTypes: mockActivityTypes,
+        activityTypesWithCounts: mockActivityTypesWithCounts,
+        totalTasks: 8,
+      });
 
       expect(screen.getByText("5")).toBeInTheDocument(); // Development count
       expect(screen.getByText("3")).toBeInTheDocument(); // Testing count
@@ -174,14 +201,12 @@ describe("TasksPageClient Component", () => {
   });
 
   describe("Filter Management", () => {
-    it("should start with no filter selected", () => {
-      render(
-        <TasksPageClient
-          activityTypes={mockActivityTypes}
-          activityTypesWithCounts={mockActivityTypesWithCounts}
-          totalTasks={8}
-        />
-      );
+    it("should start with no filter selected", async () => {
+      await renderAndWait({
+        activityTypes: mockActivityTypes,
+        activityTypesWithCounts: mockActivityTypesWithCounts,
+        totalTasks: 8,
+      });
 
       const allButton = screen.getByRole("button", { name: /All/i });
       expect(allButton).toHaveClass("bg-accent");
@@ -194,13 +219,11 @@ describe("TasksPageClient Component", () => {
         total: 0,
       });
 
-      render(
-        <TasksPageClient
-          activityTypes={mockActivityTypes}
-          activityTypesWithCounts={mockActivityTypesWithCounts}
-          totalTasks={8}
-        />
-      );
+      await renderAndWait({
+        activityTypes: mockActivityTypes,
+        activityTypesWithCounts: mockActivityTypesWithCounts,
+        totalTasks: 8,
+      });
 
       const developmentButton = screen.getByRole("button", {
         name: /Development/i,
@@ -219,13 +242,11 @@ describe("TasksPageClient Component", () => {
         total: 0,
       });
 
-      render(
-        <TasksPageClient
-          activityTypes={mockActivityTypes}
-          activityTypesWithCounts={mockActivityTypesWithCounts}
-          totalTasks={8}
-        />
-      );
+      await renderAndWait({
+        activityTypes: mockActivityTypes,
+        activityTypesWithCounts: mockActivityTypesWithCounts,
+        totalTasks: 8,
+      });
 
       // First click on a filter
       const developmentButton = screen.getByRole("button", {
@@ -253,13 +274,11 @@ describe("TasksPageClient Component", () => {
         total: 0,
       });
 
-      render(
-        <TasksPageClient
-          activityTypes={mockActivityTypes}
-          activityTypesWithCounts={mockActivityTypesWithCounts}
-          totalTasks={8}
-        />
-      );
+      await renderAndWait({
+         activityTypes: mockActivityTypes,
+         activityTypesWithCounts: mockActivityTypesWithCounts,
+         totalTasks: 8
+      });
 
       const developmentButton = screen.getByRole("button", {
         name: /Development/i,
@@ -280,30 +299,26 @@ describe("TasksPageClient Component", () => {
   });
 
   describe("Empty States", () => {
-    it("should handle empty activity types list", () => {
-      render(
-        <TasksPageClient
-          activityTypes={[]}
-          activityTypesWithCounts={[]}
-          totalTasks={0}
-        />
-      );
+    it("should handle empty activity types list", async() => {
+      await renderAndWait({
+        activityTypes: [],
+        activityTypesWithCounts: [],
+        totalTasks: 0,
+      });
 
       expect(screen.getByText("Activity Types")).toBeInTheDocument();
       expect(screen.getByText("My Tasks")).toBeInTheDocument();
     });
-
-    it("should show 0 total tasks when no tasks exist", () => {
-      render(
-        <TasksPageClient
-          activityTypes={mockActivityTypes}
-          activityTypesWithCounts={mockActivityTypesWithCounts.map((type) => ({
+  
+    it("should show 0 total tasks when no tasks exist", async () => {
+      await renderAndWait({
+        activityTypes: mockActivityTypes,
+        activityTypesWithCounts: mockActivityTypesWithCounts.map((type) => ({
             ...type,
             taskCount: 0,
-          }))}
-          totalTasks={0}
-        />
-      );
+          })),
+        totalTasks: 0,
+      });
 
       const zeroElements = screen.queryAllByText("0");
       expect(zeroElements.length).toBeGreaterThan(0);
@@ -311,41 +326,40 @@ describe("TasksPageClient Component", () => {
   });
 
   describe("Layout", () => {
-    it("should render with correct layout structure", () => {
-      const { container } = render(
-        <TasksPageClient
-          activityTypes={mockActivityTypes}
-          activityTypesWithCounts={mockActivityTypesWithCounts}
-          totalTasks={8}
-        />
-      );
+    it("should render with correct layout structure", async () => {
+      const { container } = await (async () => {
+        let result: ReturnType<typeof render>;
+        await renderAndWait();
+        result = document.body as any;
+        return { container: document };
+      })();
 
       // Check if main container has correct classes
       const mainContainer = container.querySelector(".col-span-3.flex.h-full");
       expect(mainContainer).toBeInTheDocument();
     });
 
-    it("should render sidebar with correct styling", () => {
-      const { container } = render(
-        <TasksPageClient
-          activityTypes={mockActivityTypes}
-          activityTypesWithCounts={mockActivityTypesWithCounts}
-          totalTasks={8}
-        />
-      );
+    it("should render sidebar with correct styling", async () => {
+      const { container } = await (async () => {
+        let result: ReturnType<typeof render>;
+        await renderAndWait();
+        result = document.body as any;
+        return { container: document };
+      })();
+
 
       const sidebar = container.querySelector(".w-48.border-r.py-4");
       expect(sidebar).toBeInTheDocument();
     });
 
-    it("should render container with flex-1 class", () => {
-      const { container } = render(
-        <TasksPageClient
-          activityTypes={mockActivityTypes}
-          activityTypesWithCounts={mockActivityTypesWithCounts}
-          totalTasks={8}
-        />
-      );
+    it("should render container with flex-1 class", async () => {
+      const { container } = await (async () => {
+        let result: ReturnType<typeof render>;
+        await renderAndWait();
+        result = document.body as any;
+        return { container: document };
+      })();
+
 
       const tasksContainer = container.querySelector(".flex-1");
       expect(tasksContainer).toBeInTheDocument();
@@ -360,13 +374,11 @@ describe("TasksPageClient Component", () => {
         total: 0,
       });
 
-      render(
-        <TasksPageClient
-          activityTypes={mockActivityTypes}
-          activityTypesWithCounts={mockActivityTypesWithCounts}
-          totalTasks={8}
-        />
-      );
+      await renderAndWait({
+        activityTypes: mockActivityTypes,
+        activityTypesWithCounts: mockActivityTypesWithCounts,
+        totalTasks: 8
+      });
 
       const developmentButton = screen.getByRole("button", {
         name: /Development/i,
@@ -391,13 +403,11 @@ describe("TasksPageClient Component", () => {
         total: 0,
       });
 
-      render(
-        <TasksPageClient
-          activityTypes={mockActivityTypes}
-          activityTypesWithCounts={mockActivityTypesWithCounts}
-          totalTasks={8}
-        />
-      );
+      await renderAndWait({
+         activityTypes: mockActivityTypes,
+         activityTypesWithCounts: mockActivityTypesWithCounts,
+         totalTasks: 8
+      });
 
       // First select a filter
       const developmentButton = screen.getByRole("button", {
@@ -433,7 +443,7 @@ describe("TasksPageClient Component", () => {
   });
 
   describe("Multiple Activity Types", () => {
-    it("should render many activity types correctly", () => {
+    it("should render many activity types correctly", async () => {
       const manyActivityTypes = [
         {
           id: "1",
@@ -477,13 +487,11 @@ describe("TasksPageClient Component", () => {
         },
       ];
 
-      render(
-        <TasksPageClient
-          activityTypes={manyActivityTypes}
-          activityTypesWithCounts={manyActivityTypes}
-          totalTasks={27}
-        />
-      );
+      await renderAndWait({
+        activityTypes: manyActivityTypes,
+        activityTypesWithCounts: manyActivityTypes,
+        totalTasks: 27
+      });
 
       expect(screen.getByText("Development")).toBeInTheDocument();
       expect(screen.getByText("Testing")).toBeInTheDocument();
@@ -527,13 +535,11 @@ describe("TasksPageClient Component", () => {
         total: 0,
       });
 
-      render(
-        <TasksPageClient
-          activityTypes={manyActivityTypes}
-          activityTypesWithCounts={manyActivityTypes}
-          totalTasks={18}
-        />
-      );
+      await renderAndWait({
+        activityTypes: manyActivityTypes,
+        activityTypesWithCounts: manyActivityTypes,
+        totalTasks: 18
+      });
 
       const developmentButton = screen.getByRole("button", {
         name: /Development/i,

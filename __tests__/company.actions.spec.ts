@@ -70,15 +70,20 @@ describe("Company Actions", () => {
     });
 
     it("should throw an error for unauthenticated user", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(null);
 
-      await expect(getCompanyList(1, 10)).resolves.toStrictEqual({
-        success: false,
-        message: "Not authenticated",
-      });
+        await expect(getCompanyList(1, 10)).resolves.toStrictEqual({
+          success: false,
+          message: "Not authenticated",
+        });
 
-      expect(prisma.company.findMany).not.toHaveBeenCalled();
-      expect(prisma.company.count).not.toHaveBeenCalled();
+        expect(prisma.company.findMany).not.toHaveBeenCalled();
+        expect(prisma.company.count).not.toHaveBeenCalled();
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should filter by status when countBy is provided", async () => {
@@ -126,17 +131,22 @@ describe("Company Actions", () => {
     });
 
     it("should handle errors", async () => {
-      (getCurrentUser as jest.Mock).mockRejectedValue(
-        new Error("Database error")
-      );
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockRejectedValue(
+          new Error("Database error")
+        );
 
-      await expect(getCompanyList(1, 10)).resolves.toStrictEqual({
-        success: false,
-        message: "Database error",
-      });
+        await expect(getCompanyList(1, 10)).resolves.toStrictEqual({
+          success: false,
+          message: "Database error",
+        });
 
-      expect(prisma.company.findMany).not.toHaveBeenCalled();
-      expect(prisma.company.count).not.toHaveBeenCalled();
+        expect(prisma.company.findMany).not.toHaveBeenCalled();
+        expect(prisma.company.count).not.toHaveBeenCalled();
+      } finally {
+        spy.mockRestore();
+      }
     });
   });
 
@@ -159,28 +169,38 @@ describe("Company Actions", () => {
     });
 
     it("should throw an error for unauthenticated user", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(null);
 
-      await expect(getAllCompanies()).resolves.toStrictEqual({
-        success: false,
-        message: "Not authenticated",
-      });
+        await expect(getAllCompanies()).resolves.toStrictEqual({
+          success: false,
+          message: "Not authenticated",
+        });
 
-      expect(prisma.company.findMany).not.toHaveBeenCalled();
+        expect(prisma.company.findMany).not.toHaveBeenCalled();
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should handle unexpected errors", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.company.findMany as jest.Mock).mockRejectedValue(
-        new Error("Unexpected error")
-      );
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        (prisma.company.findMany as jest.Mock).mockRejectedValue(
+          new Error("Unexpected error")
+        );
 
-      const result = await getAllCompanies();
+        const result = await getAllCompanies();
 
-      expect(result).toEqual({ success: false, message: "Unexpected error" });
-      expect(prisma.company.findMany).toHaveBeenCalledWith({
-        where: { createdBy: mockUser.id },
-      });
+        expect(result).toEqual({ success: false, message: "Unexpected error" });
+        expect(prisma.company.findMany).toHaveBeenCalledWith({
+          where: { createdBy: mockUser.id },
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
   });
 
@@ -222,52 +242,67 @@ describe("Company Actions", () => {
     });
 
     it("should return an error if the user is not authenticated", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(null);
 
-      const result = await addCompany(validData);
+        const result = await addCompany(validData);
 
-      expect(result).toEqual({ success: false, message: "Not authenticated" });
-      expect(prisma.company.findUnique).not.toHaveBeenCalled();
-      expect(prisma.company.create).not.toHaveBeenCalled();
+        expect(result).toEqual({ success: false, message: "Not authenticated" });
+        expect(prisma.company.findUnique).not.toHaveBeenCalled();
+        expect(prisma.company.create).not.toHaveBeenCalled();
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should return an error if the company already exists", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      const mockExistingCompany = {
-        id: "existing-company-id",
-        ...validData,
-        value: "new company",
-        createdBy: mockUser.id,
-      };
-      (prisma.company.findUnique as jest.Mock).mockResolvedValue(
-        mockExistingCompany
-      );
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        const mockExistingCompany = {
+          id: "existing-company-id",
+          ...validData,
+          value: "new company",
+          createdBy: mockUser.id,
+        };
+        (prisma.company.findUnique as jest.Mock).mockResolvedValue(
+          mockExistingCompany
+        );
 
-      const result = await addCompany(validData);
+        const result = await addCompany(validData);
 
-      expect(result).toEqual({
-        success: false,
-        message: "Company already exists!",
-      });
-      expect(prisma.company.findUnique).toHaveBeenCalledWith({
-        where: { value: "new company" },
-      });
-      expect(prisma.company.create).not.toHaveBeenCalled();
+        expect(result).toEqual({
+          success: false,
+          message: "Company already exists!",
+        });
+        expect(prisma.company.findUnique).toHaveBeenCalledWith({
+          where: { value: "new company" },
+        });
+        expect(prisma.company.create).not.toHaveBeenCalled();
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should handle unexpected errors", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.company.findUnique as jest.Mock).mockRejectedValue(
-        new Error("Unexpected error")
-      );
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        (prisma.company.findUnique as jest.Mock).mockRejectedValue(
+          new Error("Unexpected error")
+        );
 
-      const result = await addCompany(validData);
+        const result = await addCompany(validData);
 
-      expect(result).toEqual({ success: false, message: "Unexpected error" });
-      expect(prisma.company.findUnique).toHaveBeenCalledWith({
-        where: { value: "new company" },
-      });
-      expect(prisma.company.create).not.toHaveBeenCalled();
+        expect(result).toEqual({ success: false, message: "Unexpected error" });
+        expect(prisma.company.findUnique).toHaveBeenCalledWith({
+          where: { value: "new company" },
+        });
+        expect(prisma.company.create).not.toHaveBeenCalled();
+      } finally {
+        spy.mockRestore();
+      }
     });
   });
 
@@ -312,47 +347,62 @@ describe("Company Actions", () => {
     });
 
     it("should return error if user is not authenticated", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(null);
 
-      const result = await updateCompany(validData);
+        const result = await updateCompany(validData);
 
-      expect(result).toEqual({ success: false, message: "Not authenticated" });
+        expect(result).toEqual({ success: false, message: "Not authenticated" });
 
-      expect(prisma.company.findUnique).not.toHaveBeenCalled();
-      expect(prisma.company.update).not.toHaveBeenCalled();
+        expect(prisma.company.findUnique).not.toHaveBeenCalled();
+        expect(prisma.company.update).not.toHaveBeenCalled();
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should return error if company already exists", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
 
-      (prisma.company.findUnique as jest.Mock).mockResolvedValue({
-        id: "existing-company-id",
-      });
+        (prisma.company.findUnique as jest.Mock).mockResolvedValue({
+          id: "existing-company-id",
+        });
 
-      const result = await updateCompany(validData);
+        const result = await updateCompany(validData);
 
-      expect(result).toEqual({
-        success: false,
-        message: "Company already exists!",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Company already exists!",
+        });
 
-      expect(prisma.company.update).not.toHaveBeenCalled();
+        expect(prisma.company.update).not.toHaveBeenCalled();
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should return error if id is not provided or no user privileges", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
 
-      const invalidData = { ...validData, id: "", createdBy: "other-user-id" };
+        const invalidData = { ...validData, id: "", createdBy: "other-user-id" };
 
-      const result = await updateCompany(invalidData);
+        const result = await updateCompany(invalidData);
 
-      expect(result).toEqual({
-        success: false,
-        message: "Id is not provided or no user privilages",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Id is not provided or no user privilages",
+        });
 
-      expect(prisma.company.findUnique).not.toHaveBeenCalled();
-      expect(prisma.company.update).not.toHaveBeenCalled();
+        expect(prisma.company.findUnique).not.toHaveBeenCalled();
+        expect(prisma.company.update).not.toHaveBeenCalled();
+      } finally {
+        spy.mockRestore();
+      }
     });
   });
 
@@ -367,17 +417,22 @@ describe("Company Actions", () => {
     };
 
     it("should fetch company by id successfully", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
 
-      (prisma.company.findUnique as jest.Mock).mockResolvedValue(mockCompany);
+        (prisma.company.findUnique as jest.Mock).mockResolvedValue(mockCompany);
 
-      const result = await getCompanyById(mockCompanyId);
+        const result = await getCompanyById(mockCompanyId);
 
-      expect(prisma.company.findUnique).toHaveBeenCalledWith({
-        where: { id: mockCompanyId },
-      });
+        expect(prisma.company.findUnique).toHaveBeenCalledWith({
+          where: { id: mockCompanyId },
+        });
 
-      expect(result).toEqual(mockCompany);
+        expect(result).toEqual(mockCompany);
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should throw error when companyId is not provided", async () => {
@@ -390,30 +445,40 @@ describe("Company Actions", () => {
     });
 
     it("should throw error when user is not authenticated", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(null);
 
-      await expect(getCompanyById(mockCompanyId)).resolves.toStrictEqual({
-        success: false,
-        message: "Not authenticated",
-      });
+        await expect(getCompanyById(mockCompanyId)).resolves.toStrictEqual({
+          success: false,
+          message: "Not authenticated",
+        });
 
-      expect(prisma.company.findUnique).not.toHaveBeenCalled();
+        expect(prisma.company.findUnique).not.toHaveBeenCalled();
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should handle unexpected errors", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.company.findUnique as jest.Mock).mockRejectedValue(
-        new Error("Unexpected error")
-      );
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        (prisma.company.findUnique as jest.Mock).mockRejectedValue(
+          new Error("Unexpected error")
+        );
 
-      await expect(getCompanyById(mockCompanyId)).resolves.toStrictEqual({
-        success: false,
-        message: "Unexpected error",
-      });
+        await expect(getCompanyById(mockCompanyId)).resolves.toStrictEqual({
+          success: false,
+          message: "Unexpected error",
+        });
 
-      expect(prisma.company.findUnique).toHaveBeenCalledWith({
-        where: { id: mockCompanyId },
-      });
+        expect(prisma.company.findUnique).toHaveBeenCalledWith({
+          where: { id: mockCompanyId },
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
   });
 });

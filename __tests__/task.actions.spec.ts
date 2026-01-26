@@ -191,28 +191,38 @@ describe("taskActions", () => {
     });
 
     it("should return error when user is not authenticated", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(null);
 
-      const result = await getTasksList();
+        const result = await getTasksList();
 
-      expect(result).toEqual({
-        success: false,
-        message: "Not authenticated",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Not authenticated",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should handle database errors", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.task.findMany as jest.Mock).mockRejectedValue(
-        new Error("Database error")
-      );
-
-      const result = await getTasksList();
-
-      expect(result).toEqual({
-        success: false,
-        message: "Database error",
-      });
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        (prisma.task.findMany as jest.Mock).mockRejectedValue(
+          new Error("Database error")
+        );
+        
+        const result = await getTasksList();
+        
+        expect(result).toEqual({
+          success: false,
+          message: "Database error",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
   });
 
@@ -242,40 +252,55 @@ describe("taskActions", () => {
     });
 
     it("should return error when task is not found", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.task.findFirst as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        (prisma.task.findFirst as jest.Mock).mockResolvedValue(null);
 
-      const result = await getTaskById("non-existent-id");
+        const result = await getTaskById("non-existent-id");
 
-      expect(result).toEqual({
-        success: false,
-        message: "Task not found",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Task not found",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should return error when user is not authenticated", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(null);
 
-      const result = await getTaskById("task-id");
+        const result = await getTaskById("task-id");
 
-      expect(result).toEqual({
-        success: false,
-        message: "Not authenticated",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Not authenticated",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should handle database errors", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.task.findFirst as jest.Mock).mockRejectedValue(
-        new Error("Database error")
-      );
-
-      const result = await getTaskById("task-id");
-
-      expect(result).toEqual({
-        success: false,
-        message: "Database error",
-      });
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        (prisma.task.findFirst as jest.Mock).mockRejectedValue(
+          new Error("Database error")
+        );
+        
+        const result = await getTaskById("task-id");
+        
+        expect(result).toEqual({
+          success: false,
+          message: "Database error",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
   });
 
@@ -318,42 +343,57 @@ describe("taskActions", () => {
     });
 
     it("should return error when user is not authenticated", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(null);
 
-      const result = await createTask(taskData);
+        const result = await createTask(taskData);
 
-      expect(result).toEqual({
-        success: false,
-        message: "Not authenticated",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Not authenticated",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should handle validation errors", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
 
-      const invalidData = {
-        ...taskData,
-        title: "A", // Too short
-      };
+        const invalidData = {
+          ...taskData,
+          title: "A", // Too short
+        };
 
-      const result = await createTask(invalidData);
+        const result = await createTask(invalidData);
 
-      expect(result.success).toBe(false);
-      expect(result.message).toBeTruthy();
+        expect(result.success).toBe(false);
+        expect(result.message).toBeTruthy();
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should handle database errors", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.task.create as jest.Mock).mockRejectedValue(
-        new Error("Database error")
-      );
-
-      const result = await createTask(taskData);
-
-      expect(result).toEqual({
-        success: false,
-        message: "Database error",
-      });
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        (prisma.task.create as jest.Mock).mockRejectedValue(
+          new Error("Database error")
+        );
+        
+        const result = await createTask(taskData);
+        
+        expect(result).toEqual({
+          success: false,
+          message: "Database error",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
   });
 
@@ -401,42 +441,57 @@ describe("taskActions", () => {
     });
 
     it("should return error when task ID is missing", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
 
-      const dataWithoutId = { ...updateData };
-      delete (dataWithoutId as any).id;
+        const dataWithoutId = { ...updateData };
+        delete (dataWithoutId as any).id;
 
-      const result = await updateTask(dataWithoutId);
+        const result = await updateTask(dataWithoutId);
 
-      expect(result).toEqual({
-        success: false,
-        message: "Task ID is required for update",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Task ID is required for update",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should return error when user is not authenticated", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(null);
 
-      const result = await updateTask(updateData);
+        const result = await updateTask(updateData);
 
-      expect(result).toEqual({
-        success: false,
-        message: "Not authenticated",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Not authenticated",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should handle database errors", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.task.update as jest.Mock).mockRejectedValue(
-        new Error("Database error")
-      );
-
-      const result = await updateTask(updateData);
-
-      expect(result).toEqual({
-        success: false,
-        message: "Database error",
-      });
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        (prisma.task.update as jest.Mock).mockRejectedValue(
+          new Error("Database error")
+        );
+        
+        const result = await updateTask(updateData);
+        
+        expect(result).toEqual({
+          success: false,
+          message: "Database error",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
   });
 
@@ -467,28 +522,38 @@ describe("taskActions", () => {
     });
 
     it("should return error when user is not authenticated", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(null);
 
-      const result = await updateTaskStatus("task-id", "complete");
+        const result = await updateTaskStatus("task-id", "complete");
 
-      expect(result).toEqual({
-        success: false,
-        message: "Not authenticated",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Not authenticated",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should handle database errors", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.task.update as jest.Mock).mockRejectedValue(
-        new Error("Database error")
-      );
-
-      const result = await updateTaskStatus("task-id", "complete");
-
-      expect(result).toEqual({
-        success: false,
-        message: "Database error",
-      });
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        (prisma.task.update as jest.Mock).mockRejectedValue(
+          new Error("Database error")
+        );
+        
+        const result = await updateTaskStatus("task-id", "complete");
+        
+        expect(result).toEqual({
+          success: false,
+          message: "Database error",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
   });
 
@@ -512,58 +577,78 @@ describe("taskActions", () => {
     });
 
     it("should return error when task is not found", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.task.findFirst as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        (prisma.task.findFirst as jest.Mock).mockResolvedValue(null);
 
-      const result = await deleteTaskById("non-existent-id");
+        const result = await deleteTaskById("non-existent-id");
 
-      expect(result).toEqual({
-        success: false,
-        message: "Task not found",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Task not found",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should return error when task has linked activity", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      const taskWithActivity = {
-        ...mockTask,
-        activity: { id: "activity-id" },
-      };
-      (prisma.task.findFirst as jest.Mock).mockResolvedValue(taskWithActivity);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        const taskWithActivity = {
+          ...mockTask,
+          activity: { id: "activity-id" },
+        };
+        (prisma.task.findFirst as jest.Mock).mockResolvedValue(taskWithActivity);
 
-      const result = await deleteTaskById("task-id");
+        const result = await deleteTaskById("task-id");
 
-      expect(result).toEqual({
-        success: false,
-        message:
-          "Cannot delete task with linked activity. Remove the activity first.",
-      });
-      expect(prisma.task.delete).not.toHaveBeenCalled();
+        expect(result).toEqual({
+          success: false,
+          message:
+            "Cannot delete task with linked activity. Remove the activity first.",
+        });
+        expect(prisma.task.delete).not.toHaveBeenCalled();
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should return error when user is not authenticated", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(null);
 
-      const result = await deleteTaskById("task-id");
+        const result = await deleteTaskById("task-id");
 
-      expect(result).toEqual({
-        success: false,
-        message: "Not authenticated",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Not authenticated",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should handle database errors", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.task.findFirst as jest.Mock).mockRejectedValue(
-        new Error("Database error")
-      );
-
-      const result = await deleteTaskById("task-id");
-
-      expect(result).toEqual({
-        success: false,
-        message: "Database error",
-      });
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        (prisma.task.findFirst as jest.Mock).mockRejectedValue(
+          new Error("Database error")
+        );
+        
+        const result = await deleteTaskById("task-id");
+        
+        expect(result).toEqual({
+          success: false,
+          message: "Database error",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
   });
 
@@ -611,123 +696,163 @@ describe("taskActions", () => {
     });
 
     it("should return error when task is not found", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.task.findFirst as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        (prisma.task.findFirst as jest.Mock).mockResolvedValue(null);
 
-      const result = await startActivityFromTask("non-existent-id");
+        const result = await startActivityFromTask("non-existent-id");
 
-      expect(result).toEqual({
-        success: false,
-        message: "Task not found",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Task not found",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should return error when task already has linked activity", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      const taskWithActivity = {
-        ...mockTask,
-        activity: { id: "activity-id" },
-      };
-      (prisma.task.findFirst as jest.Mock).mockResolvedValue(taskWithActivity);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        const taskWithActivity = {
+          ...mockTask,
+          activity: { id: "activity-id" },
+        };
+        (prisma.task.findFirst as jest.Mock).mockResolvedValue(taskWithActivity);
 
-      const result = await startActivityFromTask("task-id");
+        const result = await startActivityFromTask("task-id");
 
-      expect(result).toEqual({
-        success: false,
-        message: "Task already has a linked activity.",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Task already has a linked activity.",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should return error when task has no activity type", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      const taskWithoutActivityType = {
-        ...mockTask,
-        activityTypeId: null,
-      };
-      (prisma.task.findFirst as jest.Mock).mockResolvedValue(
-        taskWithoutActivityType
-      );
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        const taskWithoutActivityType = {
+          ...mockTask,
+          activityTypeId: null,
+        };
+        (prisma.task.findFirst as jest.Mock).mockResolvedValue(
+          taskWithoutActivityType
+        );
 
-      const result = await startActivityFromTask("task-id");
+        const result = await startActivityFromTask("task-id");
 
-      expect(result).toEqual({
-        success: false,
-        message: "Task must have an activity type to start an activity.",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Task must have an activity type to start an activity.",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should return error when task status is complete", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      const completedTask = {
-        ...mockTask,
-        status: "complete" as const,
-      };
-      (prisma.task.findFirst as jest.Mock).mockResolvedValue(completedTask);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        const completedTask = {
+          ...mockTask,
+          status: "complete" as const,
+        };
+        (prisma.task.findFirst as jest.Mock).mockResolvedValue(completedTask);
 
-      const result = await startActivityFromTask("task-id");
+        const result = await startActivityFromTask("task-id");
 
-      expect(result).toEqual({
-        success: false,
-        message: "Cannot start an activity from a completed or cancelled task.",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Cannot start an activity from a completed or cancelled task.",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should return error when task status is cancelled", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      const cancelledTask = {
-        ...mockTask,
-        status: "cancelled" as const,
-      };
-      (prisma.task.findFirst as jest.Mock).mockResolvedValue(cancelledTask);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        const cancelledTask = {
+          ...mockTask,
+          status: "cancelled" as const,
+        };
+        (prisma.task.findFirst as jest.Mock).mockResolvedValue(cancelledTask);
 
-      const result = await startActivityFromTask("task-id");
+        const result = await startActivityFromTask("task-id");
 
-      expect(result).toEqual({
-        success: false,
-        message: "Cannot start an activity from a completed or cancelled task.",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Cannot start an activity from a completed or cancelled task.",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should return error when user already has a running activity", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.task.findFirst as jest.Mock).mockResolvedValue(mockTask);
-      (prisma.activity.findFirst as jest.Mock).mockResolvedValue({
-        id: "existing-activity-id",
-        endTime: null,
-      });
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        (prisma.task.findFirst as jest.Mock).mockResolvedValue(mockTask);
+        (prisma.activity.findFirst as jest.Mock).mockResolvedValue({
+          id: "existing-activity-id",
+          endTime: null,
+        });
 
-      const result = await startActivityFromTask("task-id");
+        const result = await startActivityFromTask("task-id");
 
-      expect(result).toEqual({
-        success: false,
-        message:
-          "You already have a running activity. Please stop it before starting a new one.",
-      });
+        expect(result).toEqual({
+          success: false,
+          message:
+            "You already have a running activity. Please stop it before starting a new one.",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should return error when user is not authenticated", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(null);
 
-      const result = await startActivityFromTask("task-id");
+        const result = await startActivityFromTask("task-id");
 
-      expect(result).toEqual({
-        success: false,
-        message: "Not authenticated",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Not authenticated",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should handle database errors", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.task.findFirst as jest.Mock).mockRejectedValue(
-        new Error("Database error")
-      );
-
-      const result = await startActivityFromTask("task-id");
-
-      expect(result).toEqual({
-        success: false,
-        message: "Database error",
-      });
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        (prisma.task.findFirst as jest.Mock).mockRejectedValue(
+          new Error("Database error")
+        );
+        
+        const result = await startActivityFromTask("task-id");
+        
+        expect(result).toEqual({
+          success: false,
+          message: "Database error",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
   });
 
@@ -801,28 +926,38 @@ describe("taskActions", () => {
     });
 
     it("should return error when user is not authenticated", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(null);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(null);
 
-      const result = await getActivityTypesWithTaskCounts();
+        const result = await getActivityTypesWithTaskCounts();
 
-      expect(result).toEqual({
-        success: false,
-        message: "Not authenticated",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Not authenticated",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should handle database errors", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-      (prisma.activityType.findMany as jest.Mock).mockRejectedValue(
-        new Error("Database error")
-      );
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+        (prisma.activityType.findMany as jest.Mock).mockRejectedValue(
+          new Error("Database error")
+        );
 
-      const result = await getActivityTypesWithTaskCounts();
+        const result = await getActivityTypesWithTaskCounts();
 
-      expect(result).toEqual({
-        success: false,
-        message: "Database error",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Database error",
+        });
+      } finally {
+        spy.mockRestore();
+      }
     });
   });
 });

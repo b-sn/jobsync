@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -59,8 +60,17 @@ function AddEducation({
   const form = useForm<z.infer<typeof AddEducationFormSchema>>({
     resolver: zodResolver(AddEducationFormSchema),
     defaultValues: {
+      id: "",
       resumeId,
       sectionId,
+      sectionTitle: "",
+      institution: "",
+      degree: "",
+      fieldOfStudy: "",
+      location: "",
+      startDate: undefined,
+      endDate: undefined,
+      description: "",
       degreeCompleted: true,
     },
   });
@@ -70,6 +80,8 @@ function AddEducation({
   const degreeCompletedValue = watch("degreeCompleted");
 
   useEffect(() => {
+    if (!dialogOpen) return;
+
     getLocationData();
     if (educationToEdit) {
       const education: Education = educationToEdit?.educations?.at(0)!;
@@ -96,7 +108,7 @@ function AddEducation({
         { keepDefaultValues: true }
       );
     }
-  }, [getLocationData, educationToEdit, resumeId, sectionId, reset]);
+  }, [dialogOpen, getLocationData, educationToEdit, resumeId, sectionId, reset]);
 
   const onDegreeCompleted = (completed: boolean) => {
     if (completed) {
@@ -135,6 +147,7 @@ function AddEducation({
       <DialogContent className="h-full md:h-[85%] lg:max-h-screen md:max-w-[40rem] overflow-y-scroll">
         <DialogHeader>
           <DialogTitle>{pageTitle}</DialogTitle>
+          <DialogDescription>Fill out the form below to add education details.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form

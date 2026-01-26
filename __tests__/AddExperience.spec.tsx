@@ -104,6 +104,24 @@ describe("AddExperience Component", () => {
     { id: "location-2", label: "San Francisco, CA", value: "san-francisco-ca" },
   ];
 
+  const renderAndWait = async (props?: Partial<React.ComponentProps<typeof AddExperience>>) => {
+    render(
+      <AddExperience
+        resumeId={mockResumeId}
+        sectionId={mockSectionId}
+        dialogOpen={true}
+        setDialogOpen={mockSetDialogOpen}
+        {...props}
+      />
+    );
+
+    await waitFor(() => {
+      expect(getAllCompanies).toHaveBeenCalled();
+      expect(getAllJobTitles).toHaveBeenCalled();
+      expect(getAllJobLocations).toHaveBeenCalled();
+    });
+  };
+
   beforeEach(() => {
     jest.clearAllMocks();
     (getAllCompanies as jest.Mock).mockResolvedValue(mockCompanies);
@@ -112,18 +130,8 @@ describe("AddExperience Component", () => {
   });
 
   it("should render Add Experience dialog with correct title", async () => {
-    render(
-      <AddExperience
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-      />
-    );
-
-    await waitFor(() => {
-      expect(screen.getByText("Add Experience")).toBeInTheDocument();
-    });
+    await renderAndWait();
+    expect(screen.getByText("Add Experience")).toBeInTheDocument();
   });
 
   it("should render Edit Experience dialog when experienceToEdit is provided", async () => {
@@ -146,60 +154,22 @@ describe("AddExperience Component", () => {
       ],
     };
 
-    render(
-      <AddExperience
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-        experienceToEdit={mockExperienceToEdit}
-      />
-    );
-
-    await waitFor(() => {
-      expect(screen.getByText("Edit Experience")).toBeInTheDocument();
-    });
+    await renderAndWait({ experienceToEdit: mockExperienceToEdit });
+    expect(screen.getByText("Edit Experience")).toBeInTheDocument();
   });
 
   it("should render section title field when sectionId is not provided", async () => {
-    render(
-      <AddExperience
-        resumeId={mockResumeId}
-        sectionId={undefined}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-      />
-    );
-
-    await waitFor(() => {
-      expect(screen.getByLabelText(/section title/i)).toBeInTheDocument();
-    });
+    await renderAndWait({ sectionId: undefined });
+    expect(screen.getByLabelText(/section title/i)).toBeInTheDocument();
   });
 
   it("should not render section title field when sectionId is provided", async () => {
-    render(
-      <AddExperience
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-      />
-    );
-
-    await waitFor(() => {
-      expect(screen.queryByLabelText(/section title/i)).not.toBeInTheDocument();
-    });
+    await renderAndWait();
+    expect(screen.queryByLabelText(/section title/i)).not.toBeInTheDocument();
   });
 
   it("should render all form fields correctly", async () => {
-    render(
-      <AddExperience
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-      />
-    );
+    await renderAndWait();
 
     await waitFor(() => {
       expect(screen.getByText(/job title/i)).toBeInTheDocument();
@@ -241,15 +211,7 @@ describe("AddExperience Component", () => {
       ],
     };
 
-    render(
-      <AddExperience
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-        experienceToEdit={mockExperienceToEdit}
-      />
-    );
+    await renderAndWait({ experienceToEdit: mockExperienceToEdit });
 
     await waitFor(() => {
       const jobTitleSelect = screen.getByTestId(
@@ -268,15 +230,8 @@ describe("AddExperience Component", () => {
     });
   });
 
-  it("should close dialog when Cancel button is clicked", async () => {
-    render(
-      <AddExperience
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-      />
-    );
+  it("should close dialog when Cancel button is clicked", async () => {   
+    await renderAndWait();
 
     await waitFor(() => {
       expect(
@@ -291,14 +246,7 @@ describe("AddExperience Component", () => {
   });
 
   it("should disable Save button when form is not dirty", async () => {
-    render(
-      <AddExperience
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-      />
-    );
+    await renderAndWait();
 
     await waitFor(() => {
       const saveButton = screen.getByRole("button", { name: /save/i });
@@ -307,14 +255,7 @@ describe("AddExperience Component", () => {
   });
 
   it("should disable end date when current job is checked", async () => {
-    render(
-      <AddExperience
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-      />
-    );
+    await renderAndWait();
 
     await waitFor(() => {
       expect(screen.getByRole("switch")).toBeInTheDocument();
@@ -335,15 +276,7 @@ describe("AddExperience Component", () => {
   });
 
   it("should toggle current job label text", async () => {
-    render(
-      <AddExperience
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-      />
-    );
-
+    await renderAndWait();
     await waitFor(() => {
       expect(screen.getByText(/job ended/i)).toBeInTheDocument();
     });
@@ -362,14 +295,7 @@ describe("AddExperience Component", () => {
       message: "Experience added successfully",
     });
 
-    render(
-      <AddExperience
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-      />
-    );
+    await renderAndWait();
 
     // Wait for options to be loaded and rendered in the select elements
     await waitFor(() => {
@@ -448,19 +374,8 @@ describe("AddExperience Component", () => {
       message: "Experience updated successfully",
     });
 
-    render(
-      <AddExperience
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-        experienceToEdit={mockExperienceToEdit}
-      />
-    );
-
-    await waitFor(() => {
-      expect(screen.getByTestId("combobox-title")).toBeInTheDocument();
-    });
+    await renderAndWait({ experienceToEdit: mockExperienceToEdit });
+    expect(screen.getByTestId("combobox-title")).toBeInTheDocument();
 
     const jobTitleSelect = screen.getByTestId(
       "combobox-title"
@@ -495,18 +410,8 @@ describe("AddExperience Component", () => {
       message: "Experience added successfully",
     });
 
-    render(
-      <AddExperience
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-      />
-    );
-
-    await waitFor(() => {
-      expect(screen.getByTestId("combobox-title")).toBeInTheDocument();
-    });
+    await renderAndWait();
+    expect(screen.getByTestId("combobox-title")).toBeInTheDocument();
 
     const jobTitleSelect = screen.getByTestId(
       "combobox-title"
@@ -558,18 +463,8 @@ describe("AddExperience Component", () => {
       message: "Failed to add experience",
     });
 
-    render(
-      <AddExperience
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-      />
-    );
-
-    await waitFor(() => {
-      expect(screen.getByTestId("combobox-title")).toBeInTheDocument();
-    });
+    await renderAndWait();
+    expect(screen.getByTestId("combobox-title")).toBeInTheDocument();
 
     const jobTitleSelect = screen.getByTestId(
       "combobox-title"
@@ -641,19 +536,8 @@ describe("AddExperience Component", () => {
       message: "Experience updated successfully",
     });
 
-    render(
-      <AddExperience
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-        experienceToEdit={mockExperienceToEdit}
-      />
-    );
-
-    await waitFor(() => {
-      expect(screen.getByTestId("combobox-title")).toBeInTheDocument();
-    });
+    await renderAndWait({ experienceToEdit: mockExperienceToEdit });
+    expect(screen.getByTestId("combobox-title")).toBeInTheDocument();
 
     const jobTitleSelect = screen.getByTestId(
       "combobox-title"
@@ -693,14 +577,7 @@ describe("AddExperience Component", () => {
   });
 
   it("should load companies, job titles, and locations on mount", async () => {
-    render(
-      <AddExperience
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-      />
-    );
+    await renderAndWait();
 
     await waitFor(() => {
       expect(getAllCompanies).toHaveBeenCalledTimes(1);
@@ -711,23 +588,15 @@ describe("AddExperience Component", () => {
 
   it("should display loading indicator when form is submitting", async () => {
     (addExperience as jest.Mock).mockImplementation(
-      () =>
-        new Promise((resolve) => {
-          setTimeout(() => resolve({ success: true }), 100);
-        })
+      () => new Promise((resolve) => setTimeout(() => resolve({ success: true }), 100))
     );
 
-    render(
-      <AddExperience
-        resumeId={mockResumeId}
-        sectionId={mockSectionId}
-        dialogOpen={true}
-        setDialogOpen={mockSetDialogOpen}
-      />
-    );
+    await renderAndWait();
 
+    // 1) дождаться, что опции в title реально появились
     await waitFor(() => {
-      expect(screen.getByTestId("combobox-title")).toBeInTheDocument();
+      const titleSelect = screen.getByTestId("combobox-title") as HTMLSelectElement;
+      expect(Array.from(titleSelect.options).some(o => o.value === "title-1")).toBe(true);
     });
 
     const jobTitleSelect = screen.getByTestId("combobox-title");
@@ -745,12 +614,16 @@ describe("AddExperience Component", () => {
     });
 
     const saveButton = screen.getByRole("button", { name: /save/i });
+
+    // 2) убедиться что форма валидна до клика
+    await waitFor(() => expect(saveButton).toBeEnabled());
+
     await user.click(saveButton);
 
-    const loader = screen
-      .getByText(/save/i)
-      .parentElement?.querySelector(".spinner");
-    expect(loader).toBeInTheDocument();
+    // 3) спиннер должен появиться пока промис не завершился
+    await waitFor(() => {
+      expect(saveButton.querySelector(".spinner")).not.toBeNull();
+    });
 
     await waitFor(() => {
       expect(addExperience).toHaveBeenCalledTimes(1);

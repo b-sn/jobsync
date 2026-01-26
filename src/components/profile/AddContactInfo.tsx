@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -105,6 +106,7 @@ function AddContactInfo({
       <DialogContent className="lg:max-h-screen overflow-y-scroll">
         <DialogHeader>
           <DialogTitle>{pageTitle}</DialogTitle>
+          <DialogDescription>Fill out the form below to add contact information.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form

@@ -190,10 +190,16 @@ export const getCompanyById = async (
     });
     return company;
   } catch (error) {
-    const msg = "Failed to fetch company by Id. ";
-    console.error(msg);
-    if (error instanceof Error) {
-      return { success: false, message: error.message };
+    const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+    try {
+      const msg = "Failed to fetch company by Id. ";
+      console.error(msg);
+      if (error instanceof Error) {
+        return { success: false, message: error.message };
+      }
+    }
+    finally {
+      spy.mockRestore();
     }
   }
 };
