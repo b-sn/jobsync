@@ -77,22 +77,24 @@ function AddCompany({
           createdBy: "",
           logoUrl: "",
         },
-        { keepDefaultValues: true }
+        { keepDefaultValues: true },
       );
     }
   }, [editCompany, reset]);
 
   const addCompanyForm = () => {
-    resetEditCompany();
-    reset(
-      {
-        id: "",
-        company: "",
-        createdBy: "",
-        logoUrl: "",
-      },
-      { keepDefaultValues: true }
-    );
+    if (!editCompany) {
+      resetEditCompany();
+      reset(
+        {
+          id: "",
+          company: "",
+          createdBy: "",
+          logoUrl: "",
+        },
+        { keepDefaultValues: true }
+      );
+    }
     setDialogOpen(true);
   };
 

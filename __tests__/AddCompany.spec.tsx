@@ -24,10 +24,10 @@ describe("AddCompany Component", () => {
         resetEditCompany={mockResetEditCompany}
         dialogOpen={false}
         setDialogOpen={mockSetDialogOpen}
-      />
+      />,
     );
     expect(
-      screen.getByRole("button", { name: /add company/i })
+      screen.getByRole("button", { name: /add company/i }),
     ).toBeInTheDocument();
   });
 
@@ -38,7 +38,7 @@ describe("AddCompany Component", () => {
         resetEditCompany={mockResetEditCompany}
         dialogOpen={false}
         setDialogOpen={mockSetDialogOpen}
-      />
+      />,
     );
     const addCompanyButton = screen.getByRole("button", {
       name: /add company/i,
@@ -64,7 +64,7 @@ describe("AddCompany Component", () => {
         editCompany={mockEditCompany}
         dialogOpen={true}
         setDialogOpen={mockSetDialogOpen}
-      />
+      />,
     );
 
     const dialog = await screen.findByText(/edit company/i);
@@ -73,7 +73,7 @@ describe("AddCompany Component", () => {
     await waitFor(() => {
       expect(screen.getByLabelText(/company name/i)).toHaveValue("Test Company");
       expect(screen.getByLabelText(/company logo url/i)).toHaveValue(
-        "http://example.com/logo.png"
+        "http://example.com/logo.png",
       );
     });
   });
@@ -85,7 +85,7 @@ describe("AddCompany Component", () => {
         resetEditCompany={mockResetEditCompany}
         dialogOpen={true}
         setDialogOpen={mockSetDialogOpen}
-      />
+      />,
     );
 
     const addCompanyButton = await screen.findByTestId("add-company-btn");
@@ -129,7 +129,7 @@ describe("AddCompany Component", () => {
         editCompany={mockEditCompany}
         dialogOpen={true}
         setDialogOpen={mockSetDialogOpen}
-      />
+      />,
     );
 
     const addCompanyButton = await screen.findByTestId("add-company-btn");
@@ -153,8 +153,10 @@ describe("AddCompany Component", () => {
       expect(updateCompany).toHaveBeenCalledTimes(1);
       expect(updateCompany).toHaveBeenCalledWith(
         expect.objectContaining({
+          id: "company-id",
           company: "Edited Test Company",
           logoUrl: "http://example.com/edited-logo.png",
+          createdBy: "user-id",
         })
       );
     });
