@@ -1,3 +1,8 @@
+jest.mock("@/components/myjobs/AddJob", () => ({
+  __esModule: true,
+  AddJob: () => null,
+}));
+
 import JobsContainer from "@/components/myjobs/JobsContainer";
 import "@testing-library/jest-dom";
 import { screen, render, waitFor, act } from "@testing-library/react";
@@ -158,7 +163,7 @@ describe("JobsContainer Search Functionality", () => {
     },
   ];
 
-  const user = userEvent.setup({ delay: null });
+  const user = userEvent.setup({ delay: null, advanceTimers: jest.advanceTimersByTime });
   window.HTMLElement.prototype.scrollIntoView = jest.fn();
   window.HTMLElement.prototype.hasPointerCapture = jest.fn();
 
@@ -237,16 +242,13 @@ describe("JobsContainer Search Functionality", () => {
       });
 
       const searchInput = screen.getByPlaceholderText("Search jobs...");
-
-      await act(async () => {
-        await user.type(searchInput, "A");
-      });
+      await user.type(searchInput, "A");
 
       // Should not have called getJobsList yet (debounce not elapsed)
       expect(getJobsList).toHaveBeenCalledTimes(1);
 
       // Advance timer by 300ms to trigger debounce
-      await act(async () => {
+      act(() => {
         jest.advanceTimersByTime(300);
       });
 
@@ -270,17 +272,14 @@ describe("JobsContainer Search Functionality", () => {
       });
 
       const searchInput = screen.getByPlaceholderText("Search jobs...");
+      await user.type(searchInput, "Amazon");
 
-      await act(async () => {
-        await user.type(searchInput, "Amazon");
-      });
-
-      await act(async () => {
+      act(() => {
         jest.advanceTimersByTime(300);
       });
 
       await waitFor(() => {
-        expect(getJobsList).toHaveBeenCalledWith(1, 25, undefined, "Amazon");
+        expect(getJobsList).toHaveBeenCalledWith(1, 25, "none", "Amazon");
       });
     });
 
@@ -317,24 +316,20 @@ describe("JobsContainer Search Functionality", () => {
       const searchInput = screen.getByPlaceholderText("Search jobs...");
 
       // Type to trigger search
-      await act(async () => {
-        await user.type(searchInput, "Test");
-      });
+      await user.type(searchInput, "Test");
 
-      await act(async () => {
+      act(() => {
         jest.advanceTimersByTime(300);
       });
 
       await waitFor(() => {
-        expect(getJobsList).toHaveBeenCalledWith(1, 25, undefined, "Test");
+        expect(getJobsList).toHaveBeenCalledWith(1, 25, "none", "Test");
       });
 
       // Clear the search input
-      await act(async () => {
-        await user.clear(searchInput);
-      });
+      await user.clear(searchInput);
 
-      await act(async () => {
+      act(() => {
         jest.advanceTimersByTime(300);
       });
 
@@ -361,28 +356,22 @@ describe("JobsContainer Search Functionality", () => {
 
       // Type in search
       const searchInput = screen.getByPlaceholderText("Search jobs...");
-      await act(async () => {
-        await user.type(searchInput, "Developer");
-      });
+      await user.type(searchInput, "Developer");
 
-      await act(async () => {
+      act(() => {
         jest.advanceTimersByTime(300);
       });
 
       await waitFor(() => {
-        expect(getJobsList).toHaveBeenCalledWith(1, 25, undefined, "Developer");
+        expect(getJobsList).toHaveBeenCalledWith(1, 25, "none", "Developer");
       });
 
       // Now change filter
       const filterTrigger = screen.getByRole("combobox");
-      await act(async () => {
-        await user.click(filterTrigger);
-      });
+      await user.click(filterTrigger);
 
       const appliedOption = screen.getByRole("option", { name: "Applied" });
-      await act(async () => {
-        await user.click(appliedOption);
-      });
+      await user.click(appliedOption);
 
       await waitFor(() => {
         expect(getJobsList).toHaveBeenCalledWith(1, 25, "applied", "Developer");
@@ -404,28 +393,22 @@ describe("JobsContainer Search Functionality", () => {
 
       // Type in search
       const searchInput = screen.getByPlaceholderText("Search jobs...");
-      await act(async () => {
-        await user.type(searchInput, "Amazon");
-      });
+      await user.type(searchInput, "Amazon");
 
-      await act(async () => {
+      act(() => {
         jest.advanceTimersByTime(300);
       });
 
       await waitFor(() => {
-        expect(getJobsList).toHaveBeenCalledWith(1, 25, undefined, "Amazon");
+        expect(getJobsList).toHaveBeenCalledWith(1, 25, "none", "Amazon");
       });
 
       // Change filter
       const filterTrigger = screen.getByRole("combobox");
-      await act(async () => {
-        await user.click(filterTrigger);
-      });
+      await user.click(filterTrigger);
 
       const interviewOption = screen.getByRole("option", { name: "Interview" });
-      await act(async () => {
-        await user.click(interviewOption);
-      });
+      await user.click(interviewOption);
 
       // Search term should still be present
       await waitFor(() => {
@@ -448,42 +431,32 @@ describe("JobsContainer Search Functionality", () => {
 
       // First type in search
       const searchInput = screen.getByPlaceholderText("Search jobs...");
-      await act(async () => {
-        await user.type(searchInput, "Developer");
-      });
+      await user.type(searchInput, "Developer");
 
-      await act(async () => {
+      act(() => {
         jest.advanceTimersByTime(300);
       });
 
       // Set a filter
       const filterTrigger = screen.getByRole("combobox");
-      await act(async () => {
-        await user.click(filterTrigger);
-      });
+      await user.click(filterTrigger);
 
       const appliedOption = screen.getByRole("option", { name: "Applied" });
-      await act(async () => {
-        await user.click(appliedOption);
-      });
+      await user.click(appliedOption);
 
       await waitFor(() => {
         expect(getJobsList).toHaveBeenCalledWith(1, 25, "applied", "Developer");
       });
 
       // Now clear filter by selecting None
-      await act(async () => {
-        await user.click(filterTrigger);
-      });
+      await user.click(filterTrigger);
 
       const noneOption = screen.getByRole("option", { name: "None" });
-      await act(async () => {
-        await user.click(noneOption);
-      });
+      await user.click(noneOption);
 
       // Filter should be cleared but search preserved
       await waitFor(() => {
-        expect(getJobsList).toHaveBeenCalledWith(1, 25, undefined, "Developer");
+        expect(getJobsList).toHaveBeenCalledWith(1, 25, "none", "Developer");
       });
     });
   });
@@ -512,11 +485,9 @@ describe("JobsContainer Search Functionality", () => {
       });
 
       const searchInput = screen.getByPlaceholderText("Search jobs...");
-      await act(async () => {
-        await user.type(searchInput, "Amazon");
-      });
+      await user.type(searchInput, "Amazon");
 
-      await act(async () => {
+      act(() => {
         jest.advanceTimersByTime(300);
       });
 
@@ -546,11 +517,9 @@ describe("JobsContainer Search Functionality", () => {
       });
 
       const searchInput = screen.getByPlaceholderText("Search jobs...");
-      await act(async () => {
-        await user.type(searchInput, "test");
-      });
+      await user.type(searchInput, "test");
 
-      await act(async () => {
+      act(() => {
         jest.advanceTimersByTime(300);
       });
 
@@ -580,33 +549,25 @@ describe("JobsContainer Search Functionality", () => {
 
       renderComponent();
 
-      await waitFor(() => {
-        expect(screen.getByText("Load More")).toBeInTheDocument();
-      });
+      expect(await screen.findByText("Load More")).toBeInTheDocument();
 
       // Type search
-      const searchInput = screen.getByPlaceholderText("Search jobs...");
-      await act(async () => {
-        await user.type(searchInput, "Developer");
-      });
+      await user.type(screen.getByPlaceholderText("Search jobs..."), "Developer");
 
-      await act(async () => {
+      act(() => {
         jest.advanceTimersByTime(300);
       });
 
       await waitFor(() => {
-        expect(getJobsList).toHaveBeenCalledWith(1, 25, undefined, "Developer");
+        expect(getJobsList).toHaveBeenCalledWith(1, 25, "none", "Developer");
       });
 
       // Click load more
-      const loadMoreButton = screen.getByText("Load More");
-      await act(async () => {
-        await user.click(loadMoreButton);
-      });
+      await user.click(await screen.findByText("Load More"));
 
       // Should include search term in load more call
       await waitFor(() => {
-        expect(getJobsList).toHaveBeenCalledWith(2, 25, undefined, "Developer");
+        expect(getJobsList).toHaveBeenCalledWith(2, 25, "none", "Developer");
       });
     });
   });
@@ -640,7 +601,7 @@ describe("JobsContainer Search Functionality", () => {
       });
 
       await waitFor(() => {
-        expect(getJobsList).toHaveBeenCalledWith(1, 25, undefined, "test");
+        expect(getJobsList).toHaveBeenCalledWith(1, 25, "none", "test");
       });
     });
   });

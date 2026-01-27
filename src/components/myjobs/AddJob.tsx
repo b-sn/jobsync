@@ -480,11 +480,11 @@ export function AddJob({
                     name="jobDescription"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel id="job-description-label">
-                          Job Description
-                        </FormLabel>
+                        <FormLabel id="job-description-label">Job Description</FormLabel>
                         <FormControl>
-                          <TiptapEditor field={field} />
+                          <div data-testid="job-description-editor">
+                            <TiptapEditor field={field} />
+                          </div>
                         </FormControl>
                         <FormMessage />
                       </FormItem>

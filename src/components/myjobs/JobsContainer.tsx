@@ -74,7 +74,7 @@ function JobsContainer({
   const [jobs, setJobs] = useState<JobResponse[]>([]);
   const [page, setPage] = useState(1);
   const [totalJobs, setTotalJobs] = useState(0);
-  const [filterKey, setFilterKey] = useState<string>();
+  const [filterKey, setFilterKey] = useState<string>("none");
   const [searchTerm, setSearchTerm] = useState("");
   const [editJob, setEditJob] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -114,9 +114,7 @@ function JobsContainer({
 
   const reloadJobs = useCallback(async () => {
     await loadJobs(1, undefined, searchTerm || undefined);
-    if (filterKey) {
-      setFilterKey(undefined);
-    }
+    if (filterKey !== "none") setFilterKey("none");
   }, [loadJobs, filterKey, searchTerm]);
 
   const onDeleteJob = async (jobId: string) => {
@@ -191,7 +189,7 @@ function JobsContainer({
 
   const onFilterChange = (filterBy: string) => {
     if (filterBy === "none") {
-      setFilterKey(undefined);
+      setFilterKey("none");
       loadJobs(1, undefined, searchTerm || undefined);
     } else {
       setFilterKey(filterBy);

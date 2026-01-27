@@ -77,11 +77,14 @@ async function createNewJob(page: Page, jobText: string) {
   await page.getByLabel("Job Source").click();
   await page.getByRole("option", { name: "Indeed" }).click();
   await expect(page.getByLabel("Job Source")).toContainText("Indeed");
-  await page.getByLabel("Job Description").locator("div").click();
-  await page
-    .getByLabel("Job Description")
-    .locator("div")
-    .fill("test description");
+  const dialog = page.getByRole("dialog"); // Add Job / Edit Job
+  const editable = dialog
+    .getByTestId("job-description-editor")
+    .locator('[contenteditable="true"]');
+
+  await expect(editable).toBeVisible();
+  await editable.click();
+  await editable.fill("test description");
   await page.getByTestId("save-job-btn").click();
 }
 
@@ -138,12 +141,20 @@ test.describe("Add New Job", () => {
     );
     await expect(page.getByLabel("Job Source")).toContainText("Indeed");
     await expect(page.getByLabel("Select Job Status")).toContainText("Draft");
-    await expect(page.getByRole("paragraph")).toContainText("test description");
-    await page.getByText("test description").click();
-    await page
-      .getByLabel("Job Description")
-      .locator("div")
-      .fill("test description edited");
+    const dialog = page.getByRole("dialog", { name: "Edit Job" });
+    await expect(dialog).toBeVisible();
+
+    const editor = dialog.getByTestId("job-description-editor");
+    await expect(editor).toContainText("test description", { timeout: 5000 });
+
+    const editable = dialog
+      .getByTestId("job-description-editor")
+      .locator('[contenteditable="true"]');
+
+    await editable.click();
+    await editable.press("Control+A");
+    await editable.type("test description edited");
+
     await page.getByTestId("save-job-btn").click();
     await expect(page.getByRole("status").first()).toContainText(
       /Job has been updated/

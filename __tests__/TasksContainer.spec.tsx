@@ -1,6 +1,6 @@
 import TasksContainer from "@/components/tasks/TasksContainer";
 import "@testing-library/jest-dom";
-import { screen, render, waitFor } from "@testing-library/react";
+import { act, screen, render, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {
   getTasksList,
@@ -11,6 +11,7 @@ import {
 } from "@/actions/task.actions";
 import { Task } from "@/models/task.model";
 import { useRouter } from "next/navigation";
+import { a } from "@react-spring/web";
 
 jest.mock("next-auth", () => {
   const mockAuth = jest.fn();
@@ -658,7 +659,7 @@ describe("TasksContainer Component", () => {
 
       render(<TasksContainer activityTypes={mockActivityTypes} />);
 
-      const searchInput = screen.getByPlaceholderText("Search tasks...");
+      const searchInput = await screen.findByPlaceholderText("Search tasks...");
       expect(searchInput).toBeInTheDocument();
     });
 
@@ -683,17 +684,18 @@ describe("TasksContainer Component", () => {
 
       jest.clearAllMocks();
 
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
       const searchInput = screen.getByPlaceholderText("Search tasks...");
-      await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).type(
-        searchInput,
-        "Task 1"
-      );
+      await user.type(searchInput, "Task 1");
 
       // Before debounce, getTasksList should not be called with search term
       expect(getTasksList).not.toHaveBeenCalled();
 
       // Fast-forward past the 300ms debounce
-      jest.advanceTimersByTime(300);
+      act(() => {
+        jest.advanceTimersByTime(300);
+      });
 
       await waitFor(() => {
         expect(getTasksList).toHaveBeenCalledWith(
@@ -734,7 +736,9 @@ describe("TasksContainer Component", () => {
         "Task 1"
       );
 
-      jest.advanceTimersByTime(300);
+      act(() => {
+        jest.advanceTimersByTime(300);
+      });
 
       await waitFor(() => {
         expect(screen.getByText("Task 1")).toBeInTheDocument();
@@ -767,7 +771,9 @@ describe("TasksContainer Component", () => {
         "nonexistent"
       );
 
-      jest.advanceTimersByTime(300);
+      act(() => {
+        jest.advanceTimersByTime(300);
+      });
 
       await waitFor(() => {
         expect(screen.getByText(/No tasks found/i)).toBeInTheDocument();
@@ -819,7 +825,9 @@ describe("TasksContainer Component", () => {
         "Task"
       );
 
-      jest.advanceTimersByTime(300);
+      act(() => {
+        jest.advanceTimersByTime(300);
+      });
 
       await waitFor(() => {
         expect(getTasksList).toHaveBeenCalledWith(
@@ -861,7 +869,9 @@ describe("TasksContainer Component", () => {
         "Development"
       );
 
-      jest.advanceTimersByTime(300);
+      act(() => {
+        jest.advanceTimersByTime(300);
+      });
 
       await waitFor(() => {
         expect(getTasksList).toHaveBeenCalledWith(
@@ -905,7 +915,9 @@ describe("TasksContainer Component", () => {
         "Task"
       );
 
-      jest.advanceTimersByTime(300);
+      act(() => {
+        jest.advanceTimersByTime(300);
+      });
 
       await waitFor(() => {
         expect(getTasksList).toHaveBeenCalledWith(
@@ -920,7 +932,7 @@ describe("TasksContainer Component", () => {
       jest.clearAllMocks();
 
       // Click Load More
-      const loadMoreButton = screen.getByText("Load More");
+      const loadMoreButton = await screen.findByText("Load More");
       await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).click(
         loadMoreButton
       );
@@ -957,7 +969,9 @@ describe("TasksContainer Component", () => {
         "first search"
       );
 
-      jest.advanceTimersByTime(300);
+      act(() => {
+        jest.advanceTimersByTime(300);
+      });
 
       await waitFor(() => {
         expect(getTasksList).toHaveBeenCalledWith(
@@ -980,7 +994,9 @@ describe("TasksContainer Component", () => {
         "second search"
       );
 
-      jest.advanceTimersByTime(300);
+      act(() => {
+        jest.advanceTimersByTime(300);
+      });
 
       await waitFor(() => {
         expect(getTasksList).toHaveBeenCalledWith(
@@ -1018,7 +1034,9 @@ describe("TasksContainer Component", () => {
       await typingUser.type(searchInput, "Task");
 
       // Only after full debounce should API be called
-      jest.advanceTimersByTime(300);
+      act(() => {
+        jest.advanceTimersByTime(300);
+      });
 
       await waitFor(() => {
         expect(getTasksList).toHaveBeenLastCalledWith(
@@ -1058,7 +1076,9 @@ describe("TasksContainer Component", () => {
         "Task"
       );
 
-      jest.advanceTimersByTime(300);
+      act(() => {
+        jest.advanceTimersByTime(300);
+      });
 
       await waitFor(() => {
         expect(getTasksList).toHaveBeenCalledWith(

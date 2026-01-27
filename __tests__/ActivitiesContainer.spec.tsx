@@ -164,10 +164,7 @@ describe("ActivitiesContainer Search Functionality", () => {
       });
 
       const searchInput = screen.getByPlaceholderText("Search activities...");
-
-      await act(async () => {
-        await user.type(searchInput, "TypeScript");
-      });
+      await user.type(searchInput, "TypeScript");
 
       expect(searchInput).toHaveValue("TypeScript");
     });
@@ -186,16 +183,13 @@ describe("ActivitiesContainer Search Functionality", () => {
       });
 
       const searchInput = screen.getByPlaceholderText("Search activities...");
-
-      await act(async () => {
-        await user.type(searchInput, "T");
-      });
+      await user.type(searchInput, "T");
 
       // Should not have called getActivitiesList yet (debounce not elapsed)
       expect(getActivitiesList).toHaveBeenCalledTimes(1);
 
       // Advance timer by 300ms to trigger debounce
-      await act(async () => {
+      act(() => {
         jest.advanceTimersByTime(300);
       });
 
@@ -219,12 +213,9 @@ describe("ActivitiesContainer Search Functionality", () => {
       });
 
       const searchInput = screen.getByPlaceholderText("Search activities...");
+      await user.type(searchInput, "Learning");
 
-      await act(async () => {
-        await user.type(searchInput, "Learning");
-      });
-
-      await act(async () => {
+      act(() => {
         jest.advanceTimersByTime(300);
       });
 
@@ -266,11 +257,9 @@ describe("ActivitiesContainer Search Functionality", () => {
       const searchInput = screen.getByPlaceholderText("Search activities...");
 
       // Type to trigger search
-      await act(async () => {
-        await user.type(searchInput, "Test");
-      });
+      await user.type(searchInput, "Test");
 
-      await act(async () => {
+      act(() => {
         jest.advanceTimersByTime(300);
       });
 
@@ -279,11 +268,9 @@ describe("ActivitiesContainer Search Functionality", () => {
       });
 
       // Clear the search input
-      await act(async () => {
-        await user.clear(searchInput);
-      });
+      await user.clear(searchInput);
 
-      await act(async () => {
+      act(() => {
         jest.advanceTimersByTime(300);
       });
 
@@ -318,11 +305,9 @@ describe("ActivitiesContainer Search Functionality", () => {
       });
 
       const searchInput = screen.getByPlaceholderText("Search activities...");
-      await act(async () => {
-        await user.type(searchInput, "TypeScript");
-      });
+      await user.type(searchInput, "TypeScript");
 
-      await act(async () => {
+      act(() => {
         jest.advanceTimersByTime(300);
       });
 
@@ -352,11 +337,9 @@ describe("ActivitiesContainer Search Functionality", () => {
       });
 
       const searchInput = screen.getByPlaceholderText("Search activities...");
-      await act(async () => {
-        await user.type(searchInput, "test");
-      });
+      await user.type(searchInput, "test");
 
-      await act(async () => {
+      act(() => {
         jest.advanceTimersByTime(300);
       });
 
@@ -386,17 +369,13 @@ describe("ActivitiesContainer Search Functionality", () => {
 
       renderComponent();
 
-      await waitFor(() => {
-        expect(screen.getByText("Load More")).toBeInTheDocument();
-      });
+      expect(await screen.findByText("Load More")).toBeInTheDocument();
 
       // Type search
       const searchInput = screen.getByPlaceholderText("Search activities...");
-      await act(async () => {
-        await user.type(searchInput, "Learning");
-      });
+      await user.type(searchInput, "Learning");
 
-      await act(async () => {
+      act(() => {
         jest.advanceTimersByTime(300);
       });
 
@@ -405,10 +384,7 @@ describe("ActivitiesContainer Search Functionality", () => {
       });
 
       // Click load more
-      const loadMoreButton = screen.getByText("Load More");
-      await act(async () => {
-        await user.click(loadMoreButton);
-      });
+      await user.click(await screen.findByText("Load More"));
 
       // Should include search term in load more call
       await waitFor(() => {
@@ -437,11 +413,9 @@ describe("ActivitiesContainer Search Functionality", () => {
       });
 
       const searchInput = screen.getByPlaceholderText("Search activities...");
-      await act(async () => {
-        await user.type(searchInput, "test");
-      });
+      await user.type(searchInput, "test");
 
-      await act(async () => {
+      act(() => {
         jest.advanceTimersByTime(300);
       });
 

@@ -306,40 +306,50 @@ describe("Company Actions", () => {
     });
 
     it("should return error if logo URL is invalid", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
 
-      const invalidData = {
-        company: "New Company",
-        logoUrl: "javascript:alert('xss')",
-      };
+        const invalidData = {
+          company: "New Company",
+          logoUrl: "javascript:alert('xss')",
+        };
 
-      const result = await addCompany(invalidData);
+        const result = await addCompany(invalidData);
 
-      expect(result).toEqual({
-        success: false,
-        message: "Invalid logo URL. Only http and https protocols are allowed.",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Invalid logo URL. Only http and https protocols are allowed.",
+        });
 
-      expect(prisma.company.findUnique).not.toHaveBeenCalled();
-      expect(prisma.company.create).not.toHaveBeenCalled();
+        expect(prisma.company.findUnique).not.toHaveBeenCalled();
+        expect(prisma.company.create).not.toHaveBeenCalled();
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should return error if logo URL has data protocol", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
 
-      const invalidData = {
-        company: "New Company",
-        logoUrl: "data:image/png;base64,iVBORw0KGgo=",
-      };
+        const invalidData = {
+          company: "New Company",
+          logoUrl: "data:image/png;base64,iVBORw0KGgo=",
+        };
 
-      const result = await addCompany(invalidData);
+        const result = await addCompany(invalidData);
 
-      expect(result).toEqual({
-        success: false,
-        message: "Invalid logo URL. Only http and https protocols are allowed.",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Invalid logo URL. Only http and https protocols are allowed.",
+        });
 
-      expect(prisma.company.create).not.toHaveBeenCalled();
+        expect(prisma.company.create).not.toHaveBeenCalled();
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should allow empty logo URL", async () => {
@@ -487,40 +497,50 @@ describe("Company Actions", () => {
     });
 
     it("should return error if logo URL is invalid", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
 
-      const invalidData = {
-        ...validData,
-        logoUrl: "javascript:alert('xss')",
-      };
+        const invalidData = {
+          ...validData,
+          logoUrl: "javascript:alert('xss')",
+        };
 
-      const result = await updateCompany(invalidData);
+        const result = await updateCompany(invalidData);
 
-      expect(result).toEqual({
-        success: false,
-        message: "Invalid logo URL. Only http and https protocols are allowed.",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Invalid logo URL. Only http and https protocols are allowed.",
+        });
 
-      expect(prisma.company.findUnique).not.toHaveBeenCalled();
-      expect(prisma.company.update).not.toHaveBeenCalled();
+        expect(prisma.company.findUnique).not.toHaveBeenCalled();
+        expect(prisma.company.update).not.toHaveBeenCalled();
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should return error if logo URL has data protocol", async () => {
-      (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+      const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+      try {
+        (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
 
-      const invalidData = {
-        ...validData,
-        logoUrl: "data:image/png;base64,iVBORw0KGgo=",
-      };
+        const invalidData = {
+          ...validData,
+          logoUrl: "data:image/png;base64,iVBORw0KGgo=",
+        };
 
-      const result = await updateCompany(invalidData);
+        const result = await updateCompany(invalidData);
 
-      expect(result).toEqual({
-        success: false,
-        message: "Invalid logo URL. Only http and https protocols are allowed.",
-      });
+        expect(result).toEqual({
+          success: false,
+          message: "Invalid logo URL. Only http and https protocols are allowed.",
+        });
 
-      expect(prisma.company.update).not.toHaveBeenCalled();
+        expect(prisma.company.update).not.toHaveBeenCalled();
+      } finally {
+        spy.mockRestore();
+      }
     });
 
     it("should allow empty logo URL", async () => {
