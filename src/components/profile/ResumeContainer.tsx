@@ -14,13 +14,13 @@ function ResumeContainer({ resume }: { resume: Resume }) {
   const resumeSectionRef = useRef<AddResumeSectionRef>(null);
   const { title, ContactInfo, ResumeSections } = resume ?? {};
   const summarySection = ResumeSections?.find(
-    (section) => section.sectionType === SectionType.SUMMARY
+    (section) => section.sectionType === SectionType.SUMMARY,
   );
   const experienceSection = ResumeSections?.find(
-    (section) => section.sectionType === SectionType.EXPERIENCE
+    (section) => section.sectionType === SectionType.EXPERIENCE,
   );
   const educationSection = ResumeSections?.find(
-    (section) => section.sectionType === SectionType.EDUCATION
+    (section) => section.sectionType === SectionType.EDUCATION,
   );
   const openContactInfoDialog = () => {
     resumeSectionRef.current?.openContactInfoDialog(ContactInfo!);
@@ -32,7 +32,7 @@ function ResumeContainer({ resume }: { resume: Resume }) {
     const section: ResumeSection = {
       ...experienceSection!,
       workExperiences: experienceSection?.workExperiences?.filter(
-        (exp) => exp.id === experienceId
+        (exp) => exp.id === experienceId,
       ),
     };
     resumeSectionRef.current?.openExperienceDialog(section);
@@ -41,7 +41,7 @@ function ResumeContainer({ resume }: { resume: Resume }) {
     const section: ResumeSection = {
       ...educationSection!,
       educations: educationSection?.educations?.filter(
-        (edu) => edu.id === educationId
+        (edu) => edu.id === educationId,
       ),
     };
     resumeSectionRef.current?.openEducationDialog(section);
@@ -57,7 +57,7 @@ function ResumeContainer({ resume }: { resume: Resume }) {
               ? DownloadFileButton(
                   resume.File?.filePath,
                   title,
-                  resume.File?.fileName
+                  resume.File?.fileName,
                 )
               : title}
           </CardDescription>

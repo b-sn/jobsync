@@ -5,7 +5,7 @@ import { delay } from "@/utils/delay";
 
 export async function authenticate(
   prevState: string | undefined,
-  formData: FormData
+  formData: FormData,
 ) {
   try {
     await delay(1000);

@@ -25,7 +25,7 @@ export const AddTaskFormSchema = z.object({
         today.setHours(0, 0, 0, 0);
         return date >= today;
       },
-      { message: "Due date cannot be in the past." }
+      { message: "Due date cannot be in the past." },
     ),
   activityTypeId: z.string().optional().nullable(),
 });

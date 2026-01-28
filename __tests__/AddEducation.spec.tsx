@@ -210,17 +210,17 @@ describe("AddEducation Component", () => {
 
     await waitFor(() => {
       const institutionInput = screen.getByPlaceholderText(
-        "Ex: Stanford"
+        "Ex: Stanford",
       ) as HTMLInputElement;
       expect(institutionInput.value).toBe("Stanford University");
 
       const degreeInput = screen.getByPlaceholderText(
-        "Ex: Bachelor's"
+        "Ex: Bachelor's",
       ) as HTMLInputElement;
       expect(degreeInput.value).toBe("Bachelor's");
 
       const fieldOfStudyInput = screen.getByPlaceholderText(
-        "Ex: Computer Science"
+        "Ex: Computer Science",
       ) as HTMLInputElement;
       expect(fieldOfStudyInput.value).toBe("Computer Science");
     });
@@ -280,28 +280,28 @@ describe("AddEducation Component", () => {
     // Wait for options to be loaded and rendered in the select element
     await waitFor(() => {
       const locationSelect = screen.getByTestId(
-        "combobox-location"
+        "combobox-location",
       ) as HTMLSelectElement;
       expect(locationSelect.options.length).toBeGreaterThan(1);
     });
 
     const institutionInput = screen.getByPlaceholderText(
-      "Ex: Stanford"
+      "Ex: Stanford",
     ) as HTMLInputElement;
     const locationSelect = screen.getByTestId(
-      "combobox-location"
+      "combobox-location",
     ) as HTMLSelectElement;
     const degreeInput = screen.getByPlaceholderText(
-      "Ex: Bachelor's"
+      "Ex: Bachelor's",
     ) as HTMLInputElement;
     const fieldOfStudyInput = screen.getByPlaceholderText(
-      "Ex: Computer Science"
+      "Ex: Computer Science",
     ) as HTMLInputElement;
     const startDateInput = screen.getByTestId(
-      "datepicker-startDate"
+      "datepicker-startDate",
     ) as HTMLInputElement;
     const descriptionEditor = screen.getByTestId(
-      "tiptap-editor"
+      "tiptap-editor",
     ) as HTMLTextAreaElement;
 
     await user.type(institutionInput, "MIT");
@@ -329,7 +329,7 @@ describe("AddEducation Component", () => {
           degree: "Master's",
           fieldOfStudy: "Artificial Intelligence",
           description: "Advanced AI studies",
-        })
+        }),
       );
     });
   });
@@ -370,13 +370,13 @@ describe("AddEducation Component", () => {
 
     await waitFor(() => {
       const institutionInput = screen.getByPlaceholderText(
-        "Ex: Stanford"
+        "Ex: Stanford",
       ) as HTMLInputElement;
       expect(institutionInput.value).toBe("Stanford University");
     });
 
     const degreeInput = screen.getByPlaceholderText(
-      "Ex: Bachelor's"
+      "Ex: Bachelor's",
     ) as HTMLInputElement;
     await user.clear(degreeInput);
     await user.type(degreeInput, "Master's");
@@ -396,7 +396,7 @@ describe("AddEducation Component", () => {
         expect.objectContaining({
           id: "edu-1",
           degree: "Master's",
-        })
+        }),
       );
     });
   });
@@ -419,25 +419,25 @@ describe("AddEducation Component", () => {
     // Wait for options to be loaded
     await waitFor(() => {
       const locationSelect = screen.getByTestId(
-        "combobox-location"
+        "combobox-location",
       ) as HTMLSelectElement;
       expect(locationSelect.options.length).toBeGreaterThan(1);
     });
 
     const institutionInput = screen.getByPlaceholderText(
-      "Ex: Stanford"
+      "Ex: Stanford",
     ) as HTMLInputElement;
     const locationSelect = screen.getByTestId(
-      "combobox-location"
+      "combobox-location",
     ) as HTMLSelectElement;
     const degreeInput = screen.getByPlaceholderText(
-      "Ex: Bachelor's"
+      "Ex: Bachelor's",
     ) as HTMLInputElement;
     const fieldOfStudyInput = screen.getByPlaceholderText(
-      "Ex: Computer Science"
+      "Ex: Computer Science",
     ) as HTMLInputElement;
     const startDateInput = screen.getByTestId(
-      "datepicker-startDate"
+      "datepicker-startDate",
     ) as HTMLInputElement;
 
     await user.type(institutionInput, "Harvard");
@@ -461,7 +461,7 @@ describe("AddEducation Component", () => {
         expect.objectContaining({
           variant: "success",
           description: expect.stringContaining("added"),
-        })
+        }),
       );
     });
   });
@@ -484,25 +484,25 @@ describe("AddEducation Component", () => {
     // Wait for options to be loaded
     await waitFor(() => {
       const locationSelect = screen.getByTestId(
-        "combobox-location"
+        "combobox-location",
       ) as HTMLSelectElement;
       expect(locationSelect.options.length).toBeGreaterThan(1);
     });
 
     const institutionInput = screen.getByPlaceholderText(
-      "Ex: Stanford"
+      "Ex: Stanford",
     ) as HTMLInputElement;
     const locationSelect = screen.getByTestId(
-      "combobox-location"
+      "combobox-location",
     ) as HTMLSelectElement;
     const degreeInput = screen.getByPlaceholderText(
-      "Ex: Bachelor's"
+      "Ex: Bachelor's",
     ) as HTMLInputElement;
     const fieldOfStudyInput = screen.getByPlaceholderText(
-      "Ex: Computer Science"
+      "Ex: Computer Science",
     ) as HTMLInputElement;
     const startDateInput = screen.getByTestId(
-      "datepicker-startDate"
+      "datepicker-startDate",
     ) as HTMLInputElement;
 
     await user.type(institutionInput, "Yale");
@@ -526,7 +526,7 @@ describe("AddEducation Component", () => {
           variant: "destructive",
           title: "Error!",
           description: "Failed to add education",
-        })
+        }),
       );
       expect(mockSetDialogOpen).not.toHaveBeenCalledWith(false);
     });
@@ -570,13 +570,13 @@ describe("AddEducation Component", () => {
 
     await waitFor(() => {
       const institutionInput = screen.getByPlaceholderText(
-        "Ex: Stanford"
+        "Ex: Stanford",
       ) as HTMLInputElement;
       expect(institutionInput.value).toBe("MIT");
     });
 
     const institutionInput = screen.getByPlaceholderText(
-      "Ex: Stanford"
+      "Ex: Stanford",
     ) as HTMLInputElement;
     await user.clear(institutionInput);
     await user.type(institutionInput, "MIT Updated");
@@ -595,7 +595,7 @@ describe("AddEducation Component", () => {
         expect.objectContaining({
           variant: "success",
           description: expect.stringContaining("updated"),
-        })
+        }),
       );
     });
   });
@@ -607,7 +607,7 @@ describe("AddEducation Component", () => {
         sectionId={mockSectionId}
         dialogOpen={false}
         setDialogOpen={mockSetDialogOpen}
-      />
+      />,
     );
 
     expect(getAllJobLocations).not.toHaveBeenCalled();
@@ -629,7 +629,7 @@ describe("AddEducation Component", () => {
 
     await waitFor(() => {
       const locationSelect = screen.getByTestId(
-        "combobox-location"
+        "combobox-location",
       ) as HTMLSelectElement;
       expect(locationSelect.options.length).toBe(3); // "Select..." + 2 locations
     });
@@ -639,39 +639,39 @@ describe("AddEducation Component", () => {
     (addEducation as jest.Mock).mockImplementation(
       () =>
         new Promise((resolve) =>
-          setTimeout(() => resolve({ success: true, message: "Success" }), 100)
-        )
+          setTimeout(() => resolve({ success: true, message: "Success" }), 100),
+        ),
     );
 
     await renderAddEducation({
-        resumeId: mockResumeId,
-        sectionId: mockSectionId,
-        dialogOpen: true,
-        setDialogOpen: mockSetDialogOpen,
+      resumeId: mockResumeId,
+      sectionId: mockSectionId,
+      dialogOpen: true,
+      setDialogOpen: mockSetDialogOpen,
     });
 
     // Wait for options to be loaded
     await waitFor(() => {
       const locationSelect = screen.getByTestId(
-        "combobox-location"
+        "combobox-location",
       ) as HTMLSelectElement;
       expect(locationSelect.options.length).toBeGreaterThan(1);
     });
 
     const institutionInput = screen.getByPlaceholderText(
-      "Ex: Stanford"
+      "Ex: Stanford",
     ) as HTMLInputElement;
     const locationSelect = screen.getByTestId(
-      "combobox-location"
+      "combobox-location",
     ) as HTMLSelectElement;
     const degreeInput = screen.getByPlaceholderText(
-      "Ex: Bachelor's"
+      "Ex: Bachelor's",
     ) as HTMLInputElement;
     const fieldOfStudyInput = screen.getByPlaceholderText(
-      "Ex: Computer Science"
+      "Ex: Computer Science",
     ) as HTMLInputElement;
     const startDateInput = screen.getByTestId(
-      "datepicker-startDate"
+      "datepicker-startDate",
     ) as HTMLInputElement;
 
     await user.type(institutionInput, "Oxford");
@@ -692,7 +692,7 @@ describe("AddEducation Component", () => {
     // Check for loading spinner
     await waitFor(() => {
       expect(screen.getByText("Save").closest("button")).toContainHTML(
-        "spinner"
+        "spinner",
       );
     });
   });

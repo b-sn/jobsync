@@ -68,7 +68,7 @@ function EducationCard({
               )}
             </CardContent>
           </Card>
-        )
+        ),
       )}
     </>
   );

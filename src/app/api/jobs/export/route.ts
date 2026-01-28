@@ -36,7 +36,7 @@ const mapJobType = (type: string | undefined): string => {
 
 const transformJobData = (
   job: Record<string, any>,
-  index: number
+  index: number,
 ): Record<string, any> => {
   return {
     index: index + 1,
@@ -67,14 +67,14 @@ export const POST = async () => {
       for await (const chunk of getJobsIterator()) {
         if (hasError) break;
         const transformedData = chunk.map((job, idx) =>
-          transformJobData(job, recordIndex + idx)
+          transformJobData(job, recordIndex + idx),
         );
         recordIndex += chunk.length;
         const csv = Papa.unparse(
           { fields: FIELDS, data: transformedData },
           {
             header: isFirstChunk,
-          }
+          },
         );
         passThrough.write((isFirstChunk ? "" : "\n") + csv);
         isFirstChunk = false;
@@ -89,7 +89,7 @@ export const POST = async () => {
           },
           {
             status: 500,
-          }
+          },
         );
       }
     } finally {

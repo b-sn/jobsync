@@ -24,12 +24,12 @@ test.describe("Profile page", () => {
     await page.getByRole("link", { name: "Profile" }).click();
     await createResume(page, resumeTitle);
     await expect(page.getByRole("status").first()).toContainText(
-      /Resume title has been created/
+      /Resume title has been created/,
     );
     await expect(page.locator("tbody")).toContainText(resumeTitle);
     await deleteResume(page, resumeTitle);
     await expect(page.getByRole("status").first()).toContainText(
-      /Resume has been deleted successfully/
+      /Resume has been deleted successfully/,
     );
   });
 
@@ -53,12 +53,12 @@ test.describe("Profile page", () => {
       .getByRole("button", { name: "Save" })
       .click();
     await expect(page.getByRole("status").first()).toContainText(
-      /Resume title has been updated/
+      /Resume title has been updated/,
     );
     await expect(page.locator("tbody")).toContainText(editedTitle);
     await deleteResume(page, editedTitle);
     await expect(page.getByRole("status").first()).toContainText(
-      /Resume has been deleted successfully/
+      /Resume has been deleted successfully/,
     );
   });
   test("should add resume contact info", async ({ page }) => {
@@ -89,12 +89,12 @@ test.describe("Profile page", () => {
     await page.getByLabel("Address").fill("Calgary");
     await page.getByRole("button", { name: "Save" }).click();
     await expect(page.getByRole("status").first()).toContainText(
-      /Contact Info has been created/
+      /Contact Info has been created/,
     );
     await expect(page.getByRole("heading", { name: "John Doe" })).toBeVisible();
     await deleteResume(page, resumeTitle);
     await expect(page.getByRole("status").first()).toContainText(
-      /Resume has been deleted successfully/
+      /Resume has been deleted successfully/,
     );
   });
 
@@ -118,11 +118,11 @@ test.describe("Profile page", () => {
     await expect(page.getByRole("heading", { name: "Summary" })).toBeVisible();
     await expect(page.getByText("this is test summary")).toBeVisible();
     await expect(page.getByRole("status").first()).toContainText(
-      /Summary has been created/
+      /Summary has been created/,
     );
     await deleteResume(page, resumeTitle);
     await expect(page.getByRole("status").first()).toContainText(
-      /Resume has been deleted successfully/
+      /Resume has been deleted successfully/,
     );
   });
 
@@ -133,14 +133,14 @@ test.describe("Profile page", () => {
     await createResume(page, resumeTitle);
     await addExperience(page, resumeTitle, jobText);
     await expect(page.getByRole("status").first()).toContainText(
-      /Experience has been added/
+      /Experience has been added/,
     );
     await expect(
-      page.getByRole("heading", { name: jobText }).first()
+      page.getByRole("heading", { name: jobText }).first(),
     ).toBeVisible();
     await deleteResume(page, resumeTitle);
     await expect(page.getByRole("status").first()).toContainText(
-      /Resume has been deleted successfully/
+      /Resume has been deleted successfully/,
     );
   });
 
@@ -153,28 +153,28 @@ test.describe("Profile page", () => {
     await createResume(page, resumeTitle);
     await addExperience(page, resumeTitle, jobText);
     await expect(page.getByRole("status").first()).toContainText(
-      /Experience has been added/
+      /Experience has been added/,
     );
     await expect(
-      page.getByRole("heading", { name: jobText }).first()
+      page.getByRole("heading", { name: jobText }).first(),
     ).toBeVisible();
     await page
       .getByText(jobText + "Edit")
       .getByRole("button", { name: "Edit" })
       .click();
     await expect(
-      page.getByRole("heading", { name: "Edit Experience" })
+      page.getByRole("heading", { name: "Edit Experience" }),
     ).toBeVisible();
     await page.getByText("Cancel").click();
     await page.getByRole("button", { name: "Add Section" }).click();
     await page.getByRole("menuitem", { name: "Add Experience" }).click();
     await expect(
-      page.getByRole("heading", { name: "Add Experience" })
+      page.getByRole("heading", { name: "Add Experience" }),
     ).toBeVisible();
     await page.getByText("Cancel").click();
     await deleteResume(page, resumeTitle);
     await expect(page.getByRole("status").first()).toContainText(
-      /Resume has been deleted successfully/
+      /Resume has been deleted successfully/,
     );
   });
 
@@ -242,14 +242,14 @@ test.describe("Profile page", () => {
     await page.locator("div:nth-child(2) > .tiptap").fill("test description");
     await page.getByRole("button", { name: "Save" }).click();
     await expect(page.getByRole("status").first()).toContainText(
-      /Education has been added/
+      /Education has been added/,
     );
     await expect(
-      page.getByRole("heading", { name: "test school" }).first()
+      page.getByRole("heading", { name: "test school" }).first(),
     ).toBeVisible();
     await deleteResume(page, resumeTitle);
     await expect(page.getByRole("status").first()).toContainText(
-      /Resume has been deleted successfully/
+      /Resume has been deleted successfully/,
     );
   });
 });
@@ -342,7 +342,7 @@ async function deleteResume(page: Page, title: string) {
   await row.getByTestId("resume-actions-menu-btn").click({ force: true });
   await page.getByRole("menuitem", { name: "Delete" }).click({ force: true });
   await expect(page.getByRole("alertdialog")).toContainText(
-    "Are you sure you want to delete this resume?"
+    "Are you sure you want to delete this resume?",
   );
   await page.getByRole("button", { name: "Delete" }).click({ force: true });
 }

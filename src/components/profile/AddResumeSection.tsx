@@ -40,7 +40,7 @@ const AddResumeSection = forwardRef<AddResumeSectionRef, AddResumeSectionProps>(
     const [contactInfoToEdit, setContactInfoToEdit] =
       useState<ContactInfo | null>(null);
     const [summaryToEdit, setSummaryToEdit] = useState<ResumeSection | null>(
-      null
+      null,
     );
     const [experienceToEdit, setExperienceToEdit] =
       useState<ResumeSection | null>(null);
@@ -65,13 +65,13 @@ const AddResumeSection = forwardRef<AddResumeSectionRef, AddResumeSectionProps>(
       },
     }));
     const summarySection = resume?.ResumeSections?.find(
-      (section) => section.sectionType === SectionType.SUMMARY
+      (section) => section.sectionType === SectionType.SUMMARY,
     );
     const experienceSection = resume?.ResumeSections?.find(
-      (section) => section.sectionType === SectionType.EXPERIENCE
+      (section) => section.sectionType === SectionType.EXPERIENCE,
     );
     const educationSection = resume?.ResumeSections?.find(
-      (section) => section.sectionType === SectionType.EDUCATION
+      (section) => section.sectionType === SectionType.EDUCATION,
     );
     const resetExperienceToEdit = () => {
       setExperienceToEdit(null);
@@ -167,7 +167,7 @@ const AddResumeSection = forwardRef<AddResumeSectionRef, AddResumeSectionProps>(
         />
       </>
     );
-  }
+  },
 );
 
 AddResumeSection.displayName = "AddResumeSection";

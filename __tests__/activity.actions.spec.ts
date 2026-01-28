@@ -99,7 +99,7 @@ describe("activity.actions", () => {
       try {
         (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
         (prisma.activity.findMany as jest.Mock).mockRejectedValue(
-          new Error("Database error")
+          new Error("Database error"),
         );
 
         const result = await getActivitiesList();
@@ -133,7 +133,7 @@ describe("activity.actions", () => {
               { activityType: { label: { contains: "TypeScript" } } },
             ],
           }),
-        })
+        }),
       );
       expect(prisma.activity.count).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -144,7 +144,7 @@ describe("activity.actions", () => {
               { activityType: { label: { contains: "TypeScript" } } },
             ],
           }),
-        })
+        }),
       );
     });
 
@@ -218,7 +218,7 @@ describe("activity.actions", () => {
       (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
       const mockFilteredData = [mockActivities[0]];
       (prisma.activity.findMany as jest.Mock).mockResolvedValue(
-        mockFilteredData
+        mockFilteredData,
       );
       (prisma.activity.count as jest.Mock).mockResolvedValue(1);
 
@@ -242,7 +242,7 @@ describe("activity.actions", () => {
         expect.objectContaining({
           skip: 10,
           take: 10,
-        })
+        }),
       );
     });
 
@@ -256,7 +256,7 @@ describe("activity.actions", () => {
       expect(prisma.activity.findMany).toHaveBeenCalledWith(
         expect.objectContaining({
           orderBy: { createdAt: "desc" },
-        })
+        }),
       );
     });
 

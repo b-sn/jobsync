@@ -29,7 +29,7 @@ export default function RootLayout({ children }: Readonly<Props>) {
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
-          inter.variable
+          inter.variable,
         )}
       >
         <ThemeProvider

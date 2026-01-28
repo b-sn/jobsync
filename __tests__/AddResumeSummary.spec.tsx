@@ -47,7 +47,7 @@ describe("AddResumeSummary Component", () => {
         resumeId={mockResumeId}
         dialogOpen={true}
         setDialogOpen={mockSetDialogOpen}
-      />
+      />,
     );
 
     expect(screen.getByText("Add Summary")).toBeInTheDocument();
@@ -70,7 +70,7 @@ describe("AddResumeSummary Component", () => {
         dialogOpen={true}
         setDialogOpen={mockSetDialogOpen}
         summaryToEdit={mockSummaryToEdit}
-      />
+      />,
     );
 
     expect(screen.getByText("Edit Summary")).toBeInTheDocument();
@@ -82,7 +82,7 @@ describe("AddResumeSummary Component", () => {
         resumeId={mockResumeId}
         dialogOpen={true}
         setDialogOpen={mockSetDialogOpen}
-      />
+      />,
     );
 
     expect(screen.getByLabelText(/section title/i)).toBeInTheDocument();
@@ -109,7 +109,7 @@ describe("AddResumeSummary Component", () => {
         dialogOpen={true}
         setDialogOpen={mockSetDialogOpen}
         summaryToEdit={mockSummaryToEdit}
-      />
+      />,
     );
 
     const sectionTitleInput = screen.getByLabelText(/section title/i);
@@ -117,7 +117,7 @@ describe("AddResumeSummary Component", () => {
 
     expect(sectionTitleInput).toHaveValue("Professional Summary");
     expect(contentEditor).toHaveValue(
-      "Experienced software developer with 5+ years"
+      "Experienced software developer with 5+ years",
     );
   });
 
@@ -127,7 +127,7 @@ describe("AddResumeSummary Component", () => {
         resumeId={mockResumeId}
         dialogOpen={true}
         setDialogOpen={mockSetDialogOpen}
-      />
+      />,
     );
 
     const cancelButton = screen.getByRole("button", { name: /cancel/i });
@@ -142,7 +142,7 @@ describe("AddResumeSummary Component", () => {
         resumeId={mockResumeId}
         dialogOpen={true}
         setDialogOpen={mockSetDialogOpen}
-      />
+      />,
     );
 
     const saveButton = screen.getByRole("button", { name: /save/i });
@@ -160,7 +160,7 @@ describe("AddResumeSummary Component", () => {
         resumeId={mockResumeId}
         dialogOpen={true}
         setDialogOpen={mockSetDialogOpen}
-      />
+      />,
     );
 
     const sectionTitleInput = screen.getByLabelText(/section title/i);
@@ -182,7 +182,7 @@ describe("AddResumeSummary Component", () => {
         expect.objectContaining({
           sectionTitle: "Career Summary",
           content: "Experienced professional with strong skills",
-        })
+        }),
       );
     });
   });
@@ -209,7 +209,7 @@ describe("AddResumeSummary Component", () => {
         dialogOpen={true}
         setDialogOpen={mockSetDialogOpen}
         summaryToEdit={mockSummaryToEdit}
-      />
+      />,
     );
 
     const sectionTitleInput = screen.getByLabelText(/section title/i);
@@ -225,7 +225,7 @@ describe("AddResumeSummary Component", () => {
         expect.objectContaining({
           id: "summary-1",
           sectionTitle: "Updated Professional Summary",
-        })
+        }),
       );
     });
   });
@@ -243,7 +243,7 @@ describe("AddResumeSummary Component", () => {
         resumeId={mockResumeId}
         dialogOpen={true}
         setDialogOpen={mockSetDialogOpen}
-      />
+      />,
     );
 
     const sectionTitleInput = screen.getByLabelText(/section title/i);
@@ -265,7 +265,7 @@ describe("AddResumeSummary Component", () => {
         expect.objectContaining({
           variant: "success",
           description: "Summary has been created successfully",
-        })
+        }),
       );
     });
   });
@@ -283,7 +283,7 @@ describe("AddResumeSummary Component", () => {
         resumeId={mockResumeId}
         dialogOpen={true}
         setDialogOpen={mockSetDialogOpen}
-      />
+      />,
     );
 
     const sectionTitleInput = screen.getByLabelText(/section title/i);
@@ -305,7 +305,7 @@ describe("AddResumeSummary Component", () => {
           variant: "destructive",
           title: "Error!",
           description: "Failed to create summary",
-        })
+        }),
       );
       expect(mockSetDialogOpen).not.toHaveBeenCalledWith(false);
     });
@@ -316,7 +316,7 @@ describe("AddResumeSummary Component", () => {
       () =>
         new Promise((resolve) => {
           setTimeout(() => resolve({ success: true }), 100);
-        })
+        }),
     );
 
     render(
@@ -324,7 +324,7 @@ describe("AddResumeSummary Component", () => {
         resumeId={mockResumeId}
         dialogOpen={true}
         setDialogOpen={mockSetDialogOpen}
-      />
+      />,
     );
 
     const sectionTitleInput = screen.getByLabelText(/section title/i);
@@ -375,7 +375,7 @@ describe("AddResumeSummary Component", () => {
         dialogOpen={true}
         setDialogOpen={mockSetDialogOpen}
         summaryToEdit={mockSummaryToEdit}
-      />
+      />,
     );
 
     const sectionTitleInput = screen.getByLabelText(/section title/i);
@@ -390,7 +390,7 @@ describe("AddResumeSummary Component", () => {
         expect.objectContaining({
           variant: "success",
           description: "Summary has been updated successfully",
-        })
+        }),
       );
     });
   });
@@ -401,7 +401,7 @@ describe("AddResumeSummary Component", () => {
         resumeId={mockResumeId}
         dialogOpen={false}
         setDialogOpen={mockSetDialogOpen}
-      />
+      />,
     );
 
     expect(screen.queryByText("Add Summary")).not.toBeInTheDocument();
@@ -413,7 +413,7 @@ describe("AddResumeSummary Component", () => {
         resumeId={mockResumeId}
         dialogOpen={false}
         setDialogOpen={mockSetDialogOpen}
-      />
+      />,
     );
 
     expect(screen.queryByText("Add Summary")).not.toBeInTheDocument();
@@ -423,7 +423,7 @@ describe("AddResumeSummary Component", () => {
         resumeId={mockResumeId}
         dialogOpen={true}
         setDialogOpen={mockSetDialogOpen}
-      />
+      />,
     );
 
     expect(screen.getByText("Add Summary")).toBeInTheDocument();

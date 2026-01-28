@@ -17,7 +17,7 @@ export const getAllJobLocations = async (): Promise<any | undefined> => {
 export const getJobLocationsList = async (
   page: number = 1,
   limit: number = APP_CONSTANTS.RECORDS_PER_PAGE,
-  countBy?: string
+  countBy?: string,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -72,7 +72,7 @@ export const getJobLocationsList = async (
 };
 
 export const deleteJobLocationById = async (
-  locationId: string
+  locationId: string,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -88,7 +88,7 @@ export const deleteJobLocationById = async (
     });
     if (experiences > 0) {
       throw new Error(
-        `Job location cannot be deleted due to its use in experience section of one of the resume! `
+        `Job location cannot be deleted due to its use in experience section of one of the resume! `,
       );
     }
 
@@ -99,7 +99,7 @@ export const deleteJobLocationById = async (
     });
     if (educations > 0) {
       throw new Error(
-        `Job location cannot be deleted due to its use in education section of one of the resume! `
+        `Job location cannot be deleted due to its use in education section of one of the resume! `,
       );
     }
 
@@ -111,7 +111,7 @@ export const deleteJobLocationById = async (
 
     if (jobs > 0) {
       throw new Error(
-        `Location cannot be deleted due to ${jobs} number of associated jobs! `
+        `Location cannot be deleted due to ${jobs} number of associated jobs! `,
       );
     }
 

@@ -71,7 +71,9 @@ describe("AddCompany Component", () => {
     expect(dialog).toBeInTheDocument();
 
     await waitFor(() => {
-      expect(screen.getByLabelText(/company name/i)).toHaveValue("Test Company");
+      expect(screen.getByLabelText(/company name/i)).toHaveValue(
+        "Test Company",
+      );
       expect(screen.getByLabelText(/company logo url/i)).toHaveValue(
         "http://example.com/logo.png",
       );
@@ -108,7 +110,7 @@ describe("AddCompany Component", () => {
         expect.objectContaining({
           company: "New Test Company",
           logoUrl: "http://example.com/new-logo.png",
-        })
+        }),
       );
     });
   });
@@ -157,7 +159,7 @@ describe("AddCompany Component", () => {
           company: "Edited Test Company",
           logoUrl: "http://example.com/edited-logo.png",
           createdBy: "user-id",
-        })
+        }),
       );
     });
   });

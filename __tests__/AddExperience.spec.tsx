@@ -104,7 +104,9 @@ describe("AddExperience Component", () => {
     { id: "location-2", label: "San Francisco, CA", value: "san-francisco-ca" },
   ];
 
-  const renderAndWait = async (props?: Partial<React.ComponentProps<typeof AddExperience>>) => {
+  const renderAndWait = async (
+    props?: Partial<React.ComponentProps<typeof AddExperience>>,
+  ) => {
     render(
       <AddExperience
         resumeId={mockResumeId}
@@ -112,7 +114,7 @@ describe("AddExperience Component", () => {
         dialogOpen={true}
         setDialogOpen={mockSetDialogOpen}
         {...props}
-      />
+      />,
     );
 
     await waitFor(() => {
@@ -185,7 +187,7 @@ describe("AddExperience Component", () => {
       expect(screen.getByText(/job description/i)).toBeInTheDocument();
       expect(screen.getByTestId("tiptap-editor")).toBeInTheDocument();
       expect(
-        screen.getByRole("button", { name: /cancel/i })
+        screen.getByRole("button", { name: /cancel/i }),
       ).toBeInTheDocument();
       expect(screen.getByRole("button", { name: /save/i })).toBeInTheDocument();
     });
@@ -215,13 +217,13 @@ describe("AddExperience Component", () => {
 
     await waitFor(() => {
       const jobTitleSelect = screen.getByTestId(
-        "combobox-title"
+        "combobox-title",
       ) as HTMLSelectElement;
       const companySelect = screen.getByTestId(
-        "combobox-company"
+        "combobox-company",
       ) as HTMLSelectElement;
       const locationSelect = screen.getByTestId(
-        "combobox-location"
+        "combobox-location",
       ) as HTMLSelectElement;
 
       expect(jobTitleSelect.value).toBe("title-1");
@@ -230,12 +232,12 @@ describe("AddExperience Component", () => {
     });
   });
 
-  it("should close dialog when Cancel button is clicked", async () => {   
+  it("should close dialog when Cancel button is clicked", async () => {
     await renderAndWait();
 
     await waitFor(() => {
       expect(
-        screen.getByRole("button", { name: /cancel/i })
+        screen.getByRole("button", { name: /cancel/i }),
       ).toBeInTheDocument();
     });
 
@@ -263,7 +265,7 @@ describe("AddExperience Component", () => {
 
     const currentJobSwitch = screen.getByRole("switch");
     const endDateInput = screen.getByTestId(
-      "datepicker-endDate"
+      "datepicker-endDate",
     ) as HTMLInputElement;
 
     expect(endDateInput).not.toBeDisabled();
@@ -300,25 +302,25 @@ describe("AddExperience Component", () => {
     // Wait for options to be loaded and rendered in the select elements
     await waitFor(() => {
       const jobTitleSelect = screen.getByTestId(
-        "combobox-title"
+        "combobox-title",
       ) as HTMLSelectElement;
       expect(jobTitleSelect.options.length).toBeGreaterThan(1);
     });
 
     const jobTitleSelect = screen.getByTestId(
-      "combobox-title"
+      "combobox-title",
     ) as HTMLSelectElement;
     const companySelect = screen.getByTestId(
-      "combobox-company"
+      "combobox-company",
     ) as HTMLSelectElement;
     const locationSelect = screen.getByTestId(
-      "combobox-location"
+      "combobox-location",
     ) as HTMLSelectElement;
     const startDateInput = screen.getByTestId(
-      "datepicker-startDate"
+      "datepicker-startDate",
     ) as HTMLInputElement;
     const jobDescriptionEditor = screen.getByTestId(
-      "tiptap-editor"
+      "tiptap-editor",
     ) as HTMLTextAreaElement;
 
     await user.selectOptions(jobTitleSelect, "title-1");
@@ -344,7 +346,7 @@ describe("AddExperience Component", () => {
           company: "company-1",
           location: "location-1",
           jobDescription: "Developed amazing features",
-        })
+        }),
       );
     });
   });
@@ -378,7 +380,7 @@ describe("AddExperience Component", () => {
     expect(screen.getByTestId("combobox-title")).toBeInTheDocument();
 
     const jobTitleSelect = screen.getByTestId(
-      "combobox-title"
+      "combobox-title",
     ) as HTMLSelectElement;
     await user.selectOptions(jobTitleSelect, "title-2");
 
@@ -397,7 +399,7 @@ describe("AddExperience Component", () => {
         expect.objectContaining({
           id: "exp-1",
           title: "title-2",
-        })
+        }),
       );
     });
   });
@@ -414,19 +416,19 @@ describe("AddExperience Component", () => {
     expect(screen.getByTestId("combobox-title")).toBeInTheDocument();
 
     const jobTitleSelect = screen.getByTestId(
-      "combobox-title"
+      "combobox-title",
     ) as HTMLSelectElement;
     const companySelect = screen.getByTestId(
-      "combobox-company"
+      "combobox-company",
     ) as HTMLSelectElement;
     const locationSelect = screen.getByTestId(
-      "combobox-location"
+      "combobox-location",
     ) as HTMLSelectElement;
     const startDateInput = screen.getByTestId(
-      "datepicker-startDate"
+      "datepicker-startDate",
     ) as HTMLInputElement;
     const jobDescriptionEditor = screen.getByTestId(
-      "tiptap-editor"
+      "tiptap-editor",
     ) as HTMLTextAreaElement;
 
     await user.selectOptions(jobTitleSelect, "title-1");
@@ -450,7 +452,7 @@ describe("AddExperience Component", () => {
         expect.objectContaining({
           variant: "success",
           description: "Experience has been added successfully",
-        })
+        }),
       );
     });
   });
@@ -467,19 +469,19 @@ describe("AddExperience Component", () => {
     expect(screen.getByTestId("combobox-title")).toBeInTheDocument();
 
     const jobTitleSelect = screen.getByTestId(
-      "combobox-title"
+      "combobox-title",
     ) as HTMLSelectElement;
     const companySelect = screen.getByTestId(
-      "combobox-company"
+      "combobox-company",
     ) as HTMLSelectElement;
     const locationSelect = screen.getByTestId(
-      "combobox-location"
+      "combobox-location",
     ) as HTMLSelectElement;
     const startDateInput = screen.getByTestId(
-      "datepicker-startDate"
+      "datepicker-startDate",
     ) as HTMLInputElement;
     const jobDescriptionEditor = screen.getByTestId(
-      "tiptap-editor"
+      "tiptap-editor",
     ) as HTMLTextAreaElement;
 
     await user.selectOptions(jobTitleSelect, "title-1");
@@ -503,7 +505,7 @@ describe("AddExperience Component", () => {
           variant: "destructive",
           title: "Error!",
           description: "Failed to add experience",
-        })
+        }),
       );
       expect(mockSetDialogOpen).not.toHaveBeenCalledWith(false);
     });
@@ -540,7 +542,7 @@ describe("AddExperience Component", () => {
     expect(screen.getByTestId("combobox-title")).toBeInTheDocument();
 
     const jobTitleSelect = screen.getByTestId(
-      "combobox-title"
+      "combobox-title",
     ) as HTMLSelectElement;
     await user.selectOptions(jobTitleSelect, "title-2");
 
@@ -558,7 +560,7 @@ describe("AddExperience Component", () => {
         expect.objectContaining({
           variant: "success",
           description: "Experience has been updated successfully",
-        })
+        }),
       );
     });
   });
@@ -570,7 +572,7 @@ describe("AddExperience Component", () => {
         sectionId={mockSectionId}
         dialogOpen={false}
         setDialogOpen={mockSetDialogOpen}
-      />
+      />,
     );
 
     expect(screen.queryByText("Add Experience")).not.toBeInTheDocument();
@@ -588,15 +590,22 @@ describe("AddExperience Component", () => {
 
   it("should display loading indicator when form is submitting", async () => {
     (addExperience as jest.Mock).mockImplementation(
-      () => new Promise((resolve) => setTimeout(() => resolve({ success: true }), 100))
+      () =>
+        new Promise((resolve) =>
+          setTimeout(() => resolve({ success: true }), 100),
+        ),
     );
 
     await renderAndWait();
 
     // 1) дождаться, что опции в title реально появились
     await waitFor(() => {
-      const titleSelect = screen.getByTestId("combobox-title") as HTMLSelectElement;
-      expect(Array.from(titleSelect.options).some(o => o.value === "title-1")).toBe(true);
+      const titleSelect = screen.getByTestId(
+        "combobox-title",
+      ) as HTMLSelectElement;
+      expect(
+        Array.from(titleSelect.options).some((o) => o.value === "title-1"),
+      ).toBe(true);
     });
 
     const jobTitleSelect = screen.getByTestId("combobox-title");

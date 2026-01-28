@@ -12,7 +12,7 @@ export const getTasksList = async (
   limit: number = APP_CONSTANTS.RECORDS_PER_PAGE,
   filter?: string,
   statusFilter?: TaskStatus[],
-  search?: string
+  search?: string,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -52,7 +52,11 @@ export const getTasksList = async (
             select: { id: true },
           },
         },
-        orderBy: [{ priority: "desc" }, { createdAt: "desc" }, { updatedAt: "desc" }],
+        orderBy: [
+          { priority: "desc" },
+          { createdAt: "desc" },
+          { updatedAt: "desc" },
+        ],
         skip: offset,
         take: limit,
       }),
@@ -72,9 +76,7 @@ export const getTasksList = async (
   }
 };
 
-export const getTaskById = async (
-  taskId: string
-): Promise<any | undefined> => {
+export const getTaskById = async (taskId: string): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
 
@@ -110,7 +112,7 @@ export const getTaskById = async (
 };
 
 export const createTask = async (
-  data: z.infer<typeof AddTaskFormSchema>
+  data: z.infer<typeof AddTaskFormSchema>,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -145,7 +147,7 @@ export const createTask = async (
 };
 
 export const updateTask = async (
-  data: z.infer<typeof AddTaskFormSchema>
+  data: z.infer<typeof AddTaskFormSchema>,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -188,7 +190,7 @@ export const updateTask = async (
 
 export const updateTaskStatus = async (
   taskId: string,
-  status: TaskStatus
+  status: TaskStatus,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -218,7 +220,7 @@ export const updateTaskStatus = async (
 };
 
 export const deleteTaskById = async (
-  taskId: string
+  taskId: string,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -264,7 +266,7 @@ export const deleteTaskById = async (
 };
 
 export const startActivityFromTask = async (
-  taskId: string
+  taskId: string,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();

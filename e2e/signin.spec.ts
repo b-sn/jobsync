@@ -6,7 +6,7 @@ test("Signin page has title", async ({ page }) => {
   await expect(page).toHaveTitle("Signin | JobSync");
 
   await expect(
-    page.getByRole("heading", { name: "JobSync - Job Search Assistant" })
+    page.getByRole("heading", { name: "JobSync - Job Search Assistant" }),
   ).toBeVisible();
 
   await expect(page.getByRole("heading", { name: "Login" })).toBeVisible();

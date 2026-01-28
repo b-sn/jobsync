@@ -71,7 +71,7 @@ function JobDetails({ job }: { job: JobResponse }) {
                 ? DownloadFileButton(
                     job?.Resume?.File?.filePath,
                     job?.Resume?.title,
-                    job?.Resume?.File?.fileName
+                    job?.Resume?.File?.fileName,
                   )
                 : null}
             </div>
@@ -84,7 +84,7 @@ function JobDetails({ job }: { job: JobResponse }) {
                 className={cn(
                   "w-[70px] justify-center",
                   job.Status?.value === "applied" && "bg-cyan-500",
-                  job.Status?.value === "interview" && "bg-green-500"
+                  job.Status?.value === "interview" && "bg-green-500",
                 )}
               >
                 {job.Status?.label}

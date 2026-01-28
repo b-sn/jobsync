@@ -31,7 +31,7 @@ function TasksSidebar({
             className={cn(
               "w-full text-left px-3 py-2 rounded-md text-sm transition-colors",
               "hover:bg-accent hover:text-accent-foreground",
-              !selectedFilter && "bg-accent text-accent-foreground font-medium"
+              !selectedFilter && "bg-accent text-accent-foreground font-medium",
             )}
           >
             <span className="flex justify-between items-center">
@@ -50,7 +50,7 @@ function TasksSidebar({
                 "w-full text-left px-3 py-2 rounded-md text-sm transition-colors",
                 "hover:bg-accent hover:text-accent-foreground",
                 selectedFilter === type.id &&
-                  "bg-accent text-accent-foreground font-medium"
+                  "bg-accent text-accent-foreground font-medium",
               )}
             >
               <span className="flex justify-between items-center">

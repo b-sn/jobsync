@@ -45,7 +45,7 @@ function ResumeTable({ resumes, editResume, reloadResumes }: ResumeTableProps) {
       setAlertOpen(true);
       setResumeToDelete(resume);
     },
-    []
+    [],
   );
 
   const deleteResume = async (resume: Resume) => {
@@ -58,7 +58,7 @@ function ResumeTable({ resumes, editResume, reloadResumes }: ResumeTableProps) {
       });
     const { success, message } = await deleteResumeById(
       resume.id,
-      resume.FileId
+      resume.FileId,
     );
     if (success) {
       toast({

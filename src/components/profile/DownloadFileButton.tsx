@@ -3,7 +3,7 @@ import { Paperclip } from "lucide-react";
 export function DownloadFileButton(
   filePath: any,
   fileTitle: string,
-  fileName: string
+  fileName: string,
 ) {
   const handleDownload = async () => {
     const response = await fetch(
@@ -13,7 +13,7 @@ export function DownloadFileButton(
         headers: {
           "Content-Type": "application/json",
         },
-      }
+      },
     );
 
     if (response.ok) {

@@ -248,7 +248,10 @@ describe("Company Actions", () => {
 
         const result = await addCompany(validData);
 
-        expect(result).toEqual({ success: false, message: "Not authenticated" });
+        expect(result).toEqual({
+          success: false,
+          message: "Not authenticated",
+        });
         expect(prisma.company.findUnique).not.toHaveBeenCalled();
         expect(prisma.company.create).not.toHaveBeenCalled();
       } finally {
@@ -319,7 +322,8 @@ describe("Company Actions", () => {
 
         expect(result).toEqual({
           success: false,
-          message: "Invalid logo URL. Only http and https protocols are allowed.",
+          message:
+            "Invalid logo URL. Only http and https protocols are allowed.",
         });
 
         expect(prisma.company.findUnique).not.toHaveBeenCalled();
@@ -343,7 +347,8 @@ describe("Company Actions", () => {
 
         expect(result).toEqual({
           success: false,
-          message: "Invalid logo URL. Only http and https protocols are allowed.",
+          message:
+            "Invalid logo URL. Only http and https protocols are allowed.",
         });
 
         expect(prisma.company.create).not.toHaveBeenCalled();
@@ -444,7 +449,10 @@ describe("Company Actions", () => {
 
         const result = await updateCompany(validData);
 
-        expect(result).toEqual({ success: false, message: "Not authenticated" });
+        expect(result).toEqual({
+          success: false,
+          message: "Not authenticated",
+        });
 
         expect(prisma.company.findUnique).not.toHaveBeenCalled();
         expect(prisma.company.update).not.toHaveBeenCalled();
@@ -480,7 +488,11 @@ describe("Company Actions", () => {
       try {
         (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
 
-        const invalidData = { ...validData, id: "", createdBy: "other-user-id" };
+        const invalidData = {
+          ...validData,
+          id: "",
+          createdBy: "other-user-id",
+        };
 
         const result = await updateCompany(invalidData);
 
@@ -510,7 +522,8 @@ describe("Company Actions", () => {
 
         expect(result).toEqual({
           success: false,
-          message: "Invalid logo URL. Only http and https protocols are allowed.",
+          message:
+            "Invalid logo URL. Only http and https protocols are allowed.",
         });
 
         expect(prisma.company.findUnique).not.toHaveBeenCalled();
@@ -534,7 +547,8 @@ describe("Company Actions", () => {
 
         expect(result).toEqual({
           success: false,
-          message: "Invalid logo URL. Only http and https protocols are allowed.",
+          message:
+            "Invalid logo URL. Only http and https protocols are allowed.",
         });
 
         expect(prisma.company.update).not.toHaveBeenCalled();

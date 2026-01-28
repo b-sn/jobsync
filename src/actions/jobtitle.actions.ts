@@ -25,7 +25,7 @@ export const getAllJobTitles = async (): Promise<any | undefined> => {
 export const getJobTitleList = async (
   page: number = 1,
   limit: number = APP_CONSTANTS.RECORDS_PER_PAGE,
-  countBy?: string
+  countBy?: string,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -80,7 +80,7 @@ export const getJobTitleList = async (
 };
 
 export const createJobTitle = async (
-  label: string
+  label: string,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -105,7 +105,7 @@ export const createJobTitle = async (
 };
 
 export const deleteJobTitleById = async (
-  jobTitleId: string
+  jobTitleId: string,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -121,7 +121,7 @@ export const deleteJobTitleById = async (
     });
     if (experiences > 0) {
       throw new Error(
-        `Job title cannot be deleted due to its use in experience section of one of the resume! `
+        `Job title cannot be deleted due to its use in experience section of one of the resume! `,
       );
     }
     const jobs = await prisma.job.count({
@@ -132,7 +132,7 @@ export const deleteJobTitleById = async (
 
     if (jobs > 0) {
       throw new Error(
-        `Job title cannot be deleted due to ${jobs} number of associated jobs! `
+        `Job title cannot be deleted due to ${jobs} number of associated jobs! `,
       );
     }
 

@@ -115,7 +115,7 @@ export function AddJob({
           dateApplied: editJob.appliedDate ?? undefined,
           resume: editJob.Resume?.id ?? undefined,
         },
-        { keepDefaultValues: true }
+        { keepDefaultValues: true },
       );
       setDialogOpen(true);
     }
@@ -201,7 +201,9 @@ export function AddJob({
               <DialogTitle data-testid="add-job-dialog-title">
                 {pageTitle}
               </DialogTitle>
-              <DialogDescription>Fill out the form below to add a new job.</DialogDescription>
+              <DialogDescription>
+                Fill out the form below to add a new job.
+              </DialogDescription>
             </DialogHeader>
             <Form {...form}>
               <form
@@ -480,7 +482,9 @@ export function AddJob({
                     name="jobDescription"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel id="job-description-label">Job Description</FormLabel>
+                        <FormLabel id="job-description-label">
+                          Job Description
+                        </FormLabel>
                         <FormControl>
                           <div data-testid="job-description-editor">
                             <TiptapEditor field={field} />

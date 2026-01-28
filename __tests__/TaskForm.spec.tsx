@@ -85,7 +85,7 @@ describe("TaskForm Component", () => {
           onTaskSaved={mockOnTaskSaved}
           dialogOpen={true}
           setDialogOpen={mockSetDialogOpen}
-        />
+        />,
       );
     });
 
@@ -124,7 +124,7 @@ describe("TaskForm Component", () => {
 
         await waitFor(() => {
           expect(
-            screen.getByText("Title must be at least 2 characters.")
+            screen.getByText("Title must be at least 2 characters."),
           ).toBeInTheDocument();
         });
       } finally {
@@ -155,7 +155,7 @@ describe("TaskForm Component", () => {
             status: "in-progress",
             priority: 5,
             percentComplete: 0,
-          })
+          }),
         );
         expect(mockOnTaskSaved).toHaveBeenCalledTimes(1);
         expect(mockSetDialogOpen).toHaveBeenCalledWith(false);
@@ -178,10 +178,10 @@ describe("TaskForm Component", () => {
       const options = screen.getAllByRole("option");
       expect(options.length).toBeGreaterThan(0);
       expect(
-        screen.getByRole("option", { name: "Development" })
+        screen.getByRole("option", { name: "Development" }),
       ).toBeInTheDocument();
       expect(
-        screen.getByRole("option", { name: "Testing" })
+        screen.getByRole("option", { name: "Testing" }),
       ).toBeInTheDocument();
     });
 
@@ -190,16 +190,16 @@ describe("TaskForm Component", () => {
       await user.click(statusSelect);
 
       expect(
-        screen.getByRole("option", { name: "In Progress" })
+        screen.getByRole("option", { name: "In Progress" }),
       ).toBeInTheDocument();
       expect(
-        screen.getByRole("option", { name: "Complete" })
+        screen.getByRole("option", { name: "Complete" }),
       ).toBeInTheDocument();
       expect(
-        screen.getByRole("option", { name: "Needs Attention" })
+        screen.getByRole("option", { name: "Needs Attention" }),
       ).toBeInTheDocument();
       expect(
-        screen.getByRole("option", { name: "Cancelled" })
+        screen.getByRole("option", { name: "Cancelled" }),
       ).toBeInTheDocument();
     });
 
@@ -219,7 +219,7 @@ describe("TaskForm Component", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByText("Title must be at least 2 characters.")
+          screen.getByText("Title must be at least 2 characters."),
         ).toBeInTheDocument();
       });
     });
@@ -271,7 +271,7 @@ describe("TaskForm Component", () => {
           onTaskSaved={mockOnTaskSaved}
           dialogOpen={true}
           setDialogOpen={mockSetDialogOpen}
-        />
+        />,
       );
     });
 
@@ -309,7 +309,7 @@ describe("TaskForm Component", () => {
             status: "needs-attention",
             priority: 7,
             percentComplete: 60,
-          })
+          }),
         );
         expect(mockOnTaskSaved).toHaveBeenCalledTimes(1);
         expect(mockSetDialogOpen).toHaveBeenCalledWith(false);
@@ -352,7 +352,7 @@ describe("TaskForm Component", () => {
           onTaskSaved={mockOnTaskSaved}
           dialogOpen={true}
           setDialogOpen={mockSetDialogOpen}
-        />
+        />,
       );
     });
 
@@ -405,7 +405,7 @@ describe("TaskForm Component", () => {
           onTaskSaved={mockOnTaskSaved}
           dialogOpen={true}
           setDialogOpen={mockSetDialogOpen}
-        />
+        />,
       );
 
       // Just verify that when update fails, onTaskSaved is not called
@@ -424,7 +424,7 @@ describe("TaskForm Component", () => {
           onTaskSaved={mockOnTaskSaved}
           dialogOpen={false}
           setDialogOpen={mockSetDialogOpen}
-        />
+        />,
       );
 
       const dialogTitle = screen.queryByTestId("task-form-dialog-title");
@@ -440,7 +440,7 @@ describe("TaskForm Component", () => {
           onTaskSaved={mockOnTaskSaved}
           dialogOpen={true}
           setDialogOpen={mockSetDialogOpen}
-        />
+        />,
       );
 
       const dialogTitle = screen.getByTestId("task-form-dialog-title");

@@ -69,7 +69,7 @@ export const combineDateAndTime = (date: Date, time: string): Date => {
     date.getMonth(),
     date.getDate(),
     parsedTime.getHours(),
-    parsedTime.getMinutes()
+    parsedTime.getMinutes(),
   );
 };
 
@@ -84,7 +84,7 @@ export const formatElapsedTime = (ms: number) => {
 
 export const calculatePercentageDifference = (
   value1: number,
-  value2: number
+  value2: number,
 ): number | null => {
   if (value1 === 0 && value2 === 0) {
     return 0;

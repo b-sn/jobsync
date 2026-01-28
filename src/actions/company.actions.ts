@@ -226,8 +226,7 @@ export const getCompanyById = async (
       if (error instanceof Error) {
         return { success: false, message: error.message };
       }
-    }
-    finally {
+    } finally {
       spy.mockRestore();
     }
   }

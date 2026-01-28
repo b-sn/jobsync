@@ -20,14 +20,14 @@ export const AddActivityFormSchema = z
       .string()
       .regex(
         /^(0[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/,
-        "Start time must be in hh:mm AM/PM format"
+        "Start time must be in hh:mm AM/PM format",
       ),
     endDate: z.date().optional(),
     endTime: z
       .string()
       .regex(
         /^(0[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/,
-        "End time must be in hh:mm AM/PM format"
+        "End time must be in hh:mm AM/PM format",
       )
       .optional(),
     duration: z
@@ -49,7 +49,7 @@ export const AddActivityFormSchema = z
     {
       message: "End date must be the same as or after the start date",
       path: ["endDate"], // Target the error message to `endDate`
-    }
+    },
   )
   // Check if `endTime` is earlier than `startTime` when the `endDate` equals `startDate`
   .refine(
@@ -67,7 +67,7 @@ export const AddActivityFormSchema = z
       message:
         "End time must be after the start time when the end date is the same",
       path: ["endTime"],
-    }
+    },
   )
   .refine(
     (data) => {
@@ -84,5 +84,5 @@ export const AddActivityFormSchema = z
         APP_CONSTANTS.ACTIVITY_MAX_DURATION_MINUTES / 60
       } hours`,
       path: ["endTime"],
-    }
+    },
   );

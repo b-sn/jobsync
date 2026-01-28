@@ -112,7 +112,7 @@ test.describe("Add New Job", () => {
   test("should allow me to add a new job", async ({ page }) => {
     await createNewJob(page, jobText);
     await expect(
-      page.getByRole("row", { name: jobText }).first()
+      page.getByRole("row", { name: jobText }).first(),
     ).toBeVisible();
     await deleteJob(page, jobText);
   });
@@ -130,14 +130,14 @@ test.describe("Add New Job", () => {
       .click();
     await page.getByRole("menuitem", { name: "Edit Job" }).click();
     await expect(
-      page.getByPlaceholder("Copy and paste job link here")
+      page.getByPlaceholder("Copy and paste job link here"),
     ).toHaveValue("www.google.com");
     await expect(page.getByLabel("Job Title")).toContainText(
-      "developer test title"
+      "developer test title",
     );
     await expect(page.getByLabel("Company")).toContainText("company test");
     await expect(page.getByLabel("Job Location")).toContainText(
-      "location test"
+      "location test",
     );
     await expect(page.getByLabel("Job Source")).toContainText("Indeed");
     await expect(page.getByLabel("Select Job Status")).toContainText("Draft");
@@ -157,7 +157,7 @@ test.describe("Add New Job", () => {
 
     await page.getByTestId("save-job-btn").click();
     await expect(page.getByRole("status").first()).toContainText(
-      /Job has been updated/
+      /Job has been updated/,
     );
     await deleteJob(page, jobText);
   });

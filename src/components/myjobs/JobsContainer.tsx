@@ -69,7 +69,7 @@ function JobsContainer({
 
       return params.toString();
     },
-    [queryParams]
+    [queryParams],
   );
   const [jobs, setJobs] = useState<JobResponse[]>([]);
   const [page, setPage] = useState(1);
@@ -92,7 +92,7 @@ function JobsContainer({
         page,
         jobsPerPage,
         filter,
-        search
+        search,
       );
       if (success && data) {
         setJobs((prev) => (page === 1 ? data : [...prev, ...data]));
@@ -109,7 +109,7 @@ function JobsContainer({
         return;
       }
     },
-    [jobsPerPage]
+    [jobsPerPage],
   );
 
   const reloadJobs = useCallback(async () => {
@@ -320,7 +320,9 @@ function JobsContainer({
               <Button
                 size="sm"
                 variant="outline"
-                onClick={() => loadJobs(page + 1, filterKey, searchTerm || undefined)}
+                onClick={() =>
+                  loadJobs(page + 1, filterKey, searchTerm || undefined)
+                }
                 disabled={loading}
                 className="btn btn-primary"
               >

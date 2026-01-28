@@ -68,7 +68,7 @@ function AddContactInfo({
           phone: contactInfoToEdit.phone,
           address: contactInfoToEdit.address ?? undefined,
         },
-        { keepDefaultValues: true }
+        { keepDefaultValues: true },
       );
     } else {
       reset();
@@ -106,7 +106,9 @@ function AddContactInfo({
       <DialogContent className="lg:max-h-screen overflow-y-scroll">
         <DialogHeader>
           <DialogTitle>{pageTitle}</DialogTitle>
-          <DialogDescription>Fill out the form below to add contact information.</DialogDescription>
+          <DialogDescription>
+            Fill out the form below to add contact information.
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form

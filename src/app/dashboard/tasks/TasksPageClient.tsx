@@ -24,8 +24,9 @@ function TasksPageClient({
   totalTasks,
 }: TasksPageClientProps) {
   const [filterKey, setFilterKey] = useState<string | undefined>(undefined);
-  const [sidebarCounts, setSidebarCounts] =
-    useState<ActivityTypeWithCount[]>(activityTypesWithCounts);
+  const [sidebarCounts, setSidebarCounts] = useState<ActivityTypeWithCount[]>(
+    activityTypesWithCounts,
+  );
   const [sidebarTotal, setSidebarTotal] = useState<number>(totalTasks);
 
   const onFilterChange = (filter: string | undefined) => {

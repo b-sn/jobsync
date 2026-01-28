@@ -25,7 +25,7 @@ function JobTitlesContainer() {
       const { data, total } = await getJobTitleList(
         page,
         recordsPerPage,
-        "applied"
+        "applied",
       );
       if (data) {
         setTitles((prev) => (page === 1 ? data : [...prev, ...data]));
@@ -34,7 +34,7 @@ function JobTitlesContainer() {
         setLoading(false);
       }
     },
-    [recordsPerPage]
+    [recordsPerPage],
   );
 
   const reloadJobTitles = useCallback(async () => {

@@ -62,7 +62,7 @@ function ActivitiesContainer() {
         const { data, success, message, total } = await getActivitiesList(
           page,
           limit,
-          search
+          search,
         );
         if (success) {
           setActivitiesList((prev) => (page === 1 ? data : [...prev, ...data]));
@@ -85,7 +85,7 @@ function ActivitiesContainer() {
         setLoading(false);
       }
     },
-    []
+    [],
   );
 
   const reloadActivities = useCallback(async () => {
@@ -100,12 +100,12 @@ function ActivitiesContainer() {
         APP_CONSTANTS.ACTIVITY_MAX_DURATION_MS / (1000 * 60);
       const duration = Math.min(
         differenceInMinutes(now, currentActivity.startTime),
-        maxDurationMinutes
+        maxDurationMinutes,
       );
       const { success, message } = await stopActivityById(
         currentActivity.id!,
         now,
-        duration
+        duration,
       );
       if (success) {
         stopTimer();
@@ -127,7 +127,7 @@ function ActivitiesContainer() {
         });
       }
     },
-    [currentActivity, reloadActivities, stopTimer]
+    [currentActivity, reloadActivities, stopTimer],
   );
 
   const startTimer = useCallback(
@@ -157,13 +157,12 @@ function ActivitiesContainer() {
         });
       }, 1000);
     },
-    [stopActivity, stopTimer]
+    [stopActivity, stopTimer],
   );
 
   const startActivity = async (activityId: string) => {
-    const { newActivity, success, message } = await startActivityById(
-      activityId
-    );
+    const { newActivity, success, message } =
+      await startActivityById(activityId);
     if (success && newActivity) {
       setCurrentActivity(newActivity as Activity);
       // startTimer(newActivity.startTime); // this happens in useeffect upon currentActivity change
@@ -190,7 +189,10 @@ function ActivitiesContainer() {
 
   useEffect(() => {
     const init = async () => {
-      await Promise.all([loadActivities(1, recordsPerPage), fetchActiveActivity()]);
+      await Promise.all([
+        loadActivities(1, recordsPerPage),
+        fetchActiveActivity(),
+      ]);
     };
     init();
     return () => {
@@ -235,31 +237,33 @@ function ActivitiesContainer() {
             />
           </div>
           <Dialog open={activityFormOpen} onOpenChange={setActivityFormOpen}>
-          <DialogTrigger asChild>
-            <Button
-              size="sm"
-              variant="outline"
-              className="h-8 gap-1"
-              data-testid="add-activity-btn"
-            >
-              <PlusCircle className="h-3.5 w-3.5" />
-              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                Add Activity
-              </span>
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[725px] max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle>Add New Activity</DialogTitle>
-              <DialogDescription>Fill out the form below to add a new activity.</DialogDescription>
-            </DialogHeader>
-            <div className="p-4">
-              <ActivityForm
-                onClose={closeActivityForm}
-                reloadActivities={reloadActivities}
-              />
-            </div>
-          </DialogContent>
+            <DialogTrigger asChild>
+              <Button
+                size="sm"
+                variant="outline"
+                className="h-8 gap-1"
+                data-testid="add-activity-btn"
+              >
+                <PlusCircle className="h-3.5 w-3.5" />
+                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                  Add Activity
+                </span>
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[725px] max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>Add New Activity</DialogTitle>
+                <DialogDescription>
+                  Fill out the form below to add a new activity.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="p-4">
+                <ActivityForm
+                  onClose={closeActivityForm}
+                  reloadActivities={reloadActivities}
+                />
+              </div>
+            </DialogContent>
           </Dialog>
         </div>
       </CardHeader>
@@ -302,7 +306,13 @@ function ActivitiesContainer() {
             <Button
               size="sm"
               variant="outline"
-              onClick={() => loadActivities(page + 1, recordsPerPage, searchTerm || undefined)}
+              onClick={() =>
+                loadActivities(
+                  page + 1,
+                  recordsPerPage,
+                  searchTerm || undefined,
+                )
+              }
               disabled={loading}
               className="btn btn-primary"
             >

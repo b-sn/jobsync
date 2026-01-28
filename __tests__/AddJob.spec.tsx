@@ -79,7 +79,7 @@ describe("AddJob Component", () => {
         jobSources={mockJobSources}
         editJob={null}
         resetEditJob={mockResetEditJob}
-      />
+      />,
     );
     const addJobButton = screen.getByTestId("add-job-btn");
     await user.click(addJobButton);
@@ -119,7 +119,7 @@ describe("AddJob Component", () => {
     expect(screen.getByText("Location is required.")).toBeInTheDocument();
     expect(screen.getByText("Source is required.")).toBeInTheDocument();
     expect(
-      screen.getByText("Job description is required.")
+      screen.getByText("Job description is required."),
     ).toBeInTheDocument();
   });
   it("should close the dialog when clicked on cancel button", async () => {

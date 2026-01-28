@@ -18,7 +18,7 @@ function AdminTabsContainer() {
 
       return params.toString();
     },
-    [queryParams]
+    [queryParams],
   );
 
   const onTabChange = (tab: string) => {

@@ -113,7 +113,9 @@ function CreateResume({
       <DialogContent className="lg:max-h-screen overflow-y-scroll">
         <DialogHeader>
           <DialogTitle>{pageTitle}</DialogTitle>
-          <DialogDescription>Fill out the form below to add resume details.</DialogDescription>
+          <DialogDescription>
+            Fill out the form below to add resume details.
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form

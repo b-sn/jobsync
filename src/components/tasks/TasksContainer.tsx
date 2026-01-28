@@ -83,7 +83,12 @@ function TasksContainer({
   const tasksPerPage = recordsPerPage;
 
   const loadTasks = useCallback(
-    async (pageNum: number, filter?: string, statuses?: TaskStatus[], search?: string) => {
+    async (
+      pageNum: number,
+      filter?: string,
+      statuses?: TaskStatus[],
+      search?: string,
+    ) => {
       setLoading(true);
       const { success, data, total, message } = await getTasksList(
         pageNum,
@@ -195,7 +200,8 @@ function TasksContainer({
   };
 
   useEffect(() => {
-    (async () => await loadTasks(1, filterKey, statusFilter, searchTerm || undefined))();
+    (async () =>
+      await loadTasks(1, filterKey, statusFilter, searchTerm || undefined))();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadTasks, filterKey, statusFilter, recordsPerPage]);
 
@@ -343,7 +349,14 @@ function TasksContainer({
               <Button
                 size="sm"
                 variant="outline"
-                onClick={() => loadTasks(page + 1, filterKey, statusFilter, searchTerm || undefined)}
+                onClick={() =>
+                  loadTasks(
+                    page + 1,
+                    filterKey,
+                    statusFilter,
+                    searchTerm || undefined,
+                  )
+                }
                 disabled={loading}
                 className="btn btn-primary"
               >

@@ -64,7 +64,7 @@ function ExperienceCard({
               </div>
             </CardContent>
           </Card>
-        )
+        ),
       )}
     </>
   );

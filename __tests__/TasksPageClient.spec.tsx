@@ -79,7 +79,6 @@ document.createRange = () => {
 };
 
 describe("TasksPageClient Component", () => {
-
   const mockActivityTypes = [
     {
       id: "type-1",
@@ -143,7 +142,7 @@ describe("TasksPageClient Component", () => {
   // };
 
   const renderAndWait = async (
-    overrides?: Partial<React.ComponentProps<typeof TasksPageClient>>
+    overrides?: Partial<React.ComponentProps<typeof TasksPageClient>>,
   ) => {
     render(
       <TasksPageClient
@@ -151,22 +150,22 @@ describe("TasksPageClient Component", () => {
         activityTypesWithCounts={mockActivityTypesWithCounts}
         totalTasks={8}
         {...overrides}
-      />
+      />,
     );
 
     expect(
       await screen.findByText(
-        "No tasks found. Create your first task to get started."
-      )
+        "No tasks found. Create your first task to get started.",
+      ),
     ).toBeInTheDocument();
   };
 
   describe("Rendering", () => {
     it("should render TasksSidebar and TasksContainer components", async () => {
       await renderAndWait({
-          activityTypes: mockActivityTypes,
-          activityTypesWithCounts: mockActivityTypesWithCounts,
-          totalTasks: 8
+        activityTypes: mockActivityTypes,
+        activityTypesWithCounts: mockActivityTypesWithCounts,
+        totalTasks: 8,
       });
 
       // Check if sidebar is rendered
@@ -275,9 +274,9 @@ describe("TasksPageClient Component", () => {
       });
 
       await renderAndWait({
-         activityTypes: mockActivityTypes,
-         activityTypesWithCounts: mockActivityTypesWithCounts,
-         totalTasks: 8
+        activityTypes: mockActivityTypes,
+        activityTypesWithCounts: mockActivityTypesWithCounts,
+        totalTasks: 8,
       });
 
       const developmentButton = screen.getByRole("button", {
@@ -299,7 +298,7 @@ describe("TasksPageClient Component", () => {
   });
 
   describe("Empty States", () => {
-    it("should handle empty activity types list", async() => {
+    it("should handle empty activity types list", async () => {
       await renderAndWait({
         activityTypes: [],
         activityTypesWithCounts: [],
@@ -309,14 +308,14 @@ describe("TasksPageClient Component", () => {
       expect(screen.getByText("Activity Types")).toBeInTheDocument();
       expect(screen.getByText("My Tasks")).toBeInTheDocument();
     });
-  
+
     it("should show 0 total tasks when no tasks exist", async () => {
       await renderAndWait({
         activityTypes: mockActivityTypes,
         activityTypesWithCounts: mockActivityTypesWithCounts.map((type) => ({
-            ...type,
-            taskCount: 0,
-          })),
+          ...type,
+          taskCount: 0,
+        })),
         totalTasks: 0,
       });
 
@@ -347,7 +346,6 @@ describe("TasksPageClient Component", () => {
         return { container: document };
       })();
 
-
       const sidebar = container.querySelector(".w-48.border-r.py-4");
       expect(sidebar).toBeInTheDocument();
     });
@@ -359,7 +357,6 @@ describe("TasksPageClient Component", () => {
         result = document.body as any;
         return { container: document };
       })();
-
 
       const tasksContainer = container.querySelector(".flex-1");
       expect(tasksContainer).toBeInTheDocument();
@@ -377,7 +374,7 @@ describe("TasksPageClient Component", () => {
       await renderAndWait({
         activityTypes: mockActivityTypes,
         activityTypesWithCounts: mockActivityTypesWithCounts,
-        totalTasks: 8
+        totalTasks: 8,
       });
 
       const developmentButton = screen.getByRole("button", {
@@ -392,7 +389,7 @@ describe("TasksPageClient Component", () => {
           25,
           "type-1",
           expect.any(Array),
-          undefined
+          undefined,
         );
       });
     });
@@ -405,9 +402,9 @@ describe("TasksPageClient Component", () => {
       });
 
       await renderAndWait({
-         activityTypes: mockActivityTypes,
-         activityTypesWithCounts: mockActivityTypesWithCounts,
-         totalTasks: 8
+        activityTypes: mockActivityTypes,
+        activityTypesWithCounts: mockActivityTypesWithCounts,
+        totalTasks: 8,
       });
 
       // First select a filter
@@ -422,7 +419,7 @@ describe("TasksPageClient Component", () => {
           25,
           "type-1",
           expect.any(Array),
-          undefined
+          undefined,
         );
       });
 
@@ -439,7 +436,7 @@ describe("TasksPageClient Component", () => {
           25,
           undefined,
           expect.any(Array),
-          undefined
+          undefined,
         );
       });
     });
@@ -493,7 +490,7 @@ describe("TasksPageClient Component", () => {
       await renderAndWait({
         activityTypes: manyActivityTypes,
         activityTypesWithCounts: manyActivityTypes,
-        totalTasks: 27
+        totalTasks: 27,
       });
 
       expect(screen.getByText("Development")).toBeInTheDocument();
@@ -541,7 +538,7 @@ describe("TasksPageClient Component", () => {
       await renderAndWait({
         activityTypes: manyActivityTypes,
         activityTypesWithCounts: manyActivityTypes,
-        totalTasks: 18
+        totalTasks: 18,
       });
 
       const developmentButton = screen.getByRole("button", {

@@ -176,10 +176,13 @@ describe("TasksContainer Component", () => {
       render(<TasksContainer activityTypes={mockActivityTypes} />);
 
       await waitFor(() => {
-        expect(getTasksList).toHaveBeenCalledWith(1, 25, undefined, [
-          "in-progress",
-          "needs-attention",
-        ], undefined);
+        expect(getTasksList).toHaveBeenCalledWith(
+          1,
+          25,
+          undefined,
+          ["in-progress", "needs-attention"],
+          undefined,
+        );
       });
 
       await waitFor(() => {
@@ -190,7 +193,7 @@ describe("TasksContainer Component", () => {
 
     it("should show loading state while fetching tasks", () => {
       (getTasksList as jest.Mock).mockImplementation(
-        () => new Promise(() => {}) // Never resolves to keep loading state
+        () => new Promise(() => {}), // Never resolves to keep loading state
       );
 
       render(<TasksContainer activityTypes={mockActivityTypes} />);
@@ -234,10 +237,10 @@ describe("TasksContainer Component", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByTestId("task-form-dialog-title")
+          screen.getByTestId("task-form-dialog-title"),
         ).toBeInTheDocument();
         expect(screen.getByTestId("task-form-dialog-title")).toHaveTextContent(
-          "Add Task"
+          "Add Task",
         );
       });
     });
@@ -333,7 +336,7 @@ describe("TasksContainer Component", () => {
       await waitFor(() => {
         expect(getTaskById).toHaveBeenCalledWith("task-1");
         expect(screen.getByTestId("task-form-dialog-title")).toHaveTextContent(
-          "Edit Task"
+          "Edit Task",
         );
       });
     });
@@ -361,7 +364,7 @@ describe("TasksContainer Component", () => {
       await waitFor(() => {
         expect(getTaskById).toHaveBeenCalledWith("task-1");
         expect(
-          screen.queryByTestId("task-form-dialog-title")
+          screen.queryByTestId("task-form-dialog-title"),
         ).not.toBeInTheDocument();
       });
     });
@@ -466,7 +469,7 @@ describe("TasksContainer Component", () => {
       });
 
       render(
-        <TasksContainer activityTypes={mockActivityTypes} filterKey="type-1" />
+        <TasksContainer activityTypes={mockActivityTypes} filterKey="type-1" />,
       );
 
       await waitFor(() => {
@@ -476,10 +479,13 @@ describe("TasksContainer Component", () => {
 
     it("should apply activity type filter", async () => {
       await waitFor(() => {
-        expect(getTasksList).toHaveBeenCalledWith(1, 25, "type-1", [
-          "in-progress",
-          "needs-attention",
-        ], undefined);
+        expect(getTasksList).toHaveBeenCalledWith(
+          1,
+          25,
+          "type-1",
+          ["in-progress", "needs-attention"],
+          undefined,
+        );
       });
     });
 
@@ -495,9 +501,13 @@ describe("TasksContainer Component", () => {
       await user.click(inProgressCheckbox);
 
       await waitFor(() => {
-        expect(getTasksList).toHaveBeenCalledWith(1, 25, "type-1", [
-          "needs-attention",
-        ], undefined);
+        expect(getTasksList).toHaveBeenCalledWith(
+          1,
+          25,
+          "type-1",
+          ["needs-attention"],
+          undefined,
+        );
       });
     });
 
@@ -558,10 +568,13 @@ describe("TasksContainer Component", () => {
       await user.click(loadMoreButton);
 
       await waitFor(() => {
-        expect(getTasksList).toHaveBeenCalledWith(2, 25, undefined, [
-          "in-progress",
-          "needs-attention",
-        ], undefined);
+        expect(getTasksList).toHaveBeenCalledWith(
+          2,
+          25,
+          undefined,
+          ["in-progress", "needs-attention"],
+          undefined,
+        );
       });
     });
 
@@ -591,7 +604,7 @@ describe("TasksContainer Component", () => {
       await waitFor(() => {
         expect(screen.getByText(/Showing/i)).toBeInTheDocument();
         expect(
-          screen.getByText("1 to 2", { exact: false })
+          screen.getByText("1 to 2", { exact: false }),
         ).toBeInTheDocument();
         expect(screen.getByText("10", { exact: false })).toBeInTheDocument();
       });
@@ -628,7 +641,7 @@ describe("TasksContainer Component", () => {
           activityTypes={mockActivityTypes}
           filterKey={undefined}
           onFilterChange={mockOnFilterChange}
-        />
+        />,
       );
 
       await waitFor(() => {
@@ -678,7 +691,7 @@ describe("TasksContainer Component", () => {
           25,
           undefined,
           ["in-progress", "needs-attention"],
-          undefined
+          undefined,
         );
       });
 
@@ -703,7 +716,7 @@ describe("TasksContainer Component", () => {
           25,
           undefined,
           ["in-progress", "needs-attention"],
-          "Task 1"
+          "Task 1",
         );
       });
     });
@@ -731,10 +744,9 @@ describe("TasksContainer Component", () => {
       });
 
       const searchInput = screen.getByPlaceholderText("Search tasks...");
-      await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).type(
-        searchInput,
-        "Task 1"
-      );
+      await userEvent
+        .setup({ advanceTimers: jest.advanceTimersByTime })
+        .type(searchInput, "Task 1");
 
       act(() => {
         jest.advanceTimersByTime(300);
@@ -766,10 +778,9 @@ describe("TasksContainer Component", () => {
       });
 
       const searchInput = screen.getByPlaceholderText("Search tasks...");
-      await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).type(
-        searchInput,
-        "nonexistent"
-      );
+      await userEvent
+        .setup({ advanceTimers: jest.advanceTimersByTime })
+        .type(searchInput, "nonexistent");
 
       act(() => {
         jest.advanceTimersByTime(300);
@@ -795,16 +806,16 @@ describe("TasksContainer Component", () => {
 
       // Toggle status filter first
       const filterButton = screen.getByRole("button", { name: /status/i });
-      await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).click(
-        filterButton
-      );
+      await userEvent
+        .setup({ advanceTimers: jest.advanceTimersByTime })
+        .click(filterButton);
 
       const inProgressCheckbox = screen.getByRole("menuitemcheckbox", {
         name: "In Progress",
       });
-      await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).click(
-        inProgressCheckbox
-      );
+      await userEvent
+        .setup({ advanceTimers: jest.advanceTimersByTime })
+        .click(inProgressCheckbox);
 
       await waitFor(() => {
         expect(getTasksList).toHaveBeenCalledWith(
@@ -812,7 +823,7 @@ describe("TasksContainer Component", () => {
           25,
           undefined,
           ["needs-attention"],
-          undefined
+          undefined,
         );
       });
 
@@ -820,10 +831,9 @@ describe("TasksContainer Component", () => {
 
       // Now search
       const searchInput = screen.getByPlaceholderText("Search tasks...");
-      await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).type(
-        searchInput,
-        "Task"
-      );
+      await userEvent
+        .setup({ advanceTimers: jest.advanceTimersByTime })
+        .type(searchInput, "Task");
 
       act(() => {
         jest.advanceTimersByTime(300);
@@ -835,7 +845,7 @@ describe("TasksContainer Component", () => {
           25,
           undefined,
           ["needs-attention"],
-          "Task"
+          "Task",
         );
       });
     });
@@ -848,7 +858,7 @@ describe("TasksContainer Component", () => {
       });
 
       render(
-        <TasksContainer activityTypes={mockActivityTypes} filterKey="type-1" />
+        <TasksContainer activityTypes={mockActivityTypes} filterKey="type-1" />,
       );
 
       await waitFor(() => {
@@ -857,17 +867,16 @@ describe("TasksContainer Component", () => {
           25,
           "type-1",
           ["in-progress", "needs-attention"],
-          undefined
+          undefined,
         );
       });
 
       jest.clearAllMocks();
 
       const searchInput = screen.getByPlaceholderText("Search tasks...");
-      await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).type(
-        searchInput,
-        "Development"
-      );
+      await userEvent
+        .setup({ advanceTimers: jest.advanceTimersByTime })
+        .type(searchInput, "Development");
 
       act(() => {
         jest.advanceTimersByTime(300);
@@ -879,7 +888,7 @@ describe("TasksContainer Component", () => {
           25,
           "type-1",
           ["in-progress", "needs-attention"],
-          "Development"
+          "Development",
         );
       });
     });
@@ -910,10 +919,9 @@ describe("TasksContainer Component", () => {
 
       // Type search term
       const searchInput = screen.getByPlaceholderText("Search tasks...");
-      await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).type(
-        searchInput,
-        "Task"
-      );
+      await userEvent
+        .setup({ advanceTimers: jest.advanceTimersByTime })
+        .type(searchInput, "Task");
 
       act(() => {
         jest.advanceTimersByTime(300);
@@ -925,7 +933,7 @@ describe("TasksContainer Component", () => {
           25,
           undefined,
           ["in-progress", "needs-attention"],
-          "Task"
+          "Task",
         );
       });
 
@@ -933,9 +941,9 @@ describe("TasksContainer Component", () => {
 
       // Click Load More
       const loadMoreButton = await screen.findByText("Load More");
-      await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).click(
-        loadMoreButton
-      );
+      await userEvent
+        .setup({ advanceTimers: jest.advanceTimersByTime })
+        .click(loadMoreButton);
 
       await waitFor(() => {
         expect(getTasksList).toHaveBeenCalledWith(
@@ -943,7 +951,7 @@ describe("TasksContainer Component", () => {
           25,
           undefined,
           ["in-progress", "needs-attention"],
-          "Task"
+          "Task",
         );
       });
     });
@@ -964,10 +972,9 @@ describe("TasksContainer Component", () => {
       jest.clearAllMocks();
 
       const searchInput = screen.getByPlaceholderText("Search tasks...");
-      await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).type(
-        searchInput,
-        "first search"
-      );
+      await userEvent
+        .setup({ advanceTimers: jest.advanceTimersByTime })
+        .type(searchInput, "first search");
 
       act(() => {
         jest.advanceTimersByTime(300);
@@ -979,20 +986,19 @@ describe("TasksContainer Component", () => {
           25,
           undefined,
           ["in-progress", "needs-attention"],
-          "first search"
+          "first search",
         );
       });
 
       jest.clearAllMocks();
 
       // Change search term
-      await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).clear(
-        searchInput
-      );
-      await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).type(
-        searchInput,
-        "second search"
-      );
+      await userEvent
+        .setup({ advanceTimers: jest.advanceTimersByTime })
+        .clear(searchInput);
+      await userEvent
+        .setup({ advanceTimers: jest.advanceTimersByTime })
+        .type(searchInput, "second search");
 
       act(() => {
         jest.advanceTimersByTime(300);
@@ -1004,7 +1010,7 @@ describe("TasksContainer Component", () => {
           25,
           undefined,
           ["in-progress", "needs-attention"],
-          "second search"
+          "second search",
         );
       });
     });
@@ -1044,7 +1050,7 @@ describe("TasksContainer Component", () => {
           25,
           undefined,
           ["in-progress", "needs-attention"],
-          "Task"
+          "Task",
         );
       });
     });
@@ -1062,7 +1068,7 @@ describe("TasksContainer Component", () => {
         <TasksContainer
           activityTypes={mockActivityTypes}
           onTasksChanged={mockOnTasksChanged}
-        />
+        />,
       );
 
       await waitFor(() => {
@@ -1071,10 +1077,9 @@ describe("TasksContainer Component", () => {
 
       // Type search term
       const searchInput = screen.getByPlaceholderText("Search tasks...");
-      await userEvent.setup({ advanceTimers: jest.advanceTimersByTime }).type(
-        searchInput,
-        "Task"
-      );
+      await userEvent
+        .setup({ advanceTimers: jest.advanceTimersByTime })
+        .type(searchInput, "Task");
 
       act(() => {
         jest.advanceTimersByTime(300);
@@ -1086,7 +1091,7 @@ describe("TasksContainer Component", () => {
           25,
           undefined,
           ["in-progress", "needs-attention"],
-          "Task"
+          "Task",
         );
       });
 

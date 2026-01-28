@@ -50,7 +50,7 @@ function ActivitiesTable({
       setAlertOpen(true);
       setActivityIdToDelete(id);
     },
-    []
+    [],
   );
 
   const deleteActivity = async () => {

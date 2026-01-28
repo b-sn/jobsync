@@ -24,7 +24,7 @@ export const POST = async (req: NextRequest) => {
         },
         {
           status: 401,
-        }
+        },
       );
     }
     const formData = await req.formData();
@@ -51,7 +51,7 @@ export const POST = async (req: NextRequest) => {
         title,
         fileId,
         file?.name,
-        filePath
+        filePath,
       );
       return NextResponse.json(res, { status: 200 });
     }
@@ -59,7 +59,7 @@ export const POST = async (req: NextRequest) => {
     const response = await createResumeProfile(
       title,
       file.name ?? null,
-      filePath
+      filePath,
     );
     return NextResponse.json(response, { status: 201 });
   } catch (error) {
@@ -71,7 +71,7 @@ export const POST = async (req: NextRequest) => {
         },
         {
           status: 500,
-        }
+        },
       );
     }
   }
@@ -89,7 +89,7 @@ export const GET = async (req: NextRequest) => {
         },
         {
           status: 401,
-        }
+        },
       );
     }
 
@@ -99,7 +99,7 @@ export const GET = async (req: NextRequest) => {
     if (!filePath) {
       return NextResponse.json(
         { error: "File path is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -121,7 +121,7 @@ export const GET = async (req: NextRequest) => {
     } else {
       return NextResponse.json(
         { error: "Unsupported file type" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -144,7 +144,7 @@ export const GET = async (req: NextRequest) => {
         },
         {
           status: 500,
-        }
+        },
       );
     }
   }

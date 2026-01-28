@@ -14,7 +14,4 @@ export {
 } from "./resume-review";
 
 // Job Match exports
-export {
-  JOB_MATCH_SYSTEM_PROMPT,
-  buildJobMatchPrompt,
-} from "./job-match";
+export { JOB_MATCH_SYSTEM_PROMPT, buildJobMatchPrompt } from "./job-match";

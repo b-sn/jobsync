@@ -32,7 +32,7 @@ export const getJobsList = async (
   page: number = 1,
   limit: number = APP_CONSTANTS.RECORDS_PER_PAGE,
   filter?: string,
-  search?: string
+  search?: string,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -152,7 +152,7 @@ export async function* getJobsIterator(filter?: string, pageSize = 200) {
 }
 
 export const getJobDetails = async (
-  jobId: string
+  jobId: string,
 ): Promise<any | undefined> => {
   try {
     if (!jobId) {
@@ -189,7 +189,7 @@ export const getJobDetails = async (
 };
 
 export const createLocation = async (
-  label: string
+  label: string,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -216,7 +216,7 @@ export const createLocation = async (
 };
 
 export const addJob = async (
-  data: z.infer<typeof AddJobFormSchema>
+  data: z.infer<typeof AddJobFormSchema>,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -268,7 +268,7 @@ export const addJob = async (
 };
 
 export const updateJob = async (
-  data: z.infer<typeof AddJobFormSchema>
+  data: z.infer<typeof AddJobFormSchema>,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -328,7 +328,7 @@ export const updateJob = async (
 
 export const updateJobStatus = async (
   jobId: string,
-  status: JobStatus
+  status: JobStatus,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -371,7 +371,7 @@ export const updateJobStatus = async (
 };
 
 export const deleteJobById = async (
-  jobId: string
+  jobId: string,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();

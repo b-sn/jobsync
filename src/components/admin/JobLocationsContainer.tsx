@@ -25,7 +25,7 @@ function JobLocationsContainer() {
       const { data, total } = await getJobLocationsList(
         page,
         recordsPerPage,
-        "applied"
+        "applied",
       );
       if (data) {
         setLocations((prev) => (page === 1 ? data : [...prev, ...data]));
@@ -34,7 +34,7 @@ function JobLocationsContainer() {
         setLoading(false);
       }
     },
-    [recordsPerPage]
+    [recordsPerPage],
   );
 
   const reloadJobLocations = useCallback(async () => {

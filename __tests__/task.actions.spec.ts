@@ -88,7 +88,11 @@ describe("taskActions", () => {
             select: { id: true },
           },
         },
-        orderBy: [{ priority: "desc" }, { createdAt: "desc" }, { updatedAt: "desc" }],
+        orderBy: [
+          { priority: "desc" },
+          { createdAt: "desc" },
+          { updatedAt: "desc" },
+        ],
         skip: 0,
         take: 25,
       });
@@ -119,7 +123,11 @@ describe("taskActions", () => {
             select: { id: true },
           },
         },
-        orderBy: [{ priority: "desc" }, { createdAt: "desc" }, { updatedAt: "desc" }],
+        orderBy: [
+          { priority: "desc" },
+          { createdAt: "desc" },
+          { updatedAt: "desc" },
+        ],
         skip: 10,
         take: 10,
       });
@@ -150,7 +158,11 @@ describe("taskActions", () => {
             select: { id: true },
           },
         },
-        orderBy: [{ priority: "desc" }, { createdAt: "desc" }, { updatedAt: "desc" }],
+        orderBy: [
+          { priority: "desc" },
+          { createdAt: "desc" },
+          { updatedAt: "desc" },
+        ],
         skip: 0,
         take: 10,
       });
@@ -184,7 +196,11 @@ describe("taskActions", () => {
             select: { id: true },
           },
         },
-        orderBy: [{ priority: "desc" }, { createdAt: "desc" }, { updatedAt: "desc" }],
+        orderBy: [
+          { priority: "desc" },
+          { createdAt: "desc" },
+          { updatedAt: "desc" },
+        ],
         skip: 0,
         take: 10,
       });
@@ -211,11 +227,11 @@ describe("taskActions", () => {
       try {
         (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
         (prisma.task.findMany as jest.Mock).mockRejectedValue(
-          new Error("Database error")
+          new Error("Database error"),
         );
-        
+
         const result = await getTasksList();
-        
+
         expect(result).toEqual({
           success: false,
           message: "Database error",
@@ -289,11 +305,11 @@ describe("taskActions", () => {
       try {
         (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
         (prisma.task.findFirst as jest.Mock).mockRejectedValue(
-          new Error("Database error")
+          new Error("Database error"),
         );
-        
+
         const result = await getTaskById("task-id");
-        
+
         expect(result).toEqual({
           success: false,
           message: "Database error",
@@ -382,11 +398,11 @@ describe("taskActions", () => {
       try {
         (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
         (prisma.task.create as jest.Mock).mockRejectedValue(
-          new Error("Database error")
+          new Error("Database error"),
         );
-        
+
         const result = await createTask(taskData);
-        
+
         expect(result).toEqual({
           success: false,
           message: "Database error",
@@ -480,11 +496,11 @@ describe("taskActions", () => {
       try {
         (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
         (prisma.task.update as jest.Mock).mockRejectedValue(
-          new Error("Database error")
+          new Error("Database error"),
         );
-        
+
         const result = await updateTask(updateData);
-        
+
         expect(result).toEqual({
           success: false,
           message: "Database error",
@@ -542,11 +558,11 @@ describe("taskActions", () => {
       try {
         (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
         (prisma.task.update as jest.Mock).mockRejectedValue(
-          new Error("Database error")
+          new Error("Database error"),
         );
-        
+
         const result = await updateTaskStatus("task-id", "complete");
-        
+
         expect(result).toEqual({
           success: false,
           message: "Database error",
@@ -601,7 +617,9 @@ describe("taskActions", () => {
           ...mockTask,
           activity: { id: "activity-id" },
         };
-        (prisma.task.findFirst as jest.Mock).mockResolvedValue(taskWithActivity);
+        (prisma.task.findFirst as jest.Mock).mockResolvedValue(
+          taskWithActivity,
+        );
 
         const result = await deleteTaskById("task-id");
 
@@ -637,11 +655,11 @@ describe("taskActions", () => {
       try {
         (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
         (prisma.task.findFirst as jest.Mock).mockRejectedValue(
-          new Error("Database error")
+          new Error("Database error"),
         );
-        
+
         const result = await deleteTaskById("task-id");
-        
+
         expect(result).toEqual({
           success: false,
           message: "Database error",
@@ -720,7 +738,9 @@ describe("taskActions", () => {
           ...mockTask,
           activity: { id: "activity-id" },
         };
-        (prisma.task.findFirst as jest.Mock).mockResolvedValue(taskWithActivity);
+        (prisma.task.findFirst as jest.Mock).mockResolvedValue(
+          taskWithActivity,
+        );
 
         const result = await startActivityFromTask("task-id");
 
@@ -742,7 +762,7 @@ describe("taskActions", () => {
           activityTypeId: null,
         };
         (prisma.task.findFirst as jest.Mock).mockResolvedValue(
-          taskWithoutActivityType
+          taskWithoutActivityType,
         );
 
         const result = await startActivityFromTask("task-id");
@@ -770,7 +790,8 @@ describe("taskActions", () => {
 
         expect(result).toEqual({
           success: false,
-          message: "Cannot start an activity from a completed or cancelled task.",
+          message:
+            "Cannot start an activity from a completed or cancelled task.",
         });
       } finally {
         spy.mockRestore();
@@ -791,7 +812,8 @@ describe("taskActions", () => {
 
         expect(result).toEqual({
           success: false,
-          message: "Cannot start an activity from a completed or cancelled task.",
+          message:
+            "Cannot start an activity from a completed or cancelled task.",
         });
       } finally {
         spy.mockRestore();
@@ -841,11 +863,11 @@ describe("taskActions", () => {
       try {
         (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
         (prisma.task.findFirst as jest.Mock).mockRejectedValue(
-          new Error("Database error")
+          new Error("Database error"),
         );
-        
+
         const result = await startActivityFromTask("task-id");
-        
+
         expect(result).toEqual({
           success: false,
           message: "Database error",
@@ -877,7 +899,7 @@ describe("taskActions", () => {
         },
       ];
       (prisma.activityType.findMany as jest.Mock).mockResolvedValue(
-        mockActivityTypes
+        mockActivityTypes,
       );
       (prisma.task.count as jest.Mock).mockResolvedValue(8);
 
@@ -946,7 +968,7 @@ describe("taskActions", () => {
       try {
         (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
         (prisma.activityType.findMany as jest.Mock).mockRejectedValue(
-          new Error("Database error")
+          new Error("Database error"),
         );
 
         const result = await getActivityTypesWithTaskCounts();

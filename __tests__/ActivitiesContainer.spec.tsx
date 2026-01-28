@@ -143,7 +143,7 @@ describe("ActivitiesContainer Search Functionality", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByPlaceholderText("Search activities...")
+          screen.getByPlaceholderText("Search activities..."),
         ).toBeInTheDocument();
       });
     });
@@ -159,7 +159,7 @@ describe("ActivitiesContainer Search Functionality", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByPlaceholderText("Search activities...")
+          screen.getByPlaceholderText("Search activities..."),
         ).toBeInTheDocument();
       });
 
@@ -437,7 +437,7 @@ describe("ActivitiesContainer Search Functionality", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByPlaceholderText("Search activities...")
+          screen.getByPlaceholderText("Search activities..."),
         ).toBeInTheDocument();
       });
 

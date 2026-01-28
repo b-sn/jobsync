@@ -13,7 +13,7 @@ describe("CreateResume Component", () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
-  
+
   const renderComponent = async (resumeToEdit?: Resume) => {
     render(
       <CreateResume
@@ -22,12 +22,14 @@ describe("CreateResume Component", () => {
         resumeToEdit={resumeToEdit}
         reloadResumes={mockReloadResumes}
         setNewResumeId={mockSetNewResumeId}
-      />
+      />,
     );
 
     const expectedTitle = resumeToEdit?.title ?? "";
     await waitFor(() => {
-      expect(screen.getByTestId("resume-title-input")).toHaveValue(expectedTitle);
+      expect(screen.getByTestId("resume-title-input")).toHaveValue(
+        expectedTitle,
+      );
     });
   };
 

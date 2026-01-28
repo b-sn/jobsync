@@ -39,9 +39,9 @@ export default async function Dashboard() {
     Array.from(
       new Set(
         data.flatMap((entry) =>
-          Object.keys(entry).filter((key) => key !== "day")
-        )
-      )
+          Object.keys(entry).filter((key) => key !== "day"),
+        ),
+      ),
     );
   return (
     <>

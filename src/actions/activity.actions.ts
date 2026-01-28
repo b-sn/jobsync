@@ -28,7 +28,7 @@ export const getAllActivityTypes = async (): Promise<any | undefined> => {
 };
 
 export const createActivityType = async (
-  label: string
+  label: string,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -56,7 +56,7 @@ export const createActivityType = async (
 export const getActivitiesList = async (
   page: number = 1,
   limit: number = APP_CONSTANTS.RECORDS_PER_PAGE,
-  search?: string
+  search?: string,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -118,7 +118,7 @@ export const getActivitiesList = async (
 };
 
 export const createActivity = async (
-  data: Activity
+  data: Activity,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -155,7 +155,7 @@ export const createActivity = async (
 };
 
 export const deleteActivityById = async (
-  activityId: string
+  activityId: string,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -178,7 +178,7 @@ export const deleteActivityById = async (
 };
 
 export const startActivityById = async (
-  activityId: string
+  activityId: string,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -228,7 +228,7 @@ export const startActivityById = async (
 export const stopActivityById = async (
   activityId: string,
   endTime: Date,
-  duration: number
+  duration: number,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();

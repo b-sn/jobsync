@@ -98,7 +98,7 @@ function AddExperience({
         },
         {
           keepDefaultValues: true,
-        }
+        },
       );
     } else {
       reset(
@@ -107,7 +107,7 @@ function AddExperience({
           sectionId,
           currentJob: false,
         },
-        { keepDefaultValues: true }
+        { keepDefaultValues: true },
       );
     }
   }, [
@@ -156,7 +156,9 @@ function AddExperience({
       <DialogContent className="h-full md:h-[85%] lg:max-h-screen md:max-w-[40rem] overflow-y-scroll">
         <DialogHeader>
           <DialogTitle>{pageTitle}</DialogTitle>
-          <DialogDescription>Fill out the form below to add experience details.</DialogDescription>
+          <DialogDescription>
+            Fill out the form below to add experience details.
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form

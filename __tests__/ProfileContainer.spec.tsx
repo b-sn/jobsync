@@ -10,7 +10,7 @@ jest.mock("@/actions/profile.actions", () => ({
       total: 0,
       success: true,
       message: "",
-    })
+    }),
   ),
 }));
 
@@ -39,7 +39,7 @@ describe("ProfileContainer Component", () => {
 
     expect(screen.getByRole("dialog")).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { level: 2, name: /create resume/i })
+      screen.getByRole("heading", { level: 2, name: /create resume/i }),
     ).toBeInTheDocument();
   });
 });

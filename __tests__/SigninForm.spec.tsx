@@ -40,7 +40,7 @@ describe("SigninForm Component", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText("Please enter a valid email.")
+        screen.getByText("Please enter a valid email."),
       ).toBeInTheDocument();
     });
   });
@@ -54,7 +54,7 @@ describe("SigninForm Component", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText("Email must be at least 3 characters.")
+        screen.getByText("Email must be at least 3 characters."),
       ).toBeInTheDocument();
     });
     expect(authenticate).not.toHaveBeenCalled();

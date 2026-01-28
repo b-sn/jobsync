@@ -97,7 +97,7 @@ function AddEducation({
           description: education?.description,
           degreeCompleted: !!education?.endDate,
         },
-        { keepDefaultValues: true }
+        { keepDefaultValues: true },
       );
     } else {
       reset(
@@ -105,10 +105,17 @@ function AddEducation({
           resumeId,
           sectionId,
         },
-        { keepDefaultValues: true }
+        { keepDefaultValues: true },
       );
     }
-  }, [dialogOpen, getLocationData, educationToEdit, resumeId, sectionId, reset]);
+  }, [
+    dialogOpen,
+    getLocationData,
+    educationToEdit,
+    resumeId,
+    sectionId,
+    reset,
+  ]);
 
   const onDegreeCompleted = (completed: boolean) => {
     if (completed) {
@@ -147,7 +154,9 @@ function AddEducation({
       <DialogContent className="h-full md:h-[85%] lg:max-h-screen md:max-w-[40rem] overflow-y-scroll">
         <DialogHeader>
           <DialogTitle>{pageTitle}</DialogTitle>
-          <DialogDescription>Fill out the form below to add education details.</DialogDescription>
+          <DialogDescription>
+            Fill out the form below to add education details.
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form

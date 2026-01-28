@@ -68,7 +68,7 @@ function AddResumeSummary({
           sectionType: summaryToEdit.sectionType,
           content: summaryToEdit.summary?.content ?? "",
         },
-        { keepDefaultValues: true }
+        { keepDefaultValues: true },
       );
     } else {
       reset(
@@ -77,7 +77,7 @@ function AddResumeSummary({
           sectionTitle: "",
           content: "",
         },
-        { keepDefaultValues: true }
+        { keepDefaultValues: true },
       );
     }
   }, [summaryToEdit, reset, resumeId]);
@@ -113,7 +113,9 @@ function AddResumeSummary({
       <DialogContent className="lg:max-h-screen overflow-y-scroll">
         <DialogHeader>
           <DialogTitle>{pageTitle}</DialogTitle>
-          <DialogDescription>Fill out the form below to add summary details.</DialogDescription>
+          <DialogDescription>
+            Fill out the form below to add summary details.
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form

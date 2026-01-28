@@ -7,7 +7,7 @@ export async function GET() {
     if (!apiKey) {
       return NextResponse.json(
         { error: "DeepSeek API key not configured" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -20,7 +20,7 @@ export async function GET() {
     if (!response.ok) {
       return NextResponse.json(
         { error: "Failed to fetch DeepSeek models" },
-        { status: response.status }
+        { status: response.status },
       );
     }
 
@@ -30,7 +30,7 @@ export async function GET() {
     console.error("Error fetching DeepSeek models:", error);
     return NextResponse.json(
       { error: "Failed to fetch DeepSeek models" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -36,7 +36,7 @@ export function TablePagination({
             }}
             className={cn(
               "cursor-pointer",
-              prevDisabled && "cursor-default text-muted-foreground"
+              prevDisabled && "cursor-default text-muted-foreground",
             )}
           />
         </PaginationItem>
@@ -64,7 +64,7 @@ export function TablePagination({
             }}
             className={cn(
               "cursor-pointer",
-              nextDisabled && "cursor-default text-muted-foreground"
+              nextDisabled && "cursor-default text-muted-foreground",
             )}
           />
         </PaginationItem>

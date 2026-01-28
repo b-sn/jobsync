@@ -8,46 +8,66 @@ const ScoresSchema = z.object({
     .number()
     .min(0)
     .max(100)
-    .describe("Overall resume score 0-100. Entry-level: 35-50, Mid: 45-65, Senior: 55-75, Exceptional: >75"),
+    .describe(
+      "Overall resume score 0-100. Entry-level: 35-50, Mid: 45-65, Senior: 55-75, Exceptional: >75",
+    ),
   impact: z
     .number()
     .min(0)
     .max(100)
-    .describe("Impact score based on quantified achievements, measurable results, and business value demonstrated"),
+    .describe(
+      "Impact score based on quantified achievements, measurable results, and business value demonstrated",
+    ),
   clarity: z
     .number()
     .min(0)
     .max(100)
-    .describe("Clarity score based on readability, organization, STAR format usage, and professional writing"),
+    .describe(
+      "Clarity score based on readability, organization, STAR format usage, and professional writing",
+    ),
   atsCompatibility: z
     .number()
     .min(0)
     .max(100)
-    .describe("ATS compatibility score based on formatting, keywords, standard sections, and parsability"),
+    .describe(
+      "ATS compatibility score based on formatting, keywords, standard sections, and parsability",
+    ),
 });
 
 const AchievementsSchema = z.object({
   strong: z
     .array(z.string())
-    .describe("List achievements with measurable impact (numbers, %, $). Quote actual text from resume."),
+    .describe(
+      "List achievements with measurable impact (numbers, %, $). Quote actual text from resume.",
+    ),
   weak: z
     .array(z.string())
-    .describe("List vague statements that need quantification. Quote actual text that lacks metrics."),
+    .describe(
+      "List vague statements that need quantification. Quote actual text that lacks metrics.",
+    ),
   missingMetrics: z
     .array(z.string())
-    .describe("Suggest specific metrics that could be added (e.g., 'Add team size to Managed project' or 'Quantify cost savings')"),
+    .describe(
+      "Suggest specific metrics that could be added (e.g., 'Add team size to Managed project' or 'Quantify cost savings')",
+    ),
 });
 
 const KeywordsSchema = z.object({
   found: z
     .array(z.string())
-    .describe("Relevant industry/role keywords present in resume (technologies, tools, methodologies, domain terms)"),
+    .describe(
+      "Relevant industry/role keywords present in resume (technologies, tools, methodologies, domain terms)",
+    ),
   missing: z
     .array(z.string())
-    .describe("Important keywords that should be added based on typical role requirements"),
+    .describe(
+      "Important keywords that should be added based on typical role requirements",
+    ),
   overused: z
     .array(z.string())
-    .describe("Buzzwords or clichés used too frequently (e.g., 'synergy', 'results-driven', 'team player')"),
+    .describe(
+      "Buzzwords or clichés used too frequently (e.g., 'synergy', 'results-driven', 'team player')",
+    ),
 });
 
 const VerbSuggestionSchema = z.object({
@@ -58,22 +78,32 @@ const VerbSuggestionSchema = z.object({
 const ActionVerbsSchema = z.object({
   strong: z
     .array(z.string())
-    .describe("Powerful verbs used effectively (e.g., Led, Architected, Spearheaded, Delivered, Transformed)"),
+    .describe(
+      "Powerful verbs used effectively (e.g., Led, Architected, Spearheaded, Delivered, Transformed)",
+    ),
   weak: z
     .array(z.string())
-    .describe("Weak verbs that should be replaced (e.g., 'Responsible for', 'Helped with', 'Worked on')"),
+    .describe(
+      "Weak verbs that should be replaced (e.g., 'Responsible for', 'Helped with', 'Worked on')",
+    ),
   suggestions: z
     .array(VerbSuggestionSchema)
     .describe("Specific verb replacement suggestions with context"),
 });
 
 const SectionFeedbackItemSchema = z.object({
-  status: z.enum(["good", "needsWork", "missing"]).describe("Section status assessment"),
+  status: z
+    .enum(["good", "needsWork", "missing"])
+    .describe("Section status assessment"),
   feedback: z.string().describe("Specific actionable advice for this section"),
 });
 
 const ImprovementSchema = z.object({
-  priority: z.number().min(1).max(5).describe("Priority ranking 1-5, where 1 is highest priority"),
+  priority: z
+    .number()
+    .min(1)
+    .max(5)
+    .describe("Priority ranking 1-5, where 1 is highest priority"),
   issue: z.string().describe("What's wrong - be specific"),
   fix: z.string().describe("How to fix it - be actionable"),
 });
@@ -90,10 +120,14 @@ const GrammarAndSpellingSchema = z.object({
     .describe("Grammar and spelling errors found"),
   punctuationIssues: z
     .array(z.string())
-    .describe("Punctuation issues (e.g., inconsistent periods, comma problems)"),
+    .describe(
+      "Punctuation issues (e.g., inconsistent periods, comma problems)",
+    ),
   consistencyIssues: z
     .array(z.string())
-    .describe("Consistency issues (e.g., tense shifts, formatting inconsistencies, date format variations)"),
+    .describe(
+      "Consistency issues (e.g., tense shifts, formatting inconsistencies, date format variations)",
+    ),
 });
 
 /**
@@ -101,25 +135,39 @@ const GrammarAndSpellingSchema = z.object({
  * Single LLM call returns all analysis in structured format
  */
 export const ResumeReviewSchema = z.object({
-  scores: ScoresSchema.describe("Multiple score dimensions for nuanced assessment"),
-  achievements: AchievementsSchema.describe("Achievement quality assessment with specific examples"),
+  scores: ScoresSchema.describe(
+    "Multiple score dimensions for nuanced assessment",
+  ),
+  achievements: AchievementsSchema.describe(
+    "Achievement quality assessment with specific examples",
+  ),
   keywords: KeywordsSchema.describe("Keyword relevance analysis"),
-  actionVerbs: ActionVerbsSchema.describe("Action verb strength analysis with suggestions"),
+  actionVerbs: ActionVerbsSchema.describe(
+    "Action verb strength analysis with suggestions",
+  ),
   sectionFeedback: z
     .record(z.string(), SectionFeedbackItemSchema)
-    .describe("Section-by-section feedback keyed by section name (e.g., 'Summary', 'Experience', 'Skills', 'Education')"),
+    .describe(
+      "Section-by-section feedback keyed by section name (e.g., 'Summary', 'Experience', 'Skills', 'Education')",
+    ),
   atsIssues: z
     .array(z.string())
-    .describe("Formatting or content issues that may cause ATS rejection (tables, graphics, unusual fonts, missing sections)"),
+    .describe(
+      "Formatting or content issues that may cause ATS rejection (tables, graphics, unusual fonts, missing sections)",
+    ),
   topImprovements: z
     .array(ImprovementSchema)
     .min(3)
     .max(5)
     .describe("Top 3-5 prioritized improvement suggestions"),
-  grammarAndSpelling: GrammarAndSpellingSchema.describe("Grammar, spelling, and consistency analysis"),
+  grammarAndSpelling: GrammarAndSpellingSchema.describe(
+    "Grammar, spelling, and consistency analysis",
+  ),
   summary: z
     .string()
-    .describe("2-3 sentence overall assessment mentioning overall score, top strength, and most impactful improvement area"),
+    .describe(
+      "2-3 sentence overall assessment mentioning overall score, top strength, and most impactful improvement area",
+    ),
 });
 
 export type ResumeReviewResponse = z.infer<typeof ResumeReviewSchema>;
@@ -142,7 +190,9 @@ const RequirementMetSchema = z.object({
 
 const RequirementMissingSchema = z.object({
   requirement: z.string().describe("What the JD asked for"),
-  importance: z.enum(["required", "preferred"]).describe("How critical this requirement is"),
+  importance: z
+    .enum(["required", "preferred"])
+    .describe("How critical this requirement is"),
   suggestion: z.string().describe("How to address this gap"),
 });
 
@@ -153,15 +203,25 @@ const RequirementPartialSchema = z.object({
 });
 
 const RequirementsSchema = z.object({
-  met: z.array(RequirementMetSchema).describe("Requirements fully satisfied by the resume"),
-  missing: z.array(RequirementMissingSchema).describe("Requirements not found in the resume"),
-  partial: z.array(RequirementPartialSchema).describe("Requirements partially met"),
+  met: z
+    .array(RequirementMetSchema)
+    .describe("Requirements fully satisfied by the resume"),
+  missing: z
+    .array(RequirementMissingSchema)
+    .describe("Requirements not found in the resume"),
+  partial: z
+    .array(RequirementPartialSchema)
+    .describe("Requirements partially met"),
 });
 
 const SkillsAnalysisSchema = z.object({
-  matched: z.array(z.string()).describe("Skills that align between resume and JD"),
+  matched: z
+    .array(z.string())
+    .describe("Skills that align between resume and JD"),
   missing: z.array(z.string()).describe("Required skills not found in resume"),
-  transferable: z.array(z.string()).describe("Resume skills that could apply but aren't exact match"),
+  transferable: z
+    .array(z.string())
+    .describe("Resume skills that could apply but aren't exact match"),
   bonus: z.array(z.string()).describe("Resume skills beyond JD requirements"),
 });
 
@@ -173,7 +233,9 @@ const ExperienceAnalysisSchema = z.object({
     .number()
     .nullable()
     .describe("Years of experience required by JD, null if not specified"),
-  yearsApparent: z.number().describe("Apparent years of experience from resume"),
+  yearsApparent: z
+    .number()
+    .describe("Apparent years of experience from resume"),
   relevance: z
     .enum(["highly relevant", "somewhat relevant", "different field"])
     .describe("How relevant the candidate's experience is to this role"),
@@ -182,7 +244,9 @@ const ExperienceAnalysisSchema = z.object({
 const KeywordsAnalysisSchema = z.object({
   matched: z.array(z.string()).describe("JD keywords found in resume"),
   missing: z.array(z.string()).describe("Important JD keywords to add"),
-  addToResume: z.array(z.string()).describe("Exact phrases from JD to incorporate"),
+  addToResume: z
+    .array(z.string())
+    .describe("Exact phrases from JD to incorporate"),
 });
 
 const TailoringTipSchema = z.object({
@@ -210,13 +274,21 @@ export const JobMatchSchema = z.object({
   recommendation: z
     .enum(["strong match", "good match", "partial match", "weak match"])
     .describe("Overall recommendation based on match analysis"),
-  requirements: RequirementsSchema.describe("Detailed requirements matching analysis"),
-  skills: SkillsAnalysisSchema.describe("Skills comparison between resume and JD"),
-  experience: ExperienceAnalysisSchema.describe("Experience level and relevance assessment"),
+  requirements: RequirementsSchema.describe(
+    "Detailed requirements matching analysis",
+  ),
+  skills: SkillsAnalysisSchema.describe(
+    "Skills comparison between resume and JD",
+  ),
+  experience: ExperienceAnalysisSchema.describe(
+    "Experience level and relevance assessment",
+  ),
   keywords: KeywordsAnalysisSchema.describe("Keyword overlap and gaps"),
   dealBreakers: z
     .array(z.string())
-    .describe("Critical requirements completely missing that may disqualify candidate"),
+    .describe(
+      "Critical requirements completely missing that may disqualify candidate",
+    ),
   tailoringTips: z
     .array(TailoringTipSchema)
     .min(1)

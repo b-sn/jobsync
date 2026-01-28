@@ -144,7 +144,9 @@ export function TaskForm({
             <DialogTitle data-testid="task-form-dialog-title">
               {pageTitle}
             </DialogTitle>
-            <DialogDescription>Fill out the form below to add a new task.</DialogDescription>
+            <DialogDescription>
+              Fill out the form below to add a new task.
+            </DialogDescription>
           </DialogHeader>
           <Form {...form}>
             <form

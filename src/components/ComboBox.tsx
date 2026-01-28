@@ -85,7 +85,7 @@ export function Combobox({ options, field, creatable }: ComboboxProps) {
             role="combobox"
             className={cn(
               "md:w-[240px] lg:w-[280px] justify-between capitalize",
-              !field.value && "text-muted-foreground"
+              !field.value && "text-muted-foreground",
             )}
           >
             {field.value
@@ -118,7 +118,7 @@ export function Combobox({ options, field, creatable }: ComboboxProps) {
             }}
             className={cn(
               "flex cursor-pointer items-center justify-center gap-1 italic mt-2",
-              !newOption && "text-muted-foreground cursor-default"
+              !newOption && "text-muted-foreground cursor-default",
             )}
           >
             {creatable ? (
@@ -152,7 +152,7 @@ export function Combobox({ options, field, creatable }: ComboboxProps) {
                         "mr-2 h-4 w-4",
                         option.value === field.value
                           ? "opacity-100"
-                          : "opacity-0"
+                          : "opacity-0",
                       )}
                     />
                     {option.label}

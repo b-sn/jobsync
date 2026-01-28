@@ -30,7 +30,7 @@ const ProfileContainer = () => {
       setLoading(true);
       const { data, total, success, message } = await getResumeList(
         page,
-        recordsPerPage
+        recordsPerPage,
       );
       if (success && data) {
         setResumes((prev) => (page === 1 ? data : [...prev, ...data]));
@@ -46,7 +46,7 @@ const ProfileContainer = () => {
         });
       }
     },
-    [recordsPerPage]
+    [recordsPerPage],
   );
 
   const reloadResumes = useCallback(async () => {

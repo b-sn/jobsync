@@ -8,7 +8,7 @@
  */
 export function buildJobMatchPrompt(
   resumeText: string,
-  jobDescription: string
+  jobDescription: string,
 ): string {
   return `Compare this resume against the job description and return a JSON analysis.
 

@@ -67,7 +67,7 @@ function AddCompany({
           createdBy: editCompany.createdBy ?? "",
           logoUrl: editCompany.logoUrl ?? "",
         },
-        { keepDefaultValues: true }
+        { keepDefaultValues: true },
       );
     } else {
       reset(
@@ -92,7 +92,7 @@ function AddCompany({
           createdBy: "",
           logoUrl: "",
         },
-        { keepDefaultValues: true }
+        { keepDefaultValues: true },
       );
     }
     setDialogOpen(true);

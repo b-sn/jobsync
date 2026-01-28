@@ -128,7 +128,12 @@ describe("JobsContainer Search Functionality", () => {
 
   const mockLocations = [
     { id: "1", label: "Remote", value: "remote", createdBy: "user-1" },
-    { id: "2", label: "San Francisco", value: "san francisco", createdBy: "user-1" },
+    {
+      id: "2",
+      label: "San Francisco",
+      value: "san francisco",
+      createdBy: "user-1",
+    },
   ];
 
   const mockSources = [
@@ -140,9 +145,25 @@ describe("JobsContainer Search Functionality", () => {
     {
       id: "1",
       userId: "user-1",
-      JobTitle: { id: "1", label: "Full Stack Developer", value: "full stack developer", createdBy: "user-1" },
-      Company: { id: "1", label: "Amazon", value: "amazon", createdBy: "user-1", logoUrl: "" },
-      Location: { id: "1", label: "Remote", value: "remote", createdBy: "user-1" },
+      JobTitle: {
+        id: "1",
+        label: "Full Stack Developer",
+        value: "full stack developer",
+        createdBy: "user-1",
+      },
+      Company: {
+        id: "1",
+        label: "Amazon",
+        value: "amazon",
+        createdBy: "user-1",
+        logoUrl: "",
+      },
+      Location: {
+        id: "1",
+        label: "Remote",
+        value: "remote",
+        createdBy: "user-1",
+      },
       Status: { id: "1", label: "Applied", value: "applied" },
       JobSource: { id: "1", label: "Indeed", value: "indeed" },
       jobType: "FT",
@@ -152,9 +173,25 @@ describe("JobsContainer Search Functionality", () => {
     {
       id: "2",
       userId: "user-1",
-      JobTitle: { id: "2", label: "Frontend Developer", value: "frontend developer", createdBy: "user-1" },
-      Company: { id: "2", label: "Google", value: "google", createdBy: "user-1", logoUrl: "" },
-      Location: { id: "2", label: "San Francisco", value: "san francisco", createdBy: "user-1" },
+      JobTitle: {
+        id: "2",
+        label: "Frontend Developer",
+        value: "frontend developer",
+        createdBy: "user-1",
+      },
+      Company: {
+        id: "2",
+        label: "Google",
+        value: "google",
+        createdBy: "user-1",
+        logoUrl: "",
+      },
+      Location: {
+        id: "2",
+        label: "San Francisco",
+        value: "san francisco",
+        createdBy: "user-1",
+      },
       Status: { id: "2", label: "Interview", value: "interview" },
       JobSource: { id: "2", label: "LinkedIn", value: "linkedin" },
       jobType: "FT",
@@ -163,7 +200,10 @@ describe("JobsContainer Search Functionality", () => {
     },
   ];
 
-  const user = userEvent.setup({ delay: null, advanceTimers: jest.advanceTimersByTime });
+  const user = userEvent.setup({
+    delay: null,
+    advanceTimers: jest.advanceTimersByTime,
+  });
   window.HTMLElement.prototype.scrollIntoView = jest.fn();
   window.HTMLElement.prototype.hasPointerCapture = jest.fn();
 
@@ -187,7 +227,7 @@ describe("JobsContainer Search Functionality", () => {
         titles={mockTitles}
         locations={mockLocations}
         sources={mockSources}
-      />
+      />,
     );
   };
 
@@ -202,7 +242,9 @@ describe("JobsContainer Search Functionality", () => {
       renderComponent();
 
       await waitFor(() => {
-        expect(screen.getByPlaceholderText("Search jobs...")).toBeInTheDocument();
+        expect(
+          screen.getByPlaceholderText("Search jobs..."),
+        ).toBeInTheDocument();
       });
     });
 
@@ -216,7 +258,9 @@ describe("JobsContainer Search Functionality", () => {
       renderComponent();
 
       await waitFor(() => {
-        expect(screen.getByPlaceholderText("Search jobs...")).toBeInTheDocument();
+        expect(
+          screen.getByPlaceholderText("Search jobs..."),
+        ).toBeInTheDocument();
       });
 
       const searchInput = screen.getByPlaceholderText("Search jobs...");
@@ -351,7 +395,9 @@ describe("JobsContainer Search Functionality", () => {
       renderComponent();
 
       await waitFor(() => {
-        expect(screen.getByPlaceholderText("Search jobs...")).toBeInTheDocument();
+        expect(
+          screen.getByPlaceholderText("Search jobs..."),
+        ).toBeInTheDocument();
       });
 
       // Type in search
@@ -552,7 +598,10 @@ describe("JobsContainer Search Functionality", () => {
       expect(await screen.findByText("Load More")).toBeInTheDocument();
 
       // Type search
-      await user.type(screen.getByPlaceholderText("Search jobs..."), "Developer");
+      await user.type(
+        screen.getByPlaceholderText("Search jobs..."),
+        "Developer",
+      );
 
       act(() => {
         jest.advanceTimersByTime(300);

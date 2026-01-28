@@ -17,7 +17,7 @@ import { writeFile } from "fs/promises";
 
 export const getResumeList = async (
   page: number = 1,
-  limit: number = APP_CONSTANTS.RECORDS_PER_PAGE
+  limit: number = APP_CONSTANTS.RECORDS_PER_PAGE,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -68,7 +68,7 @@ export const getResumeList = async (
 };
 
 export const getResumeById = async (
-  resumeId: string
+  resumeId: string,
 ): Promise<any | undefined> => {
   try {
     if (!resumeId) {
@@ -114,7 +114,7 @@ export const getResumeById = async (
 };
 
 export const addContactInfo = async (
-  data: z.infer<typeof AddContactInfoFormSchema>
+  data: z.infer<typeof AddContactInfoFormSchema>,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -152,7 +152,7 @@ export const addContactInfo = async (
 };
 
 export const updateContactInfo = async (
-  data: z.infer<typeof AddContactInfoFormSchema>
+  data: z.infer<typeof AddContactInfoFormSchema>,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -185,7 +185,7 @@ export const updateContactInfo = async (
 export const createResumeProfile = async (
   title: string,
   fileName: string,
-  filePath?: string
+  filePath?: string,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -249,7 +249,7 @@ export const createResumeProfile = async (
 
 const createFileEntry = async (
   fileName: string | undefined,
-  filePath: string | undefined
+  filePath: string | undefined,
 ) => {
   const newFileEntry = await prisma.file.create({
     data: {
@@ -266,7 +266,7 @@ export const editResume = async (
   title: string,
   fileId?: string,
   fileName?: string,
-  filePath?: string
+  filePath?: string,
 ): Promise<any | undefined> => {
   try {
     let resolvedFileId = fileId;
@@ -282,7 +282,7 @@ export const editResume = async (
 
       if (!isValidFileId) {
         throw new Error(
-          `The provided FileId "${resolvedFileId}" does not exist.`
+          `The provided FileId "${resolvedFileId}" does not exist.`,
         );
       }
     }
@@ -303,7 +303,7 @@ export const editResume = async (
 
 export const deleteResumeById = async (
   resumeId: string,
-  fileId?: string
+  fileId?: string,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -404,7 +404,7 @@ export const deleteFile = async (fileId: string) => {
 };
 
 export const addResumeSummary = async (
-  data: z.infer<typeof AddSummarySectionFormSchema>
+  data: z.infer<typeof AddSummarySectionFormSchema>,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -441,7 +441,7 @@ export const addResumeSummary = async (
 };
 
 export const updateResumeSummary = async (
-  data: z.infer<typeof AddSummarySectionFormSchema>
+  data: z.infer<typeof AddSummarySectionFormSchema>,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -479,7 +479,7 @@ export const updateResumeSummary = async (
 };
 
 export const addExperience = async (
-  data: z.infer<typeof AddExperienceFormSchema>
+  data: z.infer<typeof AddExperienceFormSchema>,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -528,7 +528,7 @@ export const addExperience = async (
 };
 
 export const updateExperience = async (
-  data: z.infer<typeof AddExperienceFormSchema>
+  data: z.infer<typeof AddExperienceFormSchema>,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -567,7 +567,7 @@ export const updateExperience = async (
 };
 
 export const addEducation = async (
-  data: z.infer<typeof AddEducationFormSchema>
+  data: z.infer<typeof AddEducationFormSchema>,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();
@@ -612,7 +612,7 @@ export const addEducation = async (
 };
 
 export const updateEducation = async (
-  data: z.infer<typeof AddEducationFormSchema>
+  data: z.infer<typeof AddEducationFormSchema>,
 ): Promise<any | undefined> => {
   try {
     const user = await getCurrentUser();

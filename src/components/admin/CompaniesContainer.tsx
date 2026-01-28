@@ -28,7 +28,7 @@ function CompaniesContainer() {
       const { data, total } = await getCompanyList(
         page,
         recordsPerPage,
-        "applied"
+        "applied",
       );
       if (data) {
         setCompanies((prev) => (page === 1 ? data : [...prev, ...data]));
@@ -37,7 +37,7 @@ function CompaniesContainer() {
         setLoading(false);
       }
     },
-    [recordsPerPage]
+    [recordsPerPage],
   );
 
   const reloadCompanies = useCallback(async () => {

@@ -38,7 +38,7 @@ const AiResumeReviewSection = ({ resume }: AiSectionProps) => {
 
   const selectedModel: AiModel = getFromLocalStorage(
     "aiSettings",
-    defaultModel
+    defaultModel,
   );
 
   // Standard single-agent mode
@@ -81,7 +81,7 @@ const AiResumeReviewSection = ({ resume }: AiSectionProps) => {
     setRunningModelError("");
     const result = await checkIfModelIsRunning(
       selectedModel.model,
-      selectedModel.provider
+      selectedModel.provider,
     );
     if (result.isRunning && result.runningModelName) {
       setRunningModelName(result.runningModelName);
@@ -91,7 +91,8 @@ const AiResumeReviewSection = ({ resume }: AiSectionProps) => {
   };
 
   // Check if we have any content to show
-  const hasContent = object && (object.scores?.overall !== undefined || object.summary);
+  const hasContent =
+    object && (object.scores?.overall !== undefined || object.summary);
 
   return (
     <Sheet open={aISectionOpen} onOpenChange={triggerSheetChange}>
