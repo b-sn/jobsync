@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 type RecordsCountProps = {
   count: number;
   total: number;
@@ -11,10 +13,16 @@ export function RecordsCount({
   total,
   label = "records",
 }: RecordsCountProps) {
+  const tc = useTranslations("common");
+  const t = useTranslations(label || "common");
   return (
     <div className="text-xs text-muted-foreground">
-      Showing <strong>1 to {count}</strong> of
-      <strong> {total}</strong> {label}
+      {tc("showing")}{" "}
+      <strong>
+        1 {tc("to")} {count}
+      </strong>{" "}
+      {tc("of")}
+      <strong> {total}</strong> {t("plural")}
     </div>
   );
 }

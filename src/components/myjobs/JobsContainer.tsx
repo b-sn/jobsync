@@ -43,6 +43,8 @@ import MyJobsTable from "./MyJobsTable";
 import { format } from "date-fns";
 import { RecordsPerPageSelector } from "../RecordsPerPageSelector";
 import { RecordsCount } from "../RecordsCount";
+import { useTranslations } from "next-intl";
+import { useLocalizedTitle } from "@/hooks/useLocalizedTitle";
 
 type MyJobsProps = {
   statuses: JobStatus[];
@@ -59,6 +61,8 @@ function JobsContainer({
   locations,
   sources,
 }: MyJobsProps) {
+  const t = useTranslations("jobs");
+  const tc = useTranslations("common");
   const router = useRouter();
   const pathname = usePathname();
   const queryParams = useSearchParams();
@@ -230,18 +234,20 @@ function JobsContainer({
     }
   };
 
+  useLocalizedTitle({ pageTitleKey: "title", pageNs: "jobs" });
+
   return (
     <>
       <Card x-chunk="dashboard-06-chunk-0">
         <CardHeader className="flex-row justify-between items-center">
-          <CardTitle>My Jobs</CardTitle>
+          <CardTitle>{t("title")}</CardTitle>
           <div className="flex items-center">
             <div className="ml-auto flex items-center gap-2">
               <div className="relative">
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
                   type="search"
-                  placeholder="Search jobs..."
+                  placeholder={t("searchPlaceholder")}
                   className="pl-8 h-8 w-[150px] lg:w-[200px]"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -254,14 +260,20 @@ function JobsContainer({
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectLabel>Filter by</SelectLabel>
+                    <SelectLabel>{t("filter.by")}</SelectLabel>
                     <SelectSeparator />
-                    <SelectItem value="none">None</SelectItem>
-                    <SelectItem value="applied">Applied</SelectItem>
-                    <SelectItem value="interview">Interview</SelectItem>
-                    <SelectItem value="draft">Draft</SelectItem>
-                    <SelectItem value="rejected">Rejected</SelectItem>
-                    <SelectItem value="PT">Part-time</SelectItem>
+                    <SelectItem value="none">{t("filter.none")}</SelectItem>
+                    <SelectItem value="applied">
+                      {t("status.applied")}
+                    </SelectItem>
+                    <SelectItem value="interview">
+                      {t("status.interview")}
+                    </SelectItem>
+                    <SelectItem value="draft">{t("status.draft")}</SelectItem>
+                    <SelectItem value="rejected">
+                      {t("status.rejected")}
+                    </SelectItem>
+                    <SelectItem value="PT">{t("type.partTime")}</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -274,7 +286,7 @@ function JobsContainer({
               >
                 <File className="h-3.5 w-3.5" />
                 <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                  Export
+                  {t("export")}
                 </span>
               </Button>
               <AddJob
@@ -326,7 +338,7 @@ function JobsContainer({
                 disabled={loading}
                 className="btn btn-primary"
               >
-                {loading ? "Loading..." : "Load More"}
+                {loading ? tc("loading") : tc("loadMore")}
               </Button>
             </div>
           )}

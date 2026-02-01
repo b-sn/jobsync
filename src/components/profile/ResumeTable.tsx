@@ -29,6 +29,7 @@ import { useMemo, useState } from "react";
 import { toast } from "../ui/use-toast";
 import { deleteResumeById } from "@/actions/profile.actions";
 import { DeleteAlertDialog } from "../DeleteAlertDialog";
+import { useTranslations } from "next-intl";
 
 type ResumeTableProps = {
   resumes: Resume[];
@@ -39,6 +40,7 @@ type ResumeTableProps = {
 function ResumeTable({ resumes, editResume, reloadResumes }: ResumeTableProps) {
   const [alertOpen, setAlertOpen] = useState(false);
   const [resumeToDelete, setResumeToDelete] = useState<Resume>();
+  const tc = useTranslations("common");
   const onDeleteResume = useMemo(
     () => (resume: Resume) => {
       if (!resume.id) return;
@@ -83,9 +85,9 @@ function ResumeTable({ resumes, editResume, reloadResumes }: ResumeTableProps) {
             <TableHead>Created</TableHead>
             <TableHead className="hidden md:table-cell">Updated</TableHead>
             <TableHead>Jobs</TableHead>
-            <TableHead>Actions</TableHead>
+            <TableHead>{tc("actions")}</TableHead>
             <TableHead>
-              <span className="sr-only">Actions</span>
+              <span className="sr-only">{tc("actions")}</span>
             </TableHead>
           </TableRow>
         </TableHeader>
@@ -125,7 +127,7 @@ function ResumeTable({ resumes, editResume, reloadResumes }: ResumeTableProps) {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                      <DropdownMenuLabel>{tc("actions")}</DropdownMenuLabel>
                       <DropdownMenuItem
                         className="cursor-pointer"
                         onClick={() => editResume(resume)}
@@ -144,7 +146,7 @@ function ResumeTable({ resumes, editResume, reloadResumes }: ResumeTableProps) {
                         onClick={() => onDeleteResume(resume)}
                       >
                         <Trash className="mr-2 h-4 w-4" />
-                        Delete
+                        {tc("delete")}
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>

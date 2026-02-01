@@ -243,7 +243,7 @@ describe("JobsContainer Search Functionality", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByPlaceholderText("Search jobs..."),
+          screen.getByPlaceholderText("searchPlaceholder"),
         ).toBeInTheDocument();
       });
     });
@@ -259,11 +259,11 @@ describe("JobsContainer Search Functionality", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByPlaceholderText("Search jobs..."),
+          screen.getByPlaceholderText("searchPlaceholder"),
         ).toBeInTheDocument();
       });
 
-      const searchInput = screen.getByPlaceholderText("Search jobs...");
+      const searchInput = screen.getByPlaceholderText("searchPlaceholder");
 
       await act(async () => {
         await user.type(searchInput, "Amazon");
@@ -285,7 +285,7 @@ describe("JobsContainer Search Functionality", () => {
         expect(getJobsList).toHaveBeenCalledTimes(1);
       });
 
-      const searchInput = screen.getByPlaceholderText("Search jobs...");
+      const searchInput = screen.getByPlaceholderText("searchPlaceholder");
       await user.type(searchInput, "A");
 
       // Should not have called getJobsList yet (debounce not elapsed)
@@ -315,7 +315,7 @@ describe("JobsContainer Search Functionality", () => {
         expect(getJobsList).toHaveBeenCalledTimes(1);
       });
 
-      const searchInput = screen.getByPlaceholderText("Search jobs...");
+      const searchInput = screen.getByPlaceholderText("searchPlaceholder");
       await user.type(searchInput, "Amazon");
 
       act(() => {
@@ -357,7 +357,7 @@ describe("JobsContainer Search Functionality", () => {
         expect(getJobsList).toHaveBeenCalledTimes(1);
       });
 
-      const searchInput = screen.getByPlaceholderText("Search jobs...");
+      const searchInput = screen.getByPlaceholderText("searchPlaceholder");
 
       // Type to trigger search
       await user.type(searchInput, "Test");
@@ -396,12 +396,12 @@ describe("JobsContainer Search Functionality", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByPlaceholderText("Search jobs..."),
+          screen.getByPlaceholderText("searchPlaceholder"),
         ).toBeInTheDocument();
       });
 
       // Type in search
-      const searchInput = screen.getByPlaceholderText("Search jobs...");
+      const searchInput = screen.getByPlaceholderText("searchPlaceholder");
       await user.type(searchInput, "Developer");
 
       act(() => {
@@ -416,7 +416,9 @@ describe("JobsContainer Search Functionality", () => {
       const filterTrigger = screen.getByRole("combobox");
       await user.click(filterTrigger);
 
-      const appliedOption = screen.getByRole("option", { name: "Applied" });
+      const appliedOption = screen.getByRole("option", {
+        name: "status.applied",
+      });
       await user.click(appliedOption);
 
       await waitFor(() => {
@@ -438,7 +440,7 @@ describe("JobsContainer Search Functionality", () => {
       });
 
       // Type in search
-      const searchInput = screen.getByPlaceholderText("Search jobs...");
+      const searchInput = screen.getByPlaceholderText("searchPlaceholder");
       await user.type(searchInput, "Amazon");
 
       act(() => {
@@ -453,7 +455,9 @@ describe("JobsContainer Search Functionality", () => {
       const filterTrigger = screen.getByRole("combobox");
       await user.click(filterTrigger);
 
-      const interviewOption = screen.getByRole("option", { name: "Interview" });
+      const interviewOption = screen.getByRole("option", {
+        name: "status.interview",
+      });
       await user.click(interviewOption);
 
       // Search term should still be present
@@ -476,7 +480,7 @@ describe("JobsContainer Search Functionality", () => {
       });
 
       // First type in search
-      const searchInput = screen.getByPlaceholderText("Search jobs...");
+      const searchInput = screen.getByPlaceholderText("searchPlaceholder");
       await user.type(searchInput, "Developer");
 
       act(() => {
@@ -487,7 +491,9 @@ describe("JobsContainer Search Functionality", () => {
       const filterTrigger = screen.getByRole("combobox");
       await user.click(filterTrigger);
 
-      const appliedOption = screen.getByRole("option", { name: "Applied" });
+      const appliedOption = screen.getByRole("option", {
+        name: "status.applied",
+      });
       await user.click(appliedOption);
 
       await waitFor(() => {
@@ -497,7 +503,7 @@ describe("JobsContainer Search Functionality", () => {
       // Now clear filter by selecting None
       await user.click(filterTrigger);
 
-      const noneOption = screen.getByRole("option", { name: "None" });
+      const noneOption = screen.getByRole("option", { name: "filter.none" });
       await user.click(noneOption);
 
       // Filter should be cleared but search preserved
@@ -530,7 +536,7 @@ describe("JobsContainer Search Functionality", () => {
         expect(screen.getByText("Google")).toBeInTheDocument();
       });
 
-      const searchInput = screen.getByPlaceholderText("Search jobs...");
+      const searchInput = screen.getByPlaceholderText("searchPlaceholder");
       await user.type(searchInput, "Amazon");
 
       act(() => {
@@ -562,7 +568,7 @@ describe("JobsContainer Search Functionality", () => {
         expect(screen.getByText("Amazon")).toBeInTheDocument();
       });
 
-      const searchInput = screen.getByPlaceholderText("Search jobs...");
+      const searchInput = screen.getByPlaceholderText("searchPlaceholder");
       await user.type(searchInput, "test");
 
       act(() => {
@@ -595,11 +601,11 @@ describe("JobsContainer Search Functionality", () => {
 
       renderComponent();
 
-      expect(await screen.findByText("Load More")).toBeInTheDocument();
+      expect(await screen.findByText("loadMore")).toBeInTheDocument();
 
       // Type search
       await user.type(
-        screen.getByPlaceholderText("Search jobs..."),
+        screen.getByPlaceholderText("searchPlaceholder"),
         "Developer",
       );
 
@@ -612,7 +618,7 @@ describe("JobsContainer Search Functionality", () => {
       });
 
       // Click load more
-      await user.click(await screen.findByText("Load More"));
+      await user.click(await screen.findByText("loadMore"));
 
       // Should include search term in load more call
       await waitFor(() => {
@@ -640,7 +646,7 @@ describe("JobsContainer Search Functionality", () => {
         expect(screen.getByText("Amazon")).toBeInTheDocument();
       });
 
-      const searchInput = screen.getByPlaceholderText("Search jobs...");
+      const searchInput = screen.getByPlaceholderText("searchPlaceholder");
       await act(async () => {
         await user.type(searchInput, "test");
       });

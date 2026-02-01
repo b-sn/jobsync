@@ -1,5 +1,10 @@
 import ProfileContainer from "@/components/profile/ProfileContainer";
-import React from "react";
+import { i18nTitle } from "@/lib/metadata";
+import { myGetLocale } from "@/lib/locale";
+
+export async function generateMetadata() {
+  return await i18nTitle(await myGetLocale(), "profile");
+}
 
 function Profile() {
   return (

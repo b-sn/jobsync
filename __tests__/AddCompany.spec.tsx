@@ -26,9 +26,7 @@ describe("AddCompany Component", () => {
         setDialogOpen={mockSetDialogOpen}
       />,
     );
-    expect(
-      screen.getByRole("button", { name: /add company/i }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "add" })).toBeInTheDocument();
   });
 
   it("should open dialog when Add Company button is clicked", async () => {
@@ -41,7 +39,7 @@ describe("AddCompany Component", () => {
       />,
     );
     const addCompanyButton = screen.getByRole("button", {
-      name: /add company/i,
+      name: "add",
     });
     fireEvent.click(addCompanyButton);
 
@@ -67,14 +65,14 @@ describe("AddCompany Component", () => {
       />,
     );
 
-    const dialog = await screen.findByText(/edit company/i);
+    const dialog = await screen.findByText("edit");
     expect(dialog).toBeInTheDocument();
 
     await waitFor(() => {
-      expect(screen.getByLabelText(/company name/i)).toHaveValue(
+      expect(screen.getByLabelText("list.companyName")).toHaveValue(
         "Test Company",
       );
-      expect(screen.getByLabelText(/company logo url/i)).toHaveValue(
+      expect(screen.getByLabelText("logoUrl")).toHaveValue(
         "http://example.com/logo.png",
       );
     });
@@ -93,15 +91,15 @@ describe("AddCompany Component", () => {
     const addCompanyButton = await screen.findByTestId("add-company-btn");
     fireEvent.click(addCompanyButton);
 
-    const companyNameInput = screen.getByLabelText(/company name/i);
+    const companyNameInput = screen.getByLabelText("list.companyName");
     fireEvent.change(companyNameInput, {
       target: { value: "New Test Company" },
     });
-    const companyLogoUrlInput = screen.getByLabelText(/company logo url/i);
+    const companyLogoUrlInput = screen.getByLabelText("logoUrl");
     fireEvent.change(companyLogoUrlInput, {
       target: { value: "http://example.com/new-logo.png" },
     });
-    const saveButton = screen.getByRole("button", { name: /save/i });
+    const saveButton = screen.getByRole("button", { name: "save" });
     fireEvent.click(saveButton);
 
     await waitFor(() => {
@@ -138,17 +136,17 @@ describe("AddCompany Component", () => {
 
     fireEvent.click(addCompanyButton);
 
-    const companyNameInput = screen.getByLabelText(/company name/i);
+    const companyNameInput = screen.getByLabelText("list.companyName");
     fireEvent.change(companyNameInput, {
       target: { value: "Edited Test Company" },
     });
 
-    const companyLogoUrlInput = screen.getByLabelText(/company logo url/i);
+    const companyLogoUrlInput = screen.getByLabelText("logoUrl");
     fireEvent.change(companyLogoUrlInput, {
       target: { value: "http://example.com/edited-logo.png" },
     });
 
-    const saveButton = screen.getByRole("button", { name: /save/i });
+    const saveButton = screen.getByRole("button", { name: "save" });
     fireEvent.click(saveButton);
 
     await waitFor(() => {

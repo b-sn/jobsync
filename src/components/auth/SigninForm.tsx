@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { authenticate } from "@/actions/auth.actions";
+import { useTranslations } from "next-intl";
 import {
   Form,
   FormControl,
@@ -17,10 +18,11 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { SigninFormSchema } from "@/models/signinForm.schema";
 import Loading from "../Loading";
+import { useLocalizedTitle } from "@/hooks/useLocalizedTitle";
 
 function SigninForm() {
   const [isPending, startTransition] = useTransition();
-
+  const t = useTranslations("signin");
   const form = useForm<z.infer<typeof SigninFormSchema>>({
     resolver: zodResolver(SigninFormSchema),
     mode: "onChange",
@@ -47,6 +49,7 @@ function SigninForm() {
       }
     });
   };
+  useLocalizedTitle({ pageTitleKey: "title", pageNs: "signin" });
 
   return (
     <>
@@ -62,7 +65,7 @@ function SigninForm() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor="email">Email</FormLabel>
+                    <FormLabel htmlFor="email">{t("email")}</FormLabel>
                     <FormControl>
                       <Input
                         id="email"
@@ -81,7 +84,7 @@ function SigninForm() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor="password">Password</FormLabel>
+                    <FormLabel htmlFor="password">{t("password")}</FormLabel>
                     <FormControl>
                       <Input id="password" type="password" {...field} />
                     </FormControl>
@@ -98,7 +101,7 @@ function SigninForm() {
               {/* <Input id="password" type="password" required /> */}
             </div>
             <Button type="submit" disabled={isPending} className="w-full">
-              {isPending ? <Loading /> : "Login"}
+              {isPending ? <Loading /> : t("loginButton")}
             </Button>
             <div
               className="flex h-8 items-end space-x-1"

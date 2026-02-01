@@ -12,6 +12,10 @@ global.ResizeObserver = class ResizeObserver {
   disconnect() {}
 };
 
+jest.mock("next-intl", () => ({
+  useTranslations: () => (key: string) => key,
+}));
+
 if (!process.env.DATABASE_URL) {
   process.env.DATABASE_URL = "file:/tmp/jobsync-test.db";
 }

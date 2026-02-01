@@ -6,7 +6,7 @@ test.beforeEach(async ({ page, baseURL }) => {
   await page.getByPlaceholder("id@example.com").fill("admin@example.com");
   await page.getByLabel("Password").click();
   await page.getByLabel("Password").fill("password123");
-  await page.getByRole("button", { name: "Login" }).click();
+  await page.getByRole("button", { name: "Sign in" }).click();
 
   await expect(page).toHaveURL(baseURL + "/dashboard");
 });

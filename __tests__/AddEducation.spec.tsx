@@ -691,7 +691,7 @@ describe("AddEducation Component", () => {
 
     // Check for loading spinner
     await waitFor(() => {
-      expect(screen.getByText("Save").closest("button")).toContainHTML(
+      expect(screen.getByText("save").closest("button")).toContainHTML(
         "spinner",
       );
     });

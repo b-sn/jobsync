@@ -17,6 +17,7 @@ model User {
   name         String
   email        String         @unique
   password     String
+  locale       String         @default("en")
   createdAt    DateTime       @default(now())
   jobsApplied  Job[]
   JobTitle     JobTitle[]

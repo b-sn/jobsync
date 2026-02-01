@@ -9,6 +9,7 @@ import {
   AlertDialogTitle,
 } from "./ui/alert-dialog";
 import { buttonVariants } from "./ui/button";
+import { useTranslations } from "next-intl";
 
 interface DeleteAlertDialogProps {
   pageTitle: string;
@@ -29,6 +30,8 @@ export function DeleteAlertDialog({
   alertDescription = "This action cannot be undone. This will permanently delete and remove data from server.",
   deleteAction = true,
 }: DeleteAlertDialogProps) {
+  const tc = useTranslations("common");
+
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
@@ -39,13 +42,13 @@ export function DeleteAlertDialog({
           <AlertDialogDescription>{alertDescription}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>{tc("cancel")}</AlertDialogCancel>
           {deleteAction && (
             <AlertDialogAction
               className={buttonVariants({ variant: "destructive" })}
               onClick={onDelete}
             >
-              Delete
+              {tc("delete")}
             </AlertDialogAction>
           )}
         </AlertDialogFooter>

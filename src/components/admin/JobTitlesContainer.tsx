@@ -9,8 +9,10 @@ import Loading from "../Loading";
 import { Button } from "../ui/button";
 import { RecordsPerPageSelector } from "../RecordsPerPageSelector";
 import { RecordsCount } from "../RecordsCount";
+import { useTranslations } from "next-intl";
 
 function JobTitlesContainer() {
+  const tc = useTranslations("common");
   const [titles, setTitles] = useState<JobTitle[]>([]);
   const [totalJobTitles, setTotalJobTitles] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
@@ -89,7 +91,7 @@ function JobTitlesContainer() {
                   disabled={loading}
                   className="btn btn-primary"
                 >
-                  {loading ? "Loading..." : "Load More"}
+                  {loading ? tc("loading") : tc("loadMore")}
                 </Button>
               </div>
             )}

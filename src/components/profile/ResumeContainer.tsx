@@ -9,6 +9,7 @@ import ExperienceCard from "./ExperienceCard";
 import EducationCard from "./EducationCard";
 import AiResumeReviewSection from "./AiResumeReviewSection";
 import { DownloadFileButton } from "./DownloadFileButton";
+import { useLocalizedTitle } from "@/hooks/useLocalizedTitle";
 
 function ResumeContainer({ resume }: { resume: Resume }) {
   const resumeSectionRef = useRef<AddResumeSectionRef>(null);
@@ -46,6 +47,8 @@ function ResumeContainer({ resume }: { resume: Resume }) {
     };
     resumeSectionRef.current?.openEducationDialog(section);
   };
+
+  useLocalizedTitle({ pageTitleKey: "title", pageNs: "resume" });
 
   return (
     <>

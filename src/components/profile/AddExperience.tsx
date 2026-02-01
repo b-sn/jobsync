@@ -34,6 +34,7 @@ import { getAllJobTitles } from "@/actions/jobtitle.actions";
 import { getAllJobLocations } from "@/actions/jobLocation.actions";
 import { Switch } from "../ui/switch";
 import { addExperience, updateExperience } from "@/actions/profile.actions";
+import { useTranslations } from "next-intl";
 
 type AddExperienceProps = {
   resumeId: string | undefined;
@@ -55,6 +56,7 @@ function AddExperience({
   const [jobTitles, setJobTitles] = useState<JobTitle[]>([]);
   const pageTitle = experienceToEdit ? "Edit Experience" : "Add Experience";
   const [isPending, startTransition] = useTransition();
+  const tc = useTranslations("common");
   const getTitleCompanyAndLocationData = useCallback(async () => {
     const [_companies, _titles, _locations] = await Promise.all([
       getAllCompanies(),
@@ -326,11 +328,11 @@ function AddExperience({
                     className="mt-2 md:mt-0 w-full"
                     onClick={closeDialog}
                   >
-                    Cancel
+                    {tc("cancel")}
                   </Button>
                 </div>
                 <Button type="submit" disabled={!formState.isDirty}>
-                  Save
+                  {tc("save")}
                   {isPending && <Loader className="h-4 w-4 shrink-0 spinner" />}
                 </Button>
               </DialogFooter>

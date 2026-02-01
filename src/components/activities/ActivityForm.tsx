@@ -31,6 +31,7 @@ import {
   getAllActivityTypes,
 } from "@/actions/activity.actions";
 import { combineDateAndTime } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 interface ActivityFormProps {
   onClose: () => void;
@@ -48,6 +49,7 @@ const ActivityFormComponent = ({
 }: ActivityFormProps) => {
   const [activityTypes, setActivityTypes] = useState<ActivityType[]>([]);
   const [duration, setDuration] = useState<Duration | null>(null);
+  const tc = useTranslations("common");
   const defaultValues = useMemo(() => {
     const now = new Date();
     const currentTime = format(now, "hh:mm a");
@@ -306,11 +308,11 @@ const ActivityFormComponent = ({
                 className="mt-2 md:mt-0 w-full"
                 onClick={() => onClose()}
               >
-                Cancel
+                {tc("cancel")}
               </Button>
             </div>
             <Button type="submit" data-testid="save-activity-btn">
-              Save
+              {tc("save")}
               {/* {isPending && <Loader className="h-4 w-4 shrink-0 spinner" />} */}
             </Button>
           </DialogFooter>

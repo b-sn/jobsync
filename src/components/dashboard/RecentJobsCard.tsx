@@ -1,14 +1,22 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { myGetLocale } from "@/lib/locale";
 import { JobResponse } from "@/models/job.model";
 import { format } from "date-fns";
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
-export default function RecentJobsCard({ jobs }: { jobs: JobResponse[] }) {
+export default async function RecentJobsCard({
+  jobs,
+}: {
+  jobs: JobResponse[];
+}) {
+  const locale = await myGetLocale();
+  const t = await getTranslations({ locale, namespace: "jobs" });
   return (
     <Card className="mb-2">
       <CardHeader>
-        <CardTitle>Recent Jobs Applied</CardTitle>
+        <CardTitle>{t("recentJobsApplied")}</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-6">
         {jobs.map((job) => (
@@ -31,7 +39,7 @@ export default function RecentJobsCard({ jobs }: { jobs: JobResponse[] }) {
               </div>
             </Link>
             <div className="ml-auto text-sm font-medium">
-              {format(job?.appliedDate, "PP")}
+              {job?.appliedDate ? format(job?.appliedDate, "PP") : "N/A"}
             </div>
           </div>
         ))}

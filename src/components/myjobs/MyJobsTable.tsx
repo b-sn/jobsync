@@ -36,6 +36,7 @@ import { JobResponse, JobStatus } from "@/models/job.model";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { DeleteAlertDialog } from "../DeleteAlertDialog";
+import { useTranslations } from "next-intl";
 
 type MyJobsTableProps = {
   jobs: JobResponse[];
@@ -52,6 +53,8 @@ function MyJobsTable({
   editJob,
   onChangeJobStatus,
 }: MyJobsTableProps) {
+  const t = useTranslations("jobs");
+  const tc = useTranslations("common");
   const [alertOpen, setAlertOpen] = useState(false);
   const [jobIdToDelete, setJobIdToDelete] = useState("");
 
@@ -71,16 +74,22 @@ function MyJobsTable({
         <TableHeader>
           <TableRow>
             <TableHead className="hidden w-[100px] sm:table-cell">
-              <span className="sr-only">Company Logo</span>
+              {/* <span className="sr-only">{t("list.companyLogo")}</span> */}
             </TableHead>
-            <TableHead className="hidden md:table-cell">Date Applied</TableHead>
-            <TableHead>Title</TableHead>
-            <TableHead>Company</TableHead>
-            <TableHead className="hidden md:table-cell">Location</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead className="hidden md:table-cell">Source</TableHead>
+            <TableHead className="hidden md:table-cell">
+              {t("list.dateApplied")}
+            </TableHead>
+            <TableHead>{t("list.title")}</TableHead>
+            <TableHead>{t("list.company")}</TableHead>
+            <TableHead className="hidden md:table-cell">
+              {t("list.location")}
+            </TableHead>
+            <TableHead>{t("list.status")}</TableHead>
+            <TableHead className="hidden md:table-cell">
+              {t("list.source")}
+            </TableHead>
             <TableHead>
-              <span className="sr-only">Actions</span>
+              <span className="sr-only">{t("list.actions")}</span>
             </TableHead>
           </TableRow>
         </TableHeader>
@@ -124,7 +133,7 @@ function MyJobsTable({
                         job.Status?.value === "interview" && "bg-green-500",
                       )}
                     >
-                      {job.Status?.label}
+                      {t("status." + job.Status?.value)}
                     </Badge>
                   )}
                 </TableCell>
@@ -145,27 +154,27 @@ function MyJobsTable({
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-[200px]">
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                      <DropdownMenuLabel>{tc("actions")}</DropdownMenuLabel>
                       <DropdownMenuGroup>
                         <DropdownMenuItem
                           className="cursor-pointer"
                           onClick={() => viewJobDetails(job?.id)}
                         >
                           <ListCollapse className="mr-2 h-4 w-4" />
-                          View Details
+                          {tc("viewDetails")}
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           className="cursor-pointer"
                           onClick={() => editJob(job.id)}
                         >
                           <Pencil className="mr-2 h-4 w-4" />
-                          Edit Job
+                          {t("edit")}
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuSub>
                           <DropdownMenuSubTrigger>
                             <Tags className="mr-2 h-4 w-4" />
-                            Change status
+                            {tc("changeStatus")}
                           </DropdownMenuSubTrigger>
                           <DropdownMenuPortal>
                             <DropdownMenuSubContent className="p-0">
@@ -178,7 +187,7 @@ function MyJobsTable({
                                   }}
                                   disabled={status.id === job.Status.id}
                                 >
-                                  <span>{status.label}</span>
+                                  <span>{t("status." + status.value)}</span>
                                 </DropdownMenuItem>
                               ))}
                             </DropdownMenuSubContent>
@@ -208,7 +217,7 @@ function MyJobsTable({
                           onClick={() => onDeleteJob(job.id)}
                         >
                           <Trash className="mr-2 h-4 w-4" />
-                          Delete
+                          {tc("delete")}
                         </DropdownMenuItem>
                       </DropdownMenuGroup>
                     </DropdownMenuContent>

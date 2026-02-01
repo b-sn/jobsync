@@ -25,6 +25,7 @@ import {
 import { toast } from "../ui/use-toast";
 import { XCircle, CheckCircle } from "lucide-react";
 import { checkIfModelIsRunning } from "@/utils/ai.utils";
+import { useTranslations } from "next-intl";
 
 interface OllamaModelResponse {
   models: {
@@ -50,6 +51,7 @@ interface DeepseekModelResponse {
 }
 
 function AiSettings() {
+  const tc = useTranslations("common");
   const [selectedModel, setSelectedModel] = useState<AiModel>(defaultModel);
   const [ollamaModels, setOllamaModels] = useState<string[]>([]);
   const [deepseekModels, setDeepseekModels] = useState<string[]>([]);
@@ -346,7 +348,7 @@ function AiSettings() {
             isLoadingModels
           }
         >
-          Save
+          {tc("save")}
         </Button>
       </CardContent>
     </Card>

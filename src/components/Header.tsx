@@ -13,8 +13,16 @@ import { SIDEBAR_LINKS } from "@/lib/constants";
 import { signOut } from "@/auth";
 import { getCurrentUser } from "@/utils/user.utils";
 import { ProfileDropdown } from "./ProfileDropdown";
+import { getTranslations } from "next-intl/server";
+import { myGetLocale } from "@/lib/locale";
 
-async function Header() {
+async function Header({
+  pageType = "dashboard",
+}: {
+  pageType: "auth" | "dashboard";
+}) {
+  const locale = await myGetLocale();
+  const t = await getTranslations({ locale, namespace: "common" });
   // const session = await auth();
   const user = await getCurrentUser();
   return (
@@ -23,11 +31,11 @@ async function Header() {
         <SheetTrigger asChild>
           <Button size="icon" variant="outline" className="sm:hidden">
             <PanelLeft className="h-5 w-5" />
-            <span className="sr-only">Toggle Menu</span>
+            <span className="sr-only">{t("toggleMenu")}</span>
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="sm:max-w-xs">
-          <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+          <SheetTitle className="sr-only">{t("navigationMenu")}</SheetTitle>
           <nav className="grid gap-6 text-lg font-medium">
             <SheetClose asChild>
               <Link
@@ -35,7 +43,7 @@ async function Header() {
                 className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
               >
                 <Briefcase className="h-5 w-5 transition-all group-hover:scale-110" />
-                <span className="sr-only">JobSync</span>
+                <span className="sr-only">{t("siteName")}</span>
               </Link>
             </SheetClose>
             {SIDEBAR_LINKS.map((item) => {
@@ -58,7 +66,11 @@ async function Header() {
           </nav>
         </SheetContent>
       </Sheet>
-      <h1 className="font-semibold">JobSync - Job Search Assistant</h1>
+      {pageType === "auth" && (
+        <h1 className="font-semibold">
+          {t("siteName")} - {t("siteDescription")}
+        </h1>
+      )}
       <div className="relative ml-auto flex-1 md:grow-0">
         {/* <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input

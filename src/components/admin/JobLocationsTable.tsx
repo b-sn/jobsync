@@ -23,6 +23,7 @@ import { MoreHorizontal, Trash } from "lucide-react";
 import { AlertDialog } from "@/models/alertDialog.model";
 import { toast } from "../ui/use-toast";
 import { deleteJobLocationById } from "@/actions/jobLocation.actions";
+import { useTranslations } from "next-intl";
 
 type JobLocationsTableProps = {
   jobLocations: JobLocation[];
@@ -37,6 +38,7 @@ function JobLocationsTable({
     openState: false,
     deleteAction: false,
   });
+  const tc = useTranslations("common");
   const onDeleteJobLocation = (location: JobLocation) => {
     if (location._count?.jobsApplied! > 0) {
       setAlert({
@@ -80,9 +82,9 @@ function JobLocationsTable({
             <TableHead>Location</TableHead>
             <TableHead className="hidden sm:table-cell">Value</TableHead>
             <TableHead>Jobs Applied</TableHead>
-            <TableHead>Actions</TableHead>
+            <TableHead>{tc("actions")}</TableHead>
             <TableHead>
-              <span className="sr-only">Actions</span>
+              <span className="sr-only">{tc("actions")}</span>
             </TableHead>
           </TableRow>
         </TableHeader>
@@ -106,13 +108,13 @@ function JobLocationsTable({
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                      <DropdownMenuLabel>{tc("actions")}</DropdownMenuLabel>
                       <DropdownMenuItem
                         className="text-red-600 cursor-pointer"
                         onClick={() => onDeleteJobLocation(location)}
                       >
                         <Trash className="mr-2 h-4 w-4" />
-                        Delete
+                        {tc("delete")}
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>

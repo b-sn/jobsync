@@ -1,6 +1,6 @@
 import { AddJob } from "@/components/myjobs/AddJob";
 import { JOB_SOURCES } from "@/lib/data/jobSourcesData";
-import { JOB_STATUSES } from "@/lib/data/jobStatusesData";
+import { JOB_STATUSES } from "./fixtures/jobStatusesData";
 import { getMockJobDetails, getMockList } from "@/lib/mock.utils";
 import "@testing-library/jest-dom";
 import { screen, render, waitFor } from "@testing-library/react";
@@ -90,23 +90,23 @@ describe("AddJob Component", () => {
 
     const dialogTitle = screen.getByTestId("add-job-dialog-title");
     expect(dialogTitle).toBeInTheDocument();
-    expect(dialogTitle).toHaveTextContent("Add Job");
+    expect(dialogTitle).toHaveTextContent("add");
   });
   it("should reflect on status and date applied when applied switch toggles", async () => {
     const appliedSwitch = screen.getByRole("switch");
     expect(appliedSwitch).not.toBeChecked();
-    const dateApplied = screen.getByLabelText("Date Applied");
+    const dateApplied = screen.getByLabelText("form.dateApplied");
     expect(dateApplied).toBeDisabled();
     await user.click(appliedSwitch); // toggle applied switch
     expect(appliedSwitch).toBeChecked();
     expect(dateApplied).toBeEnabled(); // date applied is enabled
     expect(dateApplied).toHaveTextContent(format(new Date(), "PP")); // to have today's date
-    const status = screen.getByLabelText("Status");
+    const status = screen.getByLabelText("form.status");
     expect(status).toHaveTextContent("Applied");
     await user.click(appliedSwitch);
     expect(status).toHaveTextContent("Draft");
     expect(dateApplied).toBeDisabled();
-    expect(dateApplied).toHaveTextContent("Pick a date");
+    expect(dateApplied).toHaveTextContent("pickADate");
   });
   it("should open the dialog when clicked on add job button with title 'Edit Job'", async () => {
     // TODO: To be tested with job container and jobs table component
@@ -123,48 +123,48 @@ describe("AddJob Component", () => {
     ).toBeInTheDocument();
   });
   it("should close the dialog when clicked on cancel button", async () => {
-    const cancelBtn = screen.getByRole("button", { name: /cancel/i });
+    const cancelBtn = screen.getByRole("button", { name: "cancel" });
     const dialog = await screen.findByRole("dialog");
     await user.click(cancelBtn);
     expect(dialog).not.toBeInTheDocument();
   });
   it("should load and show the job title combobox list", async () => {
-    const jobTitleCombobox = screen.getByLabelText("Job Title");
+    const jobTitleCombobox = screen.getByLabelText("form.title");
     await user.click(jobTitleCombobox);
     const options = screen.getAllByRole("option");
     expect(options.length).toBeGreaterThan(0);
     expect(options[0].textContent).toBe("Frontend Developer");
   });
   it("should load and show the company combobox list", async () => {
-    const companyCombobox = screen.getByLabelText("Company");
+    const companyCombobox = screen.getByLabelText("form.company");
     await user.click(companyCombobox);
     const options = screen.getAllByRole("option");
     expect(options.length).toBeGreaterThan(0);
     expect(options[0].textContent).toBe("Google");
   });
   it("should load and show the location combobox list", async () => {
-    const locationCombobox = screen.getByLabelText("Job Location");
+    const locationCombobox = screen.getByLabelText("form.location");
     await user.click(locationCombobox);
     const options = screen.getAllByRole("option");
     expect(options.length).toBeGreaterThan(0);
     expect(options[0].textContent).toBe("San Francisco");
   });
   it("should load and show the job source combobox list", async () => {
-    const sourceCombobox = screen.getByLabelText("Job Source");
+    const sourceCombobox = screen.getByLabelText("form.source");
     await user.click(sourceCombobox);
     const options = screen.getAllByRole("option");
     expect(options.length).toBeGreaterThan(0);
     expect(options[0].textContent).toBe("Indeed");
   });
   it("should load and show the salary range select list", async () => {
-    const salaryRangeSelect = screen.getByLabelText("Salary Range");
+    const salaryRangeSelect = screen.getByLabelText("form.salaryRange");
     await user.click(salaryRangeSelect);
     const options = screen.getAllByRole("option");
     expect(options.length).toBeGreaterThan(0);
     expect(options[0].textContent).toBe("0 - 10,000");
   });
   it("should load and show the status select list", async () => {
-    const statusSelect = screen.getByLabelText("Status");
+    const statusSelect = screen.getByLabelText("form.status");
     await user.click(statusSelect);
     const options = screen.getAllByRole("option");
     expect(options.length).toBeGreaterThan(0);
@@ -172,7 +172,7 @@ describe("AddJob Component", () => {
   });
   it("should closes the dialog and submit to save job when clicked on save button", async () => {
     const jobTitleInput = screen.getByRole("combobox", {
-      name: /job title/i,
+      name: "form.title",
     }) as HTMLSelectElement;
     await user.click(jobTitleInput);
     const selectedJobTitle = screen.getByRole("option", {
@@ -188,7 +188,7 @@ describe("AddJob Component", () => {
     await user.click(selectedCompany);
 
     const locationInput = screen.getByRole("combobox", {
-      name: /job location/i,
+      name: "form.location",
     });
     await user.click(locationInput);
     const selectedLocation = screen.getByRole("option", {
@@ -197,7 +197,7 @@ describe("AddJob Component", () => {
     await user.click(selectedLocation);
 
     const sourceInput = screen.getByRole("combobox", {
-      name: /job source/i,
+      name: "form.source",
     });
     await user.click(sourceInput);
     const selectedSource = screen.getByRole("option", {
@@ -205,7 +205,7 @@ describe("AddJob Component", () => {
     });
     await user.click(selectedSource);
 
-    const editableDiv = screen.getByLabelText("Job Description");
+    const editableDiv = screen.getByLabelText("form.description");
     const pTag = editableDiv.querySelector("div > p");
     if (pTag) {
       pTag.textContent = "New Job Description";

@@ -1,5 +1,10 @@
 import ActivitiesContainer from "@/components/activities/ActivitiesContainer";
-import React from "react";
+import { myGetLocale } from "@/lib/locale";
+import { i18nTitle } from "@/lib/metadata";
+
+export async function generateMetadata() {
+  return await i18nTitle(await myGetLocale(), "activities");
+}
 
 function Activities() {
   return (

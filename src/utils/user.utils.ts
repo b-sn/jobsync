@@ -5,11 +5,12 @@ import { CurrentUser } from "@/models/user.model";
 export const getCurrentUser = async () => {
   const session = await auth();
   if (!session?.accessToken) return null;
-  const { sub, name, email, iat, exp } = session?.accessToken;
+  const { sub, name, email, locale, iat, exp } = session?.accessToken;
   const user: CurrentUser = {
     id: sub,
     name,
     email,
+    locale,
     iat,
     exp,
   };

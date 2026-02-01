@@ -9,15 +9,17 @@ import {
 } from "@/components/ui/card";
 import { PlusCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function JobsAppliedCard() {
   const router = useRouter();
+  const t = useTranslations("jobs");
   return (
     <Card className="sm:col-span-2">
       <CardHeader className="pb-3">
-        <CardTitle>Jobs Applied</CardTitle>
+        <CardTitle>{t("jobsApplied")}</CardTitle>
         <CardDescription className="max-w-lg text-balance leading-relaxed">
-          Create new jobs to apply and track.
+          {t("description")}
         </CardDescription>
       </CardHeader>
       <CardFooter>
@@ -27,7 +29,7 @@ export default function JobsAppliedCard() {
         >
           <PlusCircle className="h-3.5 w-3.5 mr-1" />
           <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-            Add New Job
+            {t("addNew")}
           </span>
         </Button>
       </CardFooter>

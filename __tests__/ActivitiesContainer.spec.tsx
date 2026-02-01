@@ -369,7 +369,7 @@ describe("ActivitiesContainer Search Functionality", () => {
 
       renderComponent();
 
-      expect(await screen.findByText("Load More")).toBeInTheDocument();
+      expect(await screen.findByText("loadMore")).toBeInTheDocument();
 
       // Type search
       const searchInput = screen.getByPlaceholderText("Search activities...");
@@ -384,7 +384,7 @@ describe("ActivitiesContainer Search Functionality", () => {
       });
 
       // Click load more
-      await user.click(await screen.findByText("Load More"));
+      await user.click(await screen.findByText("loadMore"));
 
       // Should include search term in load more call
       await waitFor(() => {

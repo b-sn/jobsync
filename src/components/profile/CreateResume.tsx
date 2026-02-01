@@ -25,6 +25,7 @@ import {
 import { Input } from "../ui/input";
 import { Resume } from "@/models/profile.model";
 import { toast } from "../ui/use-toast";
+import { useTranslations } from "next-intl";
 
 type CreateResumeProps = {
   resumeDialogOpen: boolean;
@@ -42,7 +43,7 @@ function CreateResume({
   setNewResumeId,
 }: CreateResumeProps) {
   const [isPending, startTransition] = useTransition();
-
+  const tc = useTranslations("common");
   const pageTitle = resumeToEdit ? "Edit Resume Title" : "Create Resume";
 
   const form = useForm<z.infer<typeof CreateResumeFormSchema>>({
@@ -190,11 +191,11 @@ function CreateResume({
                     className="mt-2 md:mt-0 w-full"
                     onClick={closeDialog}
                   >
-                    Cancel
+                    {tc("cancel")}
                   </Button>
                 </div>
                 <Button type="submit" disabled={!isValid}>
-                  Save
+                  {tc("save")}
                   {isPending && <Loader className="h-4 w-4 shrink-0 spinner" />}
                 </Button>
               </DialogFooter>

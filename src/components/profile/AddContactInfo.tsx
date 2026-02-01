@@ -26,6 +26,7 @@ import { useEffect, useTransition } from "react";
 import { toast } from "../ui/use-toast";
 import { ContactInfo } from "@/models/profile.model";
 import { addContactInfo, updateContactInfo } from "@/actions/profile.actions";
+import { useTranslations } from "next-intl";
 
 interface AddContactInfoProps {
   dialogOpen: boolean;
@@ -41,7 +42,7 @@ function AddContactInfo({
   resumeId,
 }: AddContactInfoProps) {
   const [isPending, startTransition] = useTransition();
-
+  const tc = useTranslations("common");
   const pageTitle = contactInfoToEdit
     ? "Edit Contact Info"
     : "Add Contact Info";
@@ -227,11 +228,11 @@ function AddContactInfo({
                     className="mt-2 md:mt-0 w-full"
                     onClick={closeDialog}
                   >
-                    Cancel
+                    {tc("cancel")}
                   </Button>
                 </div>
                 <Button type="submit" disabled={!formState.isDirty}>
-                  Save
+                  {tc("save")}
                   {isPending && <Loader className="h-4 w-4 shrink-0 spinner" />}
                 </Button>
               </DialogFooter>

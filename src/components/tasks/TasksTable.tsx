@@ -42,6 +42,7 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import { Task, TASK_STATUSES, TaskStatus } from "@/models/task.model";
 import { DeleteAlertDialog } from "../DeleteAlertDialog";
+import { useTranslations } from "next-intl";
 
 type TasksTableProps = {
   tasks: Task[];
@@ -156,7 +157,8 @@ function TasksTable({
 }: TasksTableProps) {
   const [alertOpen, setAlertOpen] = useState(false);
   const [taskIdToDelete, setTaskIdToDelete] = useState("");
-
+  const tc = useTranslations("common");
+  const t = useTranslations("tasks");
   const onDeleteTask = (taskId: string) => {
     setAlertOpen(true);
     setTaskIdToDelete(taskId);
@@ -240,14 +242,14 @@ function TasksTable({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-[200px]">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuLabel>{tc("actions")}</DropdownMenuLabel>
             <DropdownMenuGroup>
               <DropdownMenuItem
                 className="cursor-pointer"
                 onClick={() => editTask(task.id)}
               >
                 <Pencil className="mr-2 h-4 w-4" />
-                Edit Task
+                {t("edit")}
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuSub>
@@ -287,7 +289,7 @@ function TasksTable({
                 onClick={() => onDeleteTask(task.id)}
               >
                 <Trash className="mr-2 h-4 w-4" />
-                Delete
+                {tc("delete")}
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>
@@ -329,7 +331,7 @@ function TasksTable({
           % Complete
         </TableHead>
         <TableHead className="h-9 px-1">
-          <span className="sr-only">Actions</span>
+          <span className="sr-only">{tc("actions")}</span>
         </TableHead>
         <TableHead className="h-9 px-1">
           <span className="sr-only">Start Activity</span>

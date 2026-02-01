@@ -34,6 +34,7 @@ import { Input } from "../ui/input";
 import { Combobox } from "../ComboBox";
 import { Slider } from "../ui/slider";
 import { ActivityType } from "@/models/activity.model";
+import { useTranslations } from "next-intl";
 
 type TaskFormProps = {
   activityTypes: ActivityType[];
@@ -59,6 +60,7 @@ export function TaskForm({
   setDialogOpen,
 }: TaskFormProps) {
   const [isPending, startTransition] = useTransition();
+  const tc = useTranslations("common");
   const form = useForm<z.infer<typeof AddTaskFormSchema>>({
     resolver: zodResolver(AddTaskFormSchema),
     defaultValues: {
@@ -342,11 +344,11 @@ export function TaskForm({
                       className="mt-2 md:mt-0 w-full"
                       onClick={closeDialog}
                     >
-                      Cancel
+                      {tc("cancel")}
                     </Button>
                   </div>
                   <Button type="submit" data-testid="save-task-btn">
-                    Save
+                    {tc("save")}
                     {isPending && (
                       <Loader className="h-4 w-4 shrink-0 spinner ml-2" />
                     )}

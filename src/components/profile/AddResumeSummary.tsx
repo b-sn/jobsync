@@ -29,6 +29,7 @@ import {
   updateResumeSummary,
 } from "@/actions/profile.actions";
 import { ResumeSection } from "@/models/profile.model";
+import { useTranslations } from "next-intl";
 
 interface AddResumeSummaryProps {
   resumeId: string | undefined;
@@ -44,7 +45,7 @@ function AddResumeSummary({
   summaryToEdit,
 }: AddResumeSummaryProps) {
   const [isPending, startTransition] = useTransition();
-
+  const tc = useTranslations("common");
   const pageTitle = summaryToEdit ? "Edit Summary" : "Add Summary";
 
   const form = useForm<z.infer<typeof AddSummarySectionFormSchema>>({
@@ -165,11 +166,11 @@ function AddResumeSummary({
                     className="mt-2 md:mt-0 w-full"
                     onClick={closeDialog}
                   >
-                    Cancel
+                    {tc("cancel")}
                   </Button>
                 </div>
                 <Button type="submit" disabled={!formState.isDirty}>
-                  Save
+                  {tc("save")}
                   {isPending && <Loader className="h-4 w-4 shrink-0 spinner" />}
                 </Button>
               </DialogFooter>

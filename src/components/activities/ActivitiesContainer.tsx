@@ -28,8 +28,12 @@ import { differenceInMinutes } from "date-fns";
 import { APP_CONSTANTS } from "@/lib/constants";
 import { RecordsPerPageSelector } from "../RecordsPerPageSelector";
 import { RecordsCount } from "../RecordsCount";
+import { useTranslations } from "next-intl";
+import { useLocalizedTitle } from "@/hooks/useLocalizedTitle";
 
 function ActivitiesContainer() {
+  const t = useTranslations("activities");
+  const tc = useTranslations("common");
   const [activityFormOpen, setActivityFormOpen] = useState<boolean>(false);
   const [activitiesList, setActivitiesList] = useState<Activity[]>([]);
   const [currentActivity, setCurrentActivity] = useState<Activity>();
@@ -221,10 +225,11 @@ function ActivitiesContainer() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm]);
 
+  useLocalizedTitle({ pageTitleKey: "title", pageNs: "activities" });
   return (
     <Card>
       <CardHeader className="flex-row justify-between items-center">
-        <CardTitle>Activities</CardTitle>
+        <CardTitle>{t("title")}</CardTitle>
         <div className="flex items-center gap-2">
           <div className="relative">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -316,7 +321,7 @@ function ActivitiesContainer() {
               disabled={loading}
               className="btn btn-primary"
             >
-              {loading ? "Loading..." : "Load More"}
+              {loading ? tc("loading") : tc("loadMore")}
             </Button>
           </div>
         )}

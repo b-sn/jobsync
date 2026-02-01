@@ -2,6 +2,7 @@
 import { barChartData } from "@/lib/data/barChartData";
 import { ResponsiveBar } from "@nivo/bar";
 import { Card, CardContent } from "../ui/card";
+import { useTranslations } from "next-intl";
 
 type WeeklyBarChartProps = {
   data: any[];
@@ -16,6 +17,7 @@ export default function WeeklyBarChart({
   groupMode,
   axisLeftLegend,
 }: WeeklyBarChartProps) {
+  const t = useTranslations("dashboard");
   const roundedData = data.map((item) => {
     const newItem: any = { ...item };
     keys.forEach((key) => {
@@ -67,7 +69,7 @@ export default function WeeklyBarChart({
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: "DAYS OF WEEK",
+            legend: t("daysOfWeek"),
             legendPosition: "middle",
             legendOffset: 32,
             truncateTickAt: 0,

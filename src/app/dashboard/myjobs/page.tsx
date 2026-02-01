@@ -1,14 +1,14 @@
-import { Metadata } from "next";
-
+import { i18nTitle } from "@/lib/metadata";
 import { getJobSourceList, getStatusList } from "@/actions/job.actions";
 import JobsContainer from "@/components/myjobs/JobsContainer";
 import { getAllCompanies } from "@/actions/company.actions";
 import { getAllJobTitles } from "@/actions/jobtitle.actions";
 import { getAllJobLocations } from "@/actions/jobLocation.actions";
+import { myGetLocale } from "@/lib/locale";
 
-export const metadata: Metadata = {
-  title: "My Jobs | JobSync",
-};
+export async function generateMetadata() {
+  return await i18nTitle(await myGetLocale(), "jobs");
+}
 
 async function MyJobs() {
   const [statuses, companies, titles, locations, sources] = await Promise.all([

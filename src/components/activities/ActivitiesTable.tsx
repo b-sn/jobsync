@@ -23,6 +23,7 @@ import { deleteActivityById } from "@/actions/activity.actions";
 import { toast } from "../ui/use-toast";
 import { useMemo, useState } from "react";
 import { DeleteAlertDialog } from "../DeleteAlertDialog";
+import { useTranslations } from "next-intl";
 
 interface ActivitiesTableProps {
   activities: Activity[];
@@ -39,6 +40,7 @@ function ActivitiesTable({
 }: ActivitiesTableProps) {
   const [alertOpen, setAlertOpen] = useState(false);
   const [activityIdToDelete, setActivityIdToDelete] = useState<string>();
+  const tc = useTranslations("common");
   const calculateDuration = (totalMinutes: number) => {
     const hours = Math.floor(totalMinutes / 60);
     const minutes = totalMinutes % 60;
@@ -81,7 +83,7 @@ function ActivitiesTable({
             <TableHead className="hidden md:table-cell">End Time</TableHead>
             <TableHead>Duration</TableHead>
             <TableHead>
-              <span>Actions</span>
+              <span>{tc("actions")}</span>
             </TableHead>
           </TableRow>
         </TableHeader>
@@ -123,7 +125,7 @@ function ActivitiesTable({
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-[200px]">
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                      <DropdownMenuLabel>{tc("actions")}</DropdownMenuLabel>
                       <DropdownMenuGroup>
                         <DropdownMenuItem
                           className="cursor-pointer text-green-600"
@@ -138,7 +140,7 @@ function ActivitiesTable({
                           onClick={() => onDeleteActivity(activity.id!)}
                         >
                           <Trash className="mr-2 h-4 w-4" />
-                          Delete
+                          {tc("delete")}
                         </DropdownMenuItem>
                       </DropdownMenuGroup>
                     </DropdownMenuContent>

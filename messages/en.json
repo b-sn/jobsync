@@ -1,0 +1,152 @@
+{
+  "activities": {
+    "title": "Activities",
+    "plural": "activities"
+  },
+  "admin": {
+    "title": "Administration"
+  },
+  "common": {
+    "siteName": "JobSync",
+    "siteDescription": "Job Search Assistant",
+    "save": "Save",
+    "cancel": "Cancel",
+    "toggleMenu": "Toggle Menu",
+    "navigationMenu": "Navigation Menu",
+    "loading": "Loading...",
+    "loadMore": "Load More",
+    "actions": "Actions",
+    "viewDetails": "View Details",
+    "changeStatus": "Change Status",
+    "delete": "Delete",
+    "recordsPerPage": "Records per page",
+    "showing": "Showing",
+    "to": "to",
+    "of": "of",
+    "plural": "records",
+    "pickADate": "Pick a date"
+  },
+  "companies": {
+    "title": "Companies",
+    "plural": "companies",
+    "add": "Add Company",
+    "edit": "Edit Company",
+    "logoUrl": "Company Logo URL",
+    "list": {
+      "companyName": "Company Name",
+      "value": "Value",
+      "jobsApplied": "Jobs Applied"
+    },
+    "caution": "Caution: Editing name of the company will affect all the related job records."
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "last7Days": "Last 7 days",
+    "last30Days": "Last 30 days",
+    "weeklyJobs": "Weekly Jobs",
+    "activities": "Activities",
+    "numberOfJobsApplied": "NUMBER OF JOBS APPLIED",
+    "timeSpent": "TIME SPENT (Hours)",
+    "daysOfWeek": "DAYS OF WEEK"
+  },
+  "developer": {
+    "title": "Developer Options"
+  },
+  "job locations": {
+    "title": "Job Locations",
+    "plural": "job locations"
+  },
+  "job titles": {
+    "title": "Job Titles",
+    "plural": "job titles"
+  },
+  "jobs": {
+    "title": "Jobs",
+    "plural": "jobs",
+    "jobsApplied": "Jobs Applied",
+    "recentJobsApplied": "Recent Jobs Applied",
+    "addNew": "Add New Job",
+    "add": "Add Job",
+    "edit": "Edit Job",
+    "url": "Job URL",
+    "description": "Create new jobs to apply and track.",
+    "status": {
+      "applied": "Applied",
+      "interview": "Interview",
+      "offer": "Offer",
+      "rejected": "Rejected",
+      "draft": "Draft",
+      "expired": "Expired",
+      "archived": "Archived"
+    },
+    "searchPlaceholder": "Search jobs...",
+    "filter": {
+      "by": "Filter by",
+      "none": "None"
+    },
+    "type": {
+      "partTime": "Part-time"
+    },
+    "export": "Export",
+    "list": {
+      "company": "Company",
+      "title": "Title",
+      "location": "Location",
+      "status": "Status",
+      "source": "Source",
+      "dateApplied": "Date Applied",
+      "actions": "Actions",
+      "companyLogo": "Company Logo"
+    },
+    "form": {
+      "title": "Job Title",
+      "company": "Company",
+      "location": "Job Location",
+      "type": "Job Type",
+      "source": "Job Source",
+      "status": "Job Status",
+      "applied": "Applied",
+      "notApplied": "Not Applied",
+      "dateApplied": "Date Applied",
+      "dueDate": "Due Date",
+      "salaryRange": "Salary Range",
+      "resume": "Resume",
+      "addNewResume": "Add New",
+      "description": "Job Description"
+    }
+  },
+  "modeToggle": {
+    "toggleTheme": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "profile": {
+    "title": "Profile",
+    "myAccount": "My Account",
+    "settings": "Settings",
+    "support": "Support",
+    "logout": "Logout"
+  },
+  "resume": {
+    "title": "Resume"
+  },
+  "resumes": {
+    "title": "Resumes",
+    "plural": "resumes"
+  },
+  "signin": {
+    "title": "Sign in",
+    "description": "Enter your email below to sign in to your account",
+    "email": "Email",
+    "password": "Password",
+    "loginButton": "Sign in",
+    "dontHaveAccount": "Don't have an account?",
+    "signUp": "Sign up"
+  },
+  "tasks": {
+    "title": "Tasks",
+    "plural": "tasks",
+    "edit": "Edit Task"
+  }
+}

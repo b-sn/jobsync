@@ -45,6 +45,8 @@ import { useRouter } from "next/navigation";
 import TasksTable from "./TasksTable";
 import { TaskForm } from "./TaskForm";
 import { ActivityType } from "@/models/activity.model";
+import { useTranslations } from "next-intl";
+import { useLocalizedTitle } from "@/hooks/useLocalizedTitle";
 
 type TasksContainerProps = {
   activityTypes: ActivityType[];
@@ -62,6 +64,8 @@ function TasksContainer({
   onTasksChanged,
 }: TasksContainerProps) {
   const router = useRouter();
+  const t = useTranslations("tasks");
+  const tc = useTranslations("common");
   const [tasks, setTasks] = useState<Task[]>([]);
   const [page, setPage] = useState(1);
   const [totalTasks, setTotalTasks] = useState(0);
@@ -238,11 +242,13 @@ function TasksContainer({
     );
   };
 
+  useLocalizedTitle({ pageTitleKey: "title", pageNs: "tasks" });
+
   return (
     <>
       <Card x-chunk="dashboard-tasks-chunk-0" className="h-full">
         <CardHeader className="flex-row justify-between items-center">
-          <CardTitle>My Tasks</CardTitle>
+          <CardTitle>{t("title")}</CardTitle>
           <div className="flex items-center">
             <div className="ml-auto flex items-center gap-2">
               <div className="relative">
@@ -360,7 +366,7 @@ function TasksContainer({
                 disabled={loading}
                 className="btn btn-primary"
               >
-                {loading ? "Loading..." : "Load More"}
+                {loading ? tc("loading") : tc("loadMore")}
               </Button>
             </div>
           )}

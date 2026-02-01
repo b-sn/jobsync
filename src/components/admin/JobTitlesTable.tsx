@@ -23,6 +23,7 @@ import { AlertDialog } from "@/models/alertDialog.model";
 import { DeleteAlertDialog } from "../DeleteAlertDialog";
 import { deleteJobTitleById } from "@/actions/jobtitle.actions";
 import { toast } from "../ui/use-toast";
+import { useTranslations } from "next-intl";
 
 type JobTitlesTableProps = {
   jobTitles: JobTitle[];
@@ -34,7 +35,7 @@ function JobTitlesTable({ jobTitles, reloadJobTitles }: JobTitlesTableProps) {
     openState: false,
     deleteAction: false,
   });
-
+  const tc = useTranslations("common");
   const onDeleteJobTitle = (title: JobTitle) => {
     if (title._count?.jobs! > 0) {
       setAlert({
@@ -79,9 +80,9 @@ function JobTitlesTable({ jobTitles, reloadJobTitles }: JobTitlesTableProps) {
             <TableHead>Job Title</TableHead>
             <TableHead className="hidden sm:table-cell">Value</TableHead>
             <TableHead>Jobs Applied</TableHead>
-            <TableHead>Actions</TableHead>
+            <TableHead>{tc("actions")}</TableHead>
             <TableHead>
-              <span className="sr-only">Actions</span>
+              <span className="sr-only">{tc("actions")}</span>
             </TableHead>
           </TableRow>
         </TableHeader>
@@ -105,13 +106,13 @@ function JobTitlesTable({ jobTitles, reloadJobTitles }: JobTitlesTableProps) {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                      <DropdownMenuLabel>{tc("actions")}</DropdownMenuLabel>
                       <DropdownMenuItem
                         className="text-red-600 cursor-pointer"
                         onClick={() => onDeleteJobTitle(title)}
                       >
                         <Trash className="mr-2 h-4 w-4" />
-                        Delete
+                        {tc("delete")}
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>

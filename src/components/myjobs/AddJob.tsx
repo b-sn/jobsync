@@ -47,6 +47,7 @@ import { Combobox } from "../ComboBox";
 import { Resume } from "@/models/profile.model";
 import CreateResume from "../profile/CreateResume";
 import { getResumeList } from "@/actions/profile.actions";
+import { useTranslations } from "next-intl";
 
 type AddJobProps = {
   jobStatuses: JobStatus[];
@@ -155,7 +156,9 @@ export function AddJob({
     });
   }
 
-  const pageTitle = editJob ? "Edit Job" : "Add Job";
+  const t = useTranslations("jobs");
+  const tc = useTranslations("common");
+  const pageTitle = editJob ? t("edit") : t("add");
 
   const addJobForm = () => {
     reset();
@@ -191,7 +194,7 @@ export function AddJob({
       >
         <PlusCircle className="h-3.5 w-3.5" />
         <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-          Add Job
+          {t("add")}
         </span>
       </Button>
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -217,7 +220,7 @@ export function AddJob({
                     name="jobUrl"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Job URL</FormLabel>
+                        <FormLabel>{t("url")}</FormLabel>
                         <FormControl>
                           <Input
                             placeholder="Copy and paste job link here"
@@ -237,7 +240,7 @@ export function AddJob({
                     name="title"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Job Title</FormLabel>
+                        <FormLabel>{t("form.title")}</FormLabel>
                         <FormControl>
                           <Combobox
                             options={jobTitles}
@@ -257,7 +260,7 @@ export function AddJob({
                     name="company"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Company</FormLabel>
+                        <FormLabel>{t("form.company")}</FormLabel>
                         <FormControl>
                           <Combobox
                             options={companies}
@@ -277,7 +280,7 @@ export function AddJob({
                     name="location"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Job Location</FormLabel>
+                        <FormLabel>{t("form.location")}</FormLabel>
                         <FormControl>
                           <Combobox
                             options={locations}
@@ -297,7 +300,7 @@ export function AddJob({
                     name="type"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel className="mb-2">Job Type</FormLabel>
+                        <FormLabel className="mb-2">{t("form.type")}</FormLabel>
                         <RadioGroup
                           name="type"
                           onValueChange={field.onChange}
@@ -330,7 +333,7 @@ export function AddJob({
                     name="source"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Job Source</FormLabel>
+                        <FormLabel>{t("form.source")}</FormLabel>
                         <Combobox options={jobSources} field={field} />
                         <FormMessage />
                       </FormItem>
@@ -360,7 +363,9 @@ export function AddJob({
                           htmlFor="applied-switch"
                           className="flex items-center ml-4 mb-2"
                         >
-                          {field.value ? "Applied" : "Not Applied"}
+                          {field.value
+                            ? t("form.applied")
+                            : t("form.notApplied")}
                         </FormLabel>
 
                         <FormMessage />
@@ -376,9 +381,9 @@ export function AddJob({
                     name="status"
                     render={({ field }) => (
                       <FormItem className="flex flex-col [&>button]:capitalize">
-                        <FormLabel>Status</FormLabel>
+                        <FormLabel>{t("form.status")}</FormLabel>
                         <SelectFormCtrl
-                          label="Job Status"
+                          label={t("form.status")}
                           options={jobStatuses}
                           field={field}
                         />
@@ -395,7 +400,7 @@ export function AddJob({
                     name="dateApplied"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Date Applied</FormLabel>
+                        <FormLabel>{t("form.dateApplied")}</FormLabel>
                         <DatePicker
                           field={field}
                           presets={false}
@@ -414,7 +419,7 @@ export function AddJob({
                     name="dueDate"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Due Date</FormLabel>
+                        <FormLabel>{t("form.dueDate")}</FormLabel>
                         <DatePicker
                           field={field}
                           presets={true}
@@ -433,7 +438,7 @@ export function AddJob({
                     name="salaryRange"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Salary Range</FormLabel>
+                        <FormLabel>{t("form.salaryRange")}</FormLabel>
                         <FormControl>
                           <SelectFormCtrl
                             label="Salary Range"
@@ -454,7 +459,7 @@ export function AddJob({
                     name="resume"
                     render={({ field }) => (
                       <FormItem className="flex flex-col [&>button]:capitalize">
-                        <FormLabel>Resume</FormLabel>
+                        <FormLabel>{t("form.resume")}</FormLabel>
                         <SelectFormCtrl
                           label="Resume"
                           options={resumes}
@@ -465,7 +470,7 @@ export function AddJob({
                     )}
                   />
                   <Button variant="link" type="button" onClick={createResume}>
-                    Add New
+                    {t("form.addNewResume")}
                   </Button>
                   <CreateResume
                     resumeDialogOpen={resumeDialogOpen}
@@ -483,7 +488,7 @@ export function AddJob({
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
                         <FormLabel id="job-description-label">
-                          Job Description
+                          {t("form.description")}
                         </FormLabel>
                         <FormControl>
                           <div data-testid="job-description-editor">
@@ -506,11 +511,11 @@ export function AddJob({
                         className="mt-2 md:mt-0 w-full"
                         onClick={closeDialog}
                       >
-                        Cancel
+                        {tc("cancel")}
                       </Button>
                     </div>
                     <Button type="submit" data-testid="save-job-btn">
-                      Save
+                      {tc("save")}
                       {isPending && (
                         <Loader className="h-4 w-4 shrink-0 spinner" />
                       )}

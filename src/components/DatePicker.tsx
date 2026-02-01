@@ -22,6 +22,7 @@ import { ControllerRenderProps } from "react-hook-form";
 import { JobForm } from "@/models/job.model";
 import { useState } from "react";
 import { FormControl } from "./ui/form";
+import { useTranslations } from "next-intl";
 
 interface DatePickerProps {
   field: ControllerRenderProps<any, any>;
@@ -37,7 +38,7 @@ export function DatePicker({
   captionLayout,
 }: DatePickerProps) {
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
-
+  const tc = useTranslations("common");
   return (
     <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
       <PopoverTrigger asChild>
@@ -51,7 +52,11 @@ export function DatePicker({
             disabled={!isEnabled}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
-            {field.value ? format(field.value, "PP") : <span>Pick a date</span>}
+            {field.value ? (
+              format(field.value, "PP")
+            ) : (
+              <span>{tc("pickADate")}</span>
+            )}
           </Button>
         </FormControl>
       </PopoverTrigger>

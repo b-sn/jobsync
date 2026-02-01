@@ -329,7 +329,7 @@ describe("TasksContainer Component", () => {
 
       // Click the Edit Task menu item
       const editMenuItem = await screen.findByRole("menuitem", {
-        name: /edit task/i,
+        name: "edit",
       });
       await user.click(editMenuItem);
 
@@ -357,7 +357,7 @@ describe("TasksContainer Component", () => {
 
       // Click the Edit Task menu item
       const editMenuItem = await screen.findByRole("menuitem", {
-        name: /edit task/i,
+        name: "edit",
       });
       await user.click(editMenuItem);
 
@@ -390,7 +390,7 @@ describe("TasksContainer Component", () => {
 
       // Click the Complete option in the submenu
       const completeOption = await screen.findByRole("menuitem", {
-        name: "Complete",
+        name: /complete/i,
       });
       await user.click(completeOption);
 
@@ -535,7 +535,7 @@ describe("TasksContainer Component", () => {
       render(<TasksContainer activityTypes={mockActivityTypes} />);
 
       await waitFor(() => {
-        expect(screen.getByText("Load More")).toBeInTheDocument();
+        expect(screen.getByText("loadMore")).toBeInTheDocument();
       });
     });
 
@@ -561,10 +561,10 @@ describe("TasksContainer Component", () => {
       render(<TasksContainer activityTypes={mockActivityTypes} />);
 
       await waitFor(() => {
-        expect(screen.getByText("Load More")).toBeInTheDocument();
+        expect(screen.getByText("loadMore")).toBeInTheDocument();
       });
 
-      const loadMoreButton = screen.getByText("Load More");
+      const loadMoreButton = screen.getByText("loadMore");
       await user.click(loadMoreButton);
 
       await waitFor(() => {
@@ -940,7 +940,7 @@ describe("TasksContainer Component", () => {
       jest.clearAllMocks();
 
       // Click Load More
-      const loadMoreButton = await screen.findByText("Load More");
+      const loadMoreButton = await screen.findByText("loadMore");
       await userEvent
         .setup({ advanceTimers: jest.advanceTimersByTime })
         .click(loadMoreButton);

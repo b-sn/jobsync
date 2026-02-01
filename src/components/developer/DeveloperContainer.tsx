@@ -13,6 +13,7 @@ import {
   generateMockActivitiesAction,
   clearMockActivitiesAction,
 } from "@/actions/mock.actions";
+import { useLocalizedTitle } from "@/hooks/useLocalizedTitle";
 
 export default function DeveloperContainer() {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -72,6 +73,7 @@ export default function DeveloperContainer() {
     setIsClearing(false);
   };
 
+  useLocalizedTitle({ pageTitleKey: "title", pageNs: "developer" });
   return (
     <div className="space-y-6">
       <div>

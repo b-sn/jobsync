@@ -5,6 +5,7 @@ import JobTitlesContainer from "@/components/admin/JobTitlesContainer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
+import { useLocalizedTitle } from "@/hooks/useLocalizedTitle";
 
 function AdminTabsContainer() {
   const router = useRouter();
@@ -24,6 +25,7 @@ function AdminTabsContainer() {
   const onTabChange = (tab: string) => {
     router.push(pathname + "?" + createQueryString("tab", tab));
   };
+  useLocalizedTitle({ pageTitleKey: "title", pageNs: "admin" });
   return (
     <Tabs
       defaultValue={queryParams.get("tab") || "companies"}

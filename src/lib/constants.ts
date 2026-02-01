@@ -19,37 +19,37 @@ export const SIDEBAR_LINKS = [
   {
     icon: LayoutDashboard,
     route: "/dashboard",
-    label: "Dashboard",
+    label: "dashboard.title",
   },
   {
     icon: BriefcaseBusiness,
     route: "/dashboard/myjobs",
-    label: "My Jobs",
+    label: "jobs.title",
   },
   {
     icon: SquareCheckBig,
     route: "/dashboard/tasks",
-    label: "Tasks",
+    label: "tasks.title",
   },
   {
     icon: CalendarClock,
     route: "/dashboard/activities",
-    label: "Activities",
+    label: "activities.title",
   },
   {
     icon: UserRound,
     route: "/dashboard/profile",
-    label: "Profile",
+    label: "profile.title",
   },
   {
     icon: Sheet,
     route: "/dashboard/admin",
-    label: "Administration",
+    label: "admin.title",
   },
   {
     icon: Wrench,
     route: "/dashboard/developer",
-    label: "Developer Options",
+    label: "developer.title",
     devOnly: true,
   },
 ];

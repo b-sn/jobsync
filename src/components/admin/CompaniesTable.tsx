@@ -22,6 +22,7 @@ import { deleteCompanyById } from "@/actions/company.actions";
 import { toast } from "../ui/use-toast";
 import { DeleteAlertDialog } from "../DeleteAlertDialog";
 import { AlertDialog } from "@/models/alertDialog.model";
+import { useTranslations } from "next-intl";
 
 type CompaniesTableProps = {
   companies: Company[];
@@ -38,7 +39,8 @@ function CompaniesTable({
     openState: false,
     deleteAction: false,
   });
-
+  const tc = useTranslations("common");
+  const t = useTranslations("companies");
   const onDeleteCompany = (company: Company) => {
     if (company._count?.jobsApplied! > 0) {
       setAlert({
@@ -84,12 +86,14 @@ function CompaniesTable({
             <TableHead className="hidden w-[100px] sm:table-cell">
               <span className="sr-only">Company Logo</span>
             </TableHead>
-            <TableHead>Company Name</TableHead>
-            <TableHead className="hidden sm:table-cell">Value</TableHead>
-            <TableHead>Jobs Applied</TableHead>
-            <TableHead>Actions</TableHead>
+            <TableHead>{t("list.companyName")}</TableHead>
+            <TableHead className="hidden sm:table-cell">
+              {t("list.value")}
+            </TableHead>
+            <TableHead>{t("list.jobsApplied")}</TableHead>
+            <TableHead>{tc("actions")}</TableHead>
             <TableHead>
-              <span className="sr-only">Actions</span>
+              <span className="sr-only">{tc("actions")}</span>
             </TableHead>
           </TableRow>
         </TableHeader>
@@ -121,20 +125,20 @@ function CompaniesTable({
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                      <DropdownMenuLabel>{tc("actions")}</DropdownMenuLabel>
                       <DropdownMenuItem
                         className="cursor-pointer"
                         onClick={() => editCompany(company.id)}
                       >
                         <Pencil className="mr-2 h-4 w-4" />
-                        Edit Company
+                        {t("edit")}
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         className="text-red-600 cursor-pointer"
                         onClick={() => onDeleteCompany(company)}
                       >
                         <Trash className="mr-2 h-4 w-4" />
-                        Delete
+                        {tc("delete")}
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>

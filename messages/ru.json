@@ -1,0 +1,152 @@
+{
+  "activities": {
+    "title": "Активности",
+    "plural": "активностей"
+  },
+  "admin": {
+    "title": "Администрирование"
+  },
+  "common": {
+    "siteName": "JobSync",
+    "siteDescription": "Помощник по поиску работы",
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "toggleMenu": "Переключить меню",
+    "navigationMenu": "Меню навигации",
+    "loading": "Загрузка...",
+    "loadMore": "Загрузить больше",
+    "actions": "Действия",
+    "viewDetails": "Посмотреть детали",
+    "changeStatus": "Изменить статус",
+    "delete": "Удалить",
+    "recordsPerPage": "Записей на странице",
+    "showing": "Показано",
+    "to": "-",
+    "of": "из",
+    "plural": "записей",
+    "pickADate": "Выбрать дату"
+  },
+  "companies": {
+    "title": "Компании",
+    "plural": "компаний",
+    "add": "Добавить",
+    "edit": "Редактировать",
+    "logoUrl": "URL логотипа компании",
+    "list": {
+      "companyName": "Название компании",
+      "value": "Значение",
+      "jobsApplied": "Поданных заявок"
+    },
+    "caution": "Внимание: Изменение названия компании повлияет на все связанные записи вакансий."
+  },
+  "dashboard": {
+    "title": "Панель управления",
+    "last7Days": "Последние 7 дней",
+    "last30Days": "Последние 30 дней",
+    "weeklyJobs": "Еженедельные работы",
+    "activities": "Активности",
+    "numberOfJobsApplied": "ПОДАНО ЗАЯВОК",
+    "timeSpent": "ПОТРАЧЕННОЕ ВРЕМЯ, ЧАСЫ",
+    "daysOfWeek": "ДНИ НЕДЕЛИ"
+  },
+  "developer": {
+    "title": "Разработчику"
+  },
+  "job locations": {
+    "title": "Локации",
+    "plural": "локаций"
+  },
+  "job titles": {
+    "title": "Должности",
+    "plural": "должностей"
+  },
+  "jobs": {
+    "title": "Вакансии",
+    "plural": "вакансий",
+    "jobsApplied": "Вкансии, на которые подана заявка",
+    "recentJobsApplied": "Недавно поданные заявки",
+    "addNew": "Добавить вакансию",
+    "add": "Добавить",
+    "edit": "Редактировать",
+    "url": "Ссылка на вакансию",
+    "description": "Создайте новые вакансии для подачи заявок и отслеживания.",
+    "status": {
+      "applied": "Подана заявка",
+      "interview": "Интервью",
+      "offer": "Оффер",
+      "rejected": "Отклонено",
+      "draft": "Черновик",
+      "expired": "Истекший",
+      "archived": "Архивный"
+    },
+    "searchPlaceholder": "Поиск вакансий...",
+    "filter": {
+      "by": "Фильтровать",
+      "none": "Без фильтра"
+    },
+    "type": {
+      "partTime": "Частичная занятость"
+    },
+    "export": "Экспорт",
+    "list": {
+      "company": "Компания",
+      "title": "Должность",
+      "location": "Локация",
+      "status": "Статус",
+      "source": "Источник",
+      "dateApplied": "Дата подачи",
+      "actions": "Действия",
+      "companyLogo": "Логотип компании"
+    },
+    "form": {
+      "title": "Должность",
+      "company": "Компания",
+      "location": "Локация",
+      "type": "Тип занятости",
+      "source": "Источник",
+      "status": "Статус",
+      "applied": "Подана заявка",
+      "notApplied": "Не подана заявка",
+      "dateApplied": "Дата подачи",
+      "dueDate": "Дата окончания",
+      "salaryRange": "Диапазон зарплаты",
+      "resume": "Резюме",
+      "addNewResume": "Добавить новое",
+      "description": "Описание вакансии"
+    }
+  },
+  "modeToggle": {
+    "toggleTheme": "Переключить тему",
+    "light": "Светлая",
+    "dark": "Тёмная",
+    "system": "Системная"
+  },
+  "profile": {
+    "title": "Профиль",
+    "myAccount": "Мой аккаунт",
+    "settings": "Настройки",
+    "support": "Поддержка",
+    "logout": "Выйти"
+  },
+  "resume": {
+    "title": "Резюме"
+  },
+  "resumes": {
+    "title": "Резюме",
+    "plural": "резюме"
+  },
+  "signin": {
+    "title": "Вход",
+    "description": "Введите email, чтобы войти в аккаунт",
+    "email": "Email адрес",
+    "password": "Пароль",
+    "loginButton": "Войти",
+    "dontHaveAccount": "Нет аккаунта?",
+    "signUp": "Зарегистрироваться"
+  },
+  "tasks": {
+    "title": "Задачи",
+    "plural": "задач",
+    "edit": "Редактировать"
+  }
+}

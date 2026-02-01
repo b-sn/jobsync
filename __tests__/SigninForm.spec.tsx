@@ -26,13 +26,13 @@ describe("SigninForm Component", () => {
   });
 
   it("renders the SigninForm component correctly", () => {
-    expect(screen.getByLabelText("Email")).toBeInTheDocument();
-    expect(screen.getByLabelText("Password")).toBeInTheDocument();
+    expect(screen.getByLabelText("email")).toBeInTheDocument();
+    expect(screen.getByLabelText("password")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /login/i })).toBeInTheDocument();
   });
 
   it("should display invalid email error", async () => {
-    fireEvent.change(screen.getByLabelText("Email"), {
+    fireEvent.change(screen.getByLabelText("email"), {
       target: { value: "admin" },
     });
 
@@ -46,7 +46,7 @@ describe("SigninForm Component", () => {
   });
 
   it("should display number of characters invalid error", async () => {
-    fireEvent.change(screen.getByLabelText("Email"), {
+    fireEvent.change(screen.getByLabelText("email"), {
       target: { value: "ad" },
     });
 
@@ -63,10 +63,10 @@ describe("SigninForm Component", () => {
   it("submits the form successfully", async () => {
     (authenticate as jest.Mock).mockResolvedValueOnce(null);
 
-    fireEvent.change(screen.getByLabelText("Email"), {
+    fireEvent.change(screen.getByLabelText("email"), {
       target: { value: "admin@example.com" },
     });
-    fireEvent.change(screen.getByLabelText("Password"), {
+    fireEvent.change(screen.getByLabelText("password"), {
       target: { value: "password" },
     });
 
@@ -82,10 +82,10 @@ describe("SigninForm Component", () => {
     const errorMessage = "Invalid credentials";
     (authenticate as jest.Mock).mockResolvedValueOnce(errorMessage);
 
-    fireEvent.change(screen.getByLabelText("Email"), {
+    fireEvent.change(screen.getByLabelText("email"), {
       target: { value: "admin@example.com" },
     });
-    fireEvent.change(screen.getByLabelText("Password"), {
+    fireEvent.change(screen.getByLabelText("password"), {
       target: { value: "wrongpassword" },
     });
 

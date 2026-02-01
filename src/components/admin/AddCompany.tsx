@@ -26,6 +26,7 @@ import { Input } from "../ui/input";
 import { toast } from "../ui/use-toast";
 import { addCompany, updateCompany } from "@/actions/company.actions";
 import { Company } from "@/models/job.model";
+import { useTranslations } from "next-intl";
 
 type AddCompanyProps = {
   reloadCompanies: () => void;
@@ -43,8 +44,9 @@ function AddCompany({
   setDialogOpen,
 }: AddCompanyProps) {
   const [isPending, startTransition] = useTransition();
-
-  const pageTitle = editCompany ? "Edit Company" : "Add Company";
+  const t = useTranslations("companies");
+  const tc = useTranslations("common");
+  const pageTitle = editCompany ? t("edit") : t("add");
 
   const form = useForm<z.infer<typeof AddCompanyFormSchema>>({
     resolver: zodResolver(AddCompanyFormSchema),
@@ -136,7 +138,7 @@ function AddCompany({
       >
         <PlusCircle className="h-3.5 w-3.5" />
         <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-          Add Company
+          {t("add")}
         </span>
       </Button>
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -144,8 +146,7 @@ function AddCompany({
           <DialogHeader>
             <DialogTitle>{pageTitle}</DialogTitle>
             <DialogDescription className="text-primary">
-              Caution: Editing name of the company will affect all the related
-              job records.
+              {t("caution")}
             </DialogDescription>
           </DialogHeader>
           <Form {...form}>
@@ -160,7 +161,7 @@ function AddCompany({
                   name="company"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Company Name</FormLabel>
+                      <FormLabel>{t("list.companyName")}</FormLabel>
                       <FormControl>
                         <Input {...field} value={field.value ?? ""} />
                       </FormControl>
@@ -177,7 +178,7 @@ function AddCompany({
                   name="logoUrl"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Company Logo URL</FormLabel>
+                      <FormLabel>{t("logoUrl")}</FormLabel>
                       <FormControl>
                         <Input {...field} value={field.value ?? ""} />
                       </FormControl>
@@ -197,11 +198,11 @@ function AddCompany({
                       className="mt-2 md:mt-0 w-full"
                       onClick={closeDialog}
                     >
-                      Cancel
+                      {tc("cancel")}
                     </Button>
                   </div>
                   <Button type="submit" disabled={!formState.isDirty}>
-                    Save
+                    {tc("save")}
                     {isPending && (
                       <Loader className="h-4 w-4 shrink-0 spinner" />
                     )}

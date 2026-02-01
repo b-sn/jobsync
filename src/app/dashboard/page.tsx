@@ -11,14 +11,19 @@ import NumberCard from "@/components/dashboard/NumberCard";
 import RecentJobsCard from "@/components/dashboard/RecentJobsCard";
 import WeeklyBarChart from "@/components/dashboard/WeeklyBarChart";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { i18nTitle } from "@/lib/metadata";
+import { getTranslations } from "next-intl/server";
+import { myGetLocale } from "@/lib/locale";
 
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Dashboard",
-};
+export async function generateMetadata() {
+  return await i18nTitle(await myGetLocale(), "dashboard");
+}
 
 export default async function Dashboard() {
+  const t = await getTranslations({
+    locale: await myGetLocale(),
+    namespace: "dashboard",
+  });
   const [
     { count: jobsAppliedLast7Days, trend: trendFor7Days },
     { count: jobsAppliedLast30Days, trend: trendFor30Days },
@@ -49,26 +54,26 @@ export default async function Dashboard() {
         <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4">
           <JobsApplied />
           <NumberCard
-            label="Last 7 days"
+            label={t("last7Days")}
             num={jobsAppliedLast7Days}
             trend={trendFor7Days}
           />
           <NumberCard
-            label="Last 30 days"
+            label={t("last30Days")}
             num={jobsAppliedLast30Days}
             trend={trendFor30Days}
           />
         </div>
         <Tabs defaultValue="jobs">
           <TabsList>
-            <TabsTrigger value="jobs">Weekly Jobs</TabsTrigger>
-            <TabsTrigger value="activities">Activities</TabsTrigger>
+            <TabsTrigger value="jobs">{t("weeklyJobs")}</TabsTrigger>
+            <TabsTrigger value="activities">{t("activities")}</TabsTrigger>
           </TabsList>
           <TabsContent value="jobs">
             <WeeklyBarChart
               data={weeklyData}
               keys={["value"]}
-              axisLeftLegend="NUMBER OF JOBS APPLIED"
+              axisLeftLegend={t("numberOfJobsApplied")}
             />
           </TabsContent>
           <TabsContent value="activities">
@@ -76,7 +81,7 @@ export default async function Dashboard() {
               data={activitiesData}
               keys={activitiesDataKeys(activitiesData)}
               groupMode="stacked"
-              axisLeftLegend="TIME SPENT (Hours)"
+              axisLeftLegend={t("timeSpent")}
             />
           </TabsContent>
         </Tabs>

@@ -12,8 +12,11 @@ import { PlusCircle } from "lucide-react";
 import { Button } from "../ui/button";
 import { RecordsPerPageSelector } from "../RecordsPerPageSelector";
 import { RecordsCount } from "../RecordsCount";
+import { useLocalizedTitle } from "@/hooks/useLocalizedTitle";
+import { useTranslations } from "next-intl";
 
 const ProfileContainer = () => {
+  const tc = useTranslations("common");
   const [resumes, setResumes] = useState<Resume[]>([]);
   const [resumeDialogOpen, setResumeDialogOpen] = useState(false);
 
@@ -24,7 +27,6 @@ const ProfileContainer = () => {
   const [recordsPerPage, setRecordsPerPage] = useState<number>(
     APP_CONSTANTS.RECORDS_PER_PAGE,
   );
-
   const loadResumes = useCallback(
     async (page: number) => {
       setLoading(true);
@@ -73,6 +75,8 @@ const ProfileContainer = () => {
   };
 
   const setResumeId = (id: string) => {};
+
+  useLocalizedTitle({ pageTitleKey: "title", pageNs: "profile" });
 
   return (
     <Card>
@@ -132,7 +136,7 @@ const ProfileContainer = () => {
               disabled={loading}
               className="btn btn-primary"
             >
-              {loading ? "Loading..." : "Load More"}
+              {loading ? tc("loading") : tc("loadMore")}
             </Button>
           </div>
         )}

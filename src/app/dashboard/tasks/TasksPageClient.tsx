@@ -4,6 +4,7 @@ import TasksSidebar from "@/components/tasks/TasksSidebar";
 import { ActivityType } from "@/models/activity.model";
 import { useState, useCallback } from "react";
 import { getActivityTypesWithTaskCounts } from "@/actions/task.actions";
+import { useLocalizedTitle } from "@/hooks/useLocalizedTitle";
 
 type ActivityTypeWithCount = {
   id: string;
@@ -40,6 +41,8 @@ function TasksPageClient({
       setSidebarTotal(result.totalTasks);
     }
   }, []);
+
+  useLocalizedTitle({ pageTitleKey: "title", pageNs: "tasks" });
 
   return (
     <div className="col-span-3 flex h-full">

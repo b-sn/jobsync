@@ -6,9 +6,11 @@ import { Briefcase, Settings } from "lucide-react";
 import { SIDEBAR_LINKS } from "@/lib/constants";
 import NavLink from "./NavLink";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 function Sidebar() {
   const path = usePathname();
+  const t = useTranslations();
   return (
     <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
       <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
@@ -28,7 +30,7 @@ function Sidebar() {
             return (
               <div key={item.label} className="text-white fill-color">
                 <NavLink
-                  label={item.label}
+                  label={t(item.label as any)}
                   Icon={item.icon}
                   route={item.route}
                   pathname={path}

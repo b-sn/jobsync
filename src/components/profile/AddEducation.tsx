@@ -32,6 +32,7 @@ import { Combobox } from "../ComboBox";
 import { JobLocation } from "@/models/job.model";
 import { addEducation, updateEducation } from "@/actions/profile.actions";
 import { getAllJobLocations } from "@/actions/jobLocation.actions";
+import { useTranslations } from "next-intl";
 
 type AddEducationProps = {
   resumeId: string | undefined;
@@ -51,7 +52,7 @@ function AddEducation({
   const pageTitle = educationToEdit ? "Edit Education" : "Add Education";
   const [isPending, startTransition] = useTransition();
   const [locations, setLocations] = useState<JobLocation[]>([]);
-
+  const tc = useTranslations("common");
   const getLocationData = useCallback(async () => {
     const _locations = await getAllJobLocations();
     setLocations(_locations);
@@ -341,11 +342,11 @@ function AddEducation({
                     className="mt-2 md:mt-0 w-full"
                     onClick={closeDialog}
                   >
-                    Cancel
+                    {tc("cancel")}
                   </Button>
                 </div>
                 <Button type="submit" disabled={!formState.isDirty}>
-                  Save
+                  {tc("save")}
                   {isPending && <Loader className="h-4 w-4 shrink-0 spinner" />}
                 </Button>
               </DialogFooter>

@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 import {
   Select,
   SelectContent,
@@ -17,9 +18,12 @@ export function RecordsPerPageSelector({
   value,
   onChange,
 }: RecordsPerPageSelectorProps) {
+  const tc = useTranslations("common");
   return (
     <div className="flex items-center gap-2">
-      <span className="text-xs text-muted-foreground">Records per page</span>
+      <span className="text-xs text-muted-foreground">
+        {tc("recordsPerPage")}
+      </span>
       <Select
         value={String(value)}
         onValueChange={(val) => onChange(Number(val))}
