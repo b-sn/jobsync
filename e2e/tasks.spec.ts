@@ -7,8 +7,8 @@ test.beforeEach(async ({ page, baseURL }) => {
 });
 
 async function login(page: Page) {
-  await page.getByPlaceholder("id@example.com").click();
-  await page.getByPlaceholder("id@example.com").fill("admin@example.com");
+  await page.getByLabel("Email").click();
+  await page.getByLabel("Email").fill("admin@example.com");
   await page.getByLabel("Password").click();
   await page.getByLabel("Password").fill("password123");
   await page.getByRole("button", { name: "Sign in" }).click();
@@ -56,7 +56,7 @@ async function createTask(
   await expect(saveBtn).toBeEnabled();
   await saveBtn.click();
   await expect(page.getByTestId("task-form-dialog-title")).not.toBeVisible({
-    timeout: 10000,
+    timeout: 5000,
   });
 }
 
@@ -80,7 +80,7 @@ test.describe("Tasks Management", () => {
     // Wait for the task to appear in the table
     await expect(
       page.getByRole("row", { name: new RegExp(testTaskTitle, "i") }).first(),
-    ).toBeVisible({ timeout: 10000 });
+    ).toBeVisible({ timeout: 5000 });
 
     // Clean up
     await deleteTask(page, testTaskTitle);
@@ -92,7 +92,7 @@ test.describe("Tasks Management", () => {
     await createTask(page, editTaskTitle);
     await expect(
       page.getByRole("row", { name: new RegExp(editTaskTitle, "i") }).first(),
-    ).toBeVisible({ timeout: 10000 });
+    ).toBeVisible({ timeout: 5000 });
 
     await page
       .getByRole("row", { name: new RegExp(editTaskTitle, "i") })
@@ -116,12 +116,12 @@ test.describe("Tasks Management", () => {
     await expect(saveBtn).toBeEnabled();
     await saveBtn.click();
     await expect(page.getByTestId("task-form-dialog-title")).not.toBeVisible({
-      timeout: 10000,
+      timeout: 5000,
     });
 
     await expect(
       page.getByRole("row", { name: new RegExp(updatedTitle, "i") }).first(),
-    ).toBeVisible({ timeout: 10000 });
+    ).toBeVisible({ timeout: 5000 });
 
     await deleteTask(page, updatedTitle);
   });
@@ -132,7 +132,7 @@ test.describe("Tasks Management", () => {
     await createTask(page, deleteTaskTitle);
     await expect(
       page.getByRole("row", { name: new RegExp(deleteTaskTitle, "i") }).first(),
-    ).toBeVisible({ timeout: 10000 });
+    ).toBeVisible({ timeout: 5000 });
 
     await deleteTask(page, deleteTaskTitle);
 
@@ -147,7 +147,7 @@ test.describe("Tasks Management", () => {
     await createTask(page, statusTaskTitle);
     await expect(
       page.getByRole("row", { name: new RegExp(statusTaskTitle, "i") }).first(),
-    ).toBeVisible({ timeout: 10000 });
+    ).toBeVisible({ timeout: 5000 });
 
     await page
       .getByRole("row", { name: new RegExp(statusTaskTitle, "i") })
@@ -201,7 +201,7 @@ test.describe("Tasks Management", () => {
     await createTask(page, toggleTaskTitle);
     await expect(
       page.getByRole("row", { name: new RegExp(toggleTaskTitle, "i") }).first(),
-    ).toBeVisible({ timeout: 10000 });
+    ).toBeVisible({ timeout: 5000 });
 
     const taskRow = page
       .getByRole("row", { name: new RegExp(toggleTaskTitle, "i") })
@@ -239,7 +239,7 @@ test.describe("Tasks Management", () => {
         await stopButton.waitFor({ state: "visible", timeout: 3000 });
         await stopButton.click({ force: true });
         // Wait for the activity to actually stop (button should disappear)
-        await expect(stopButton).not.toBeVisible({ timeout: 10000 });
+        await expect(stopButton).not.toBeVisible({ timeout: 5000 });
         // Reload to ensure clean state
         await page.reload();
         await page.waitForLoadState("networkidle");
@@ -260,7 +260,7 @@ test.describe("Tasks Management", () => {
         page
           .getByRole("row", { name: new RegExp(activityTaskTitle, "i") })
           .first(),
-      ).toBeVisible({ timeout: 10000 });
+      ).toBeVisible({ timeout: 5000 });
 
       const taskRow = page
         .getByRole("row", { name: new RegExp(activityTaskTitle, "i") })
@@ -295,7 +295,7 @@ test.describe("Tasks Management", () => {
         page
           .getByRole("row", { name: new RegExp(linkedActivityTaskTitle, "i") })
           .first(),
-      ).toBeVisible({ timeout: 10000 });
+      ).toBeVisible({ timeout: 5000 });
 
       // Start activity from task
       const taskRow = page
@@ -368,7 +368,7 @@ test.describe("Tasks Management", () => {
         page
           .getByRole("row", { name: new RegExp(completedTaskTitle, "i") })
           .first(),
-      ).toBeVisible({ timeout: 10000 });
+      ).toBeVisible({ timeout: 5000 });
 
       // Mark task as complete
       const taskRow = page

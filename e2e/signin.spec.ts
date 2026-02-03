@@ -14,8 +14,8 @@ test("Signin page has title", async ({ page }) => {
 
 test("Signin and out from app", async ({ page, baseURL }) => {
   await page.goto("/");
-  await page.getByPlaceholder("id@example.com").click();
-  await page.getByPlaceholder("id@example.com").fill("admin@example.com");
+  await page.getByLabel("Email").click();
+  await page.getByLabel("Email").fill("admin@example.com");
   await page.getByLabel("Password").click();
   await page.getByLabel("Password").fill("password123");
   await page.getByRole("button", { name: "Sign in" }).click();

@@ -7,8 +7,8 @@ test.beforeEach(async ({ page, baseURL }) => {
 });
 
 async function login(page: Page) {
-  await page.getByPlaceholder("id@example.com").click();
-  await page.getByPlaceholder("id@example.com").fill("admin@example.com");
+  await page.getByLabel("Email").click();
+  await page.getByLabel("Email").fill("admin@example.com");
   await page.getByLabel("Password").click();
   await page.getByLabel("Password").fill("password123");
   await page.getByRole("button", { name: "Sign in" }).click();
@@ -145,7 +145,7 @@ test.describe("Add New Job", () => {
     await expect(dialog).toBeVisible();
 
     const editor = dialog.getByTestId("job-description-editor");
-    await expect(editor).toContainText("test description", { timeout: 5000 });
+    await expect(editor).toContainText("test description", { timeout: 3000 });
 
     const editable = dialog
       .getByTestId("job-description-editor")

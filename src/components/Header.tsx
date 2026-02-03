@@ -15,6 +15,7 @@ import { getCurrentUser } from "@/utils/user.utils";
 import { ProfileDropdown } from "./ProfileDropdown";
 import { getTranslations } from "next-intl/server";
 import { myGetLocale } from "@/lib/locale";
+import { isAutoLoginEnabled } from "@/utils/auth.utils";
 
 async function Header({
   pageType = "dashboard",
@@ -25,6 +26,7 @@ async function Header({
   const t = await getTranslations({ locale, namespace: "common" });
   // const session = await auth();
   const user = await getCurrentUser();
+  const autoLogin = isAutoLoginEnabled();
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
       <Sheet>
@@ -83,9 +85,10 @@ async function Header({
 
       <ProfileDropdown
         user={user}
+        autoLogin={autoLogin}
         signOutAction={async () => {
           "use server";
-          await signOut();
+          await signOut({ redirectTo: "/signin" });
         }}
       />
     </header>

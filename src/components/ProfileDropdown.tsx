@@ -20,10 +20,15 @@ import { useTranslations } from "next-intl";
 
 interface ProfileDropdownProps {
   user: any;
+  autoLogin?: boolean;
   signOutAction: () => void;
 }
 
-export function ProfileDropdown({ user, signOutAction }: ProfileDropdownProps) {
+export function ProfileDropdown({
+  user,
+  autoLogin,
+  signOutAction,
+}: ProfileDropdownProps) {
   const [supportDialogOpen, setSupportDialogOpen] = useState(false);
   const t = useTranslations("profile");
   return (
@@ -52,15 +57,19 @@ export function ProfileDropdown({ user, signOutAction }: ProfileDropdownProps) {
             <Info className="w-5 mr-2" />
             {t("support")}
           </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <form action={signOutAction}>
-            <DropdownMenuItem>
-              <Button variant="ghost" className="w-full">
-                <PowerIcon className="w-5" />
-                <div className="hidden md:block mx-2">{t("logout")}</div>
-              </Button>
-            </DropdownMenuItem>
-          </form>
+          {!autoLogin && (
+            <>
+              <DropdownMenuSeparator />
+              <form action={signOutAction}>
+                <button type="submit" className="w-full">
+                  <DropdownMenuItem className="cursor-pointer">
+                    <PowerIcon className="w-5 mr-2" />
+                    {t("logout")}
+                  </DropdownMenuItem>
+                </button>
+              </form>
+            </>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
 

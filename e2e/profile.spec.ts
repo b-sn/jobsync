@@ -2,8 +2,8 @@ import { test, expect, type Page } from "@playwright/test";
 
 test.beforeEach(async ({ page, baseURL }) => {
   await page.goto("/");
-  await page.getByPlaceholder("id@example.com").click();
-  await page.getByPlaceholder("id@example.com").fill("admin@example.com");
+  await page.getByLabel("Email").click();
+  await page.getByLabel("Email").fill("admin@example.com");
   await page.getByLabel("Password").click();
   await page.getByLabel("Password").fill("password123");
   await page.getByRole("button", { name: "Sign in" }).click();
@@ -229,14 +229,14 @@ test.describe("Profile page", () => {
     await page.waitForTimeout(1000);
     // Click on any available date in the calendar
     const startDateCell = page.getByRole("gridcell", { name: "15" }).first();
-    await startDateCell.waitFor({ state: "visible", timeout: 5000 });
+    await startDateCell.waitFor({ state: "visible", timeout: 3000 });
     await startDateCell.click();
     await page.getByLabel("End Date").click();
     // Wait for calendar popover to open
     await page.waitForTimeout(1000);
     // Click on any available date in the calendar
     const endDateCell = page.getByRole("gridcell", { name: "20" }).first();
-    await endDateCell.waitFor({ state: "visible", timeout: 5000 });
+    await endDateCell.waitFor({ state: "visible", timeout: 3000 });
     await endDateCell.click();
     await page.locator("div:nth-child(2) > .tiptap").click();
     await page.locator("div:nth-child(2) > .tiptap").fill("test description");
@@ -327,7 +327,7 @@ async function addExperience(page: Page, resumeTitle: string, jobText: string) {
   await page.waitForTimeout(1000);
   // Click on any available date in the calendar
   const dateCell = page.getByRole("gridcell", { name: "15" }).first();
-  await dateCell.waitFor({ state: "visible", timeout: 5000 });
+  await dateCell.waitFor({ state: "visible", timeout: 3000 });
   await dateCell.click();
   await page.locator("div:nth-child(2) > .tiptap").click();
   await page.locator("div:nth-child(2) > .tiptap").fill("test description");
@@ -338,7 +338,7 @@ async function deleteResume(page: Page, title: string) {
   await page.getByRole("link", { name: "Profile" }).click();
   await page.waitForLoadState("networkidle");
   const row = page.getByRole("row", { name: new RegExp(title, "i") }).first();
-  await row.waitFor({ state: "visible", timeout: 10000 });
+  await row.waitFor({ state: "visible", timeout: 5000 });
   await row.getByTestId("resume-actions-menu-btn").click({ force: true });
   await page.getByRole("menuitem", { name: "Delete" }).click({ force: true });
   await expect(page.getByRole("alertdialog")).toContainText(
