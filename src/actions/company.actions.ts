@@ -34,6 +34,8 @@ export const getCompanyList = async (
                 label: true,
                 value: true,
                 logoUrl: true,
+                websiteUrl: true,
+                notes: true,
                 _count: {
                   select: {
                     jobsApplied: {
@@ -109,12 +111,18 @@ export const addCompany = async (
       throw new Error("Not authenticated");
     }
 
-    const { company, logoUrl } = data;
+    const { company, logoUrl, websiteUrl, notes } = data;
 
     // Validate image URL
     if (logoUrl && !isValidImageUrl(logoUrl)) {
       throw new Error(
         "Invalid logo URL. Only http and https protocols are allowed.",
+      );
+    }
+
+    if (websiteUrl && !isValidImageUrl(websiteUrl)) {
+      throw new Error(
+        "Invalid website URL. Only http and https protocols are allowed.",
       );
     }
 
@@ -130,12 +138,23 @@ export const addCompany = async (
       throw new Error("Company already exists!");
     }
 
+    // Verify user exists in database
+    const userExists = await prisma.user.findUnique({
+      where: { id: user.id },
+    });
+
+    if (!userExists) {
+      throw new Error(`User with id ${user.id} does not exist in database`);
+    }
+
     const res = await prisma.company.create({
       data: {
         createdBy: user.id,
         value,
         label: company,
-        logoUrl,
+        logoUrl: logoUrl || null,
+        websiteUrl: websiteUrl || null,
+        notes: notes || null,
       },
     });
     revalidatePath("/dashboard/myjobs", "page");
@@ -156,7 +175,7 @@ export const updateCompany = async (
       throw new Error("Not authenticated");
     }
 
-    const { id, company, logoUrl, createdBy } = data;
+    const { id, company, logoUrl, createdBy, websiteUrl, notes } = data;
 
     if (!id || user.id != createdBy) {
       throw new Error("Id is not provided or no user privilages");
@@ -166,6 +185,12 @@ export const updateCompany = async (
     if (logoUrl && !isValidImageUrl(logoUrl)) {
       throw new Error(
         "Invalid logo URL. Only http and https protocols are allowed.",
+      );
+    }
+
+    if (websiteUrl && !isValidImageUrl(websiteUrl)) {
+      throw new Error(
+        "Invalid website URL. Only http and https protocols are allowed.",
       );
     }
 
@@ -188,7 +213,9 @@ export const updateCompany = async (
       data: {
         value,
         label: company,
-        logoUrl,
+        logoUrl: logoUrl || null,
+        websiteUrl: websiteUrl || null,
+        notes: notes || null,
       },
     });
 

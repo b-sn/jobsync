@@ -6,6 +6,7 @@ import {
   UserRound,
   Sheet,
   Wrench,
+  Building2,
 } from "lucide-react";
 
 export const APP_CONSTANTS = {
@@ -25,6 +26,11 @@ export const SIDEBAR_LINKS = [
     icon: BriefcaseBusiness,
     route: "/dashboard/myjobs",
     label: "jobs.title",
+  },
+  {
+    icon: Building2,
+    route: "/dashboard/companies",
+    label: "companies.title",
   },
   {
     icon: SquareCheckBig,

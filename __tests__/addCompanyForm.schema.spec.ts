@@ -143,6 +143,8 @@ describe("AddCompanyFormSchema", () => {
         createdBy: "user-123",
         company: "Tech Company",
         logoUrl: "https://example.com/logo.png",
+        websiteUrl: "https://example.com",
+        notes: "This is a tech company.",
       };
 
       const result = AddCompanyFormSchema.parse(validData);

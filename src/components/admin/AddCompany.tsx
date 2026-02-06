@@ -23,6 +23,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
 import { toast } from "../ui/use-toast";
 import { addCompany, updateCompany } from "@/actions/company.actions";
 import { Company } from "@/models/job.model";
@@ -55,6 +56,8 @@ function AddCompany({
       company: "",
       createdBy: "",
       logoUrl: "",
+      websiteUrl: "",
+      notes: "",
     },
   });
 
@@ -68,6 +71,8 @@ function AddCompany({
           company: editCompany.label ?? "",
           createdBy: editCompany.createdBy ?? "",
           logoUrl: editCompany.logoUrl ?? "",
+          websiteUrl: editCompany.websiteUrl ?? "",
+          notes: editCompany.notes ?? "",
         },
         { keepDefaultValues: true },
       );
@@ -78,6 +83,8 @@ function AddCompany({
           company: "",
           createdBy: "",
           logoUrl: "",
+          websiteUrl: "",
+          notes: "",
         },
         { keepDefaultValues: true },
       );
@@ -93,6 +100,8 @@ function AddCompany({
           company: "",
           createdBy: "",
           logoUrl: "",
+          websiteUrl: "",
+          notes: "",
         },
         { keepDefaultValues: true },
       );
@@ -181,6 +190,44 @@ function AddCompany({
                       <FormLabel>{t("logoUrl")}</FormLabel>
                       <FormControl>
                         <Input {...field} value={field.value ?? ""} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* COMPANY WEBSITE URL */}
+              <div className="md:col-span-2">
+                <FormField
+                  control={form.control}
+                  name="websiteUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("websiteUrl")}</FormLabel>
+                      <FormControl>
+                        <Input {...field} value={field.value ?? ""} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* COMPANY NOTES */}
+              <div className="md:col-span-2">
+                <FormField
+                  control={form.control}
+                  name="notes"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("notes")}</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          {...field}
+                          value={field.value ?? ""}
+                          rows={4}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

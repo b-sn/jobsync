@@ -197,6 +197,8 @@ model Company {
   value           String           @unique
   jobsApplied     Job[]
   logoUrl         String? // field is optional
+  websiteUrl      String?
+  notes           String?
   createdBy       String // userId
   user            User             @relation(fields: [createdBy], references: [id])
   workExperiences WorkExperience[]

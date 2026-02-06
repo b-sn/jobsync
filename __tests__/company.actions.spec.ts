@@ -8,6 +8,7 @@ import {
 import { getCurrentUser } from "@/utils/user.utils";
 import { revalidatePath } from "next/cache";
 import { PrismaClient } from "@prisma/client";
+import { no } from "zod/v4/locales";
 
 const prisma = new PrismaClient();
 
@@ -20,6 +21,9 @@ jest.mock("@prisma/client", () => {
       findUnique: jest.fn(),
       create: jest.fn(),
       update: jest.fn(),
+    },
+    user: {
+      findUnique: jest.fn(),
     },
   };
   return { PrismaClient: jest.fn(() => mPrismaClient) };
@@ -113,6 +117,8 @@ describe("Company Actions", () => {
           label: true,
           value: true,
           logoUrl: true,
+          websiteUrl: true,
+          notes: true,
           _count: {
             select: {
               jobsApplied: {
@@ -208,16 +214,21 @@ describe("Company Actions", () => {
     const validData = {
       company: "New Company",
       logoUrl: "http://example.com/logo.png",
+      notes: "test notes",
+      websiteUrl: "https://example.com",
     };
 
     it("should create a new company successfully", async () => {
       (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+      (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
       (prisma.company.findUnique as jest.Mock).mockResolvedValue(null);
       const mockCompany = {
         id: "company-id",
         label: "New Company",
         value: "new company",
         logoUrl: "http://example.com/logo.png",
+        notes: "test notes",
+        websiteUrl: "https://example.com",
         createdBy: mockUser.id,
       };
       (prisma.company.create as jest.Mock).mockResolvedValue(mockCompany);
@@ -236,6 +247,8 @@ describe("Company Actions", () => {
           value: "new company",
           label: "New Company",
           logoUrl: "http://example.com/logo.png",
+          notes: "test notes",
+          websiteUrl: "https://example.com",
         },
       });
       expect(revalidatePath).toHaveBeenCalledWith("/dashboard/myjobs", "page");
@@ -359,11 +372,14 @@ describe("Company Actions", () => {
 
     it("should allow empty logo URL", async () => {
       (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+      (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
       (prisma.company.findUnique as jest.Mock).mockResolvedValue(null);
       const mockCompany = {
         id: "company-id",
         label: "New Company",
         value: "new company",
+        notes: "",
+        websiteUrl: "",
         logoUrl: "",
         createdBy: mockUser.id,
       };
@@ -373,6 +389,8 @@ describe("Company Actions", () => {
       const result = await addCompany({
         company: "New Company",
         logoUrl: "",
+        notes: "",
+        websiteUrl: "",
       });
 
       expect(result).toEqual({ success: true, data: mockCompany });
@@ -381,11 +399,14 @@ describe("Company Actions", () => {
 
     it("should allow https URLs", async () => {
       (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
+      (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
       (prisma.company.findUnique as jest.Mock).mockResolvedValue(null);
       const mockCompany = {
         id: "company-id",
         label: "New Company",
         value: "new company",
+        notes: "",
+        websiteUrl: "",
         logoUrl: "https://example.com/logo.png",
         createdBy: mockUser.id,
       };
@@ -395,6 +416,8 @@ describe("Company Actions", () => {
       const result = await addCompany({
         company: "New Company",
         logoUrl: "https://example.com/logo.png",
+        notes: "",
+        websiteUrl: "",
       });
 
       expect(result).toEqual({ success: true, data: mockCompany });
@@ -408,11 +431,13 @@ describe("Company Actions", () => {
       company: "Updated Company",
       logoUrl: "http://example.com/logo.png",
       createdBy: "user-id",
+      notes: "updated test notes",
+      websiteUrl: "https://example.com",
     };
 
     it("should update a company successfully", async () => {
       (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-
+      (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
       (prisma.company.findUnique as jest.Mock).mockResolvedValue(null);
 
       const mockUpdatedCompany = {
@@ -438,6 +463,8 @@ describe("Company Actions", () => {
           value: "updated company",
           label: "Updated Company",
           logoUrl: "http://example.com/logo.png",
+          notes: "updated test notes",
+          websiteUrl: "https://example.com",
         },
       });
     });
@@ -559,7 +586,7 @@ describe("Company Actions", () => {
 
     it("should allow empty logo URL", async () => {
       (getCurrentUser as jest.Mock).mockResolvedValue(mockUser);
-
+      (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
       (prisma.company.findUnique as jest.Mock).mockResolvedValue(null);
 
       const mockUpdatedCompany = {

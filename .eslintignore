@@ -1,8 +1,0 @@
-.playwright-report/
-playwright-report/
-test-results/
-coverage/
-.next/
-node_modules/
-dist/
-build/

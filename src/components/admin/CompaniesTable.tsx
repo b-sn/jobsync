@@ -16,7 +16,7 @@ import {
   TableRow,
 } from "../ui/table";
 import { Company } from "@/models/job.model";
-import { MoreHorizontal, Pencil, Trash } from "lucide-react";
+import { MoreHorizontal, Pencil, Trash, ExternalLink } from "lucide-react";
 import { useState } from "react";
 import { deleteCompanyById } from "@/actions/company.actions";
 import { toast } from "../ui/use-toast";
@@ -91,10 +91,7 @@ function CompaniesTable({
               {t("list.value")}
             </TableHead>
             <TableHead>{t("list.jobsApplied")}</TableHead>
-            <TableHead>{tc("actions")}</TableHead>
-            <TableHead>
-              <span className="sr-only">{tc("actions")}</span>
-            </TableHead>
+            <TableHead className="text-right">{tc("actions")}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -109,14 +106,30 @@ function CompaniesTable({
                     src={company.logoUrl || "/images/jobsync-logo.svg"}
                   />
                 </TableCell>
-                <TableCell className="font-medium">{company.label}</TableCell>
+                <TableCell className="font-medium">
+                  <div className="flex items-center gap-2">
+                    <span>{company.label}</span>
+                    {company.websiteUrl && (
+                      <a
+                        href={company.websiteUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
+                        title={`Visit ${company.label} website`}
+                        aria-label={`Visit ${company.label} website`}
+                      >
+                        <ExternalLink className="h-4 w-4 flex-shrink-0" />
+                      </a>
+                    )}
+                  </div>
+                </TableCell>
                 <TableCell className="font-medium hidden sm:table-cell">
                   {company.value}
                 </TableCell>
                 <TableCell className="font-medium">
                   {company._count?.jobsApplied}
                 </TableCell>
-                <TableCell>
+                <TableCell className="text-right">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button aria-haspopup="true" size="icon" variant="ghost">

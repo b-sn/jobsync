@@ -41,7 +41,6 @@ export async function PATCH(request: NextRequest) {
     res.cookies.set(LOCALE_COOKIE_NAME, locale ?? ("" as string), {
       path: "/",
       httpOnly: false,
-      secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
     });
 

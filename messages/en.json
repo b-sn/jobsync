@@ -32,6 +32,8 @@
     "add": "Add Company",
     "edit": "Edit Company",
     "logoUrl": "Company Logo URL",
+    "websiteUrl": "Company Website URL",
+    "notes": "Notes",
     "list": {
       "companyName": "Company Name",
       "value": "Value",
