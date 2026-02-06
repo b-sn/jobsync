@@ -3,6 +3,8 @@ import type { NextRequest } from "next/server";
 import { auth } from "@/auth";
 import { isAutoLoginEnabled } from "@/utils/auth.utils";
 
+export const runtime = "nodejs";
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 

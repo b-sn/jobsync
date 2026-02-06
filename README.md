@@ -116,9 +116,10 @@ curl -fsSL https://raw.githubusercontent.com/Gsync/jobsync/main/deploy.sh | sudo
 ```
 
 #### Step 4 - Access the app
-
-- **Open [http://localhost:3000](http://localhost:3000) with your browser to access the app.**
-- If you encounter port conflicts, please change it in the docker file
+* **Open [http://localhost:3000](http://localhost:3000) with your browser to access the app.**
+* **Customize port:** Add to your `.env` file:
+  - `BIND_PORT=<PORT_NUMBER>` - to use a custom port (default: 3000)
+  - If you change BIND_PORT, make sure NEXTAUTH_URL uses the same port.
 
 ### Credits
 

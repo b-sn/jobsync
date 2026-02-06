@@ -5,11 +5,11 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "${BIND_IP:-127.0.0.1}:${BIND_PORT:-3000}:3000"
     environment:
       # Please do not forget to create and update your .env file
       - NODE_ENV=production
-      - DATABASE_URL=file:/data/dev.db
+      - DATABASE_URL=file:/data/jobsync.sqlite
       - USER_EMAIL=${USER_EMAIL}
       - USER_PASSWORD=${USER_PASSWORD}
       - AUTH_SECRET=${AUTH_SECRET}
@@ -18,5 +18,5 @@ services:
       - OLLAMA_BASE_URL=${OLLAMA_BASE_URL}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
     volumes:
-      - ./jobsyncdb/data:/data
+      - ${DATA_DIR}:/data
     restart: unless-stopped
